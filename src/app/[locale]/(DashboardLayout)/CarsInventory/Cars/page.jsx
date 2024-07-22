@@ -198,7 +198,7 @@ const CarsPage = () => {
                     size="small"
                     value={filters.partner}
                     onChange={handleFilterChange}
-                    placeholder="اكتب اسم الشريك "
+                    placeholder=" اكتب اسم الشريك "
                     fullWidth
                   />
                 </Grid>

@@ -15,7 +15,7 @@ const LanguageSelector = () => {
 
   return (
     <Box sx={{ textAlign: 'right', padding: '10px' }}>
-      <FormControl variant="outlined" size="large" sx={{ minWidth: 120 }}>
+      <FormControl variant="outlined" size="large" sx={{ minWidth: 200 }}>
         <InputLabel id="language-selector-label">Language</InputLabel>
         <Select
           labelId="language-selector-label"

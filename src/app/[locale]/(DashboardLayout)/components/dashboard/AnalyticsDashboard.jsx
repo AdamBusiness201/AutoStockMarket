@@ -7,9 +7,6 @@ const AnalyticsDashboard = ({ title, data, chartData, chartType, icon, iconLink,
   const primary = theme.palette.primary.main;
   const primarylight = '#ecf2ff';
   const successlight = theme.palette.success.light;
-  // Debug: Log chartData and chartType
-  console.log("Chart Data:", chartData);
-  console.log("Chart Type:", chartType);
 
   const chartOptions = {
     chart: {

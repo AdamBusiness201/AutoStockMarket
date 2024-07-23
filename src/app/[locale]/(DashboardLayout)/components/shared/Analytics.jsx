@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, TextField, MenuItem, Select, FormControl, InputLabel, Button } from '@mui/material';
+import { Grid, Box, TextField, MenuItem, Select, FormControl, InputLabel, Button, Row, Col } from '@mui/material';
 import axios from 'axios';
 import SalesOverview from '@/app/(DashboardLayout)/components/dashboard/SalesOverview';
 import YearlyBreakup from '@/app/(DashboardLayout)/components/dashboard/YearlyBreakup';
@@ -9,6 +9,7 @@ import AnalyticsDashboard from '@/app/(DashboardLayout)/components/dashboard/Ana
 import { IconCurrencyDollar, IconCar, IconMan } from "@tabler/icons-react";
 import moment from 'moment';
 import { useTranslations } from 'next-intl';
+import ViewDataModal from './ViewData'; // Import the modal
 
 const Analytics = ({ params, today = false }) => {
   const [analytics, setAnalytics] = useState({});
@@ -18,6 +19,8 @@ const Analytics = ({ params, today = false }) => {
   const [filter, setFilter] = useState('all'); // State for selected filter
   const [filteredData, setFilteredData] = useState({}); // State for filtered data
   const t = useTranslations('default.dashboard');
+  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -37,7 +40,6 @@ const Analytics = ({ params, today = false }) => {
       }
 
       const response = await axios.get(url, { params: queryParams });
-      console.log(response.data);
       setAnalytics(response.data);
       setFilteredData(response.data); // Initialize filtered data
     } catch (error) {
@@ -53,12 +55,13 @@ const Analytics = ({ params, today = false }) => {
 
   return (
     <Box>
+      <ViewDataModal open={modalOpen} handleClose={() => {setModalOpen(false)}}/>
       <Grid container spacing={2} sx={{ marginBottom: 2 }}>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Button variant="contained" color="primary" onClick={() => console.log(t('addNewCar'))}>
             {t('addNewCar')}
           </Button>
-          <Button variant="contained" color="secondary" onClick={() => console.log(t('createRowDataView'))}>
+          <Button variant="contained" color="secondary" onClick={() => {setModalOpen(true)}}>
             {t('createRowDataView')}
           </Button>
         </Grid>

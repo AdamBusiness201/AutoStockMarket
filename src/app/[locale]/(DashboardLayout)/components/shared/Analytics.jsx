@@ -61,7 +61,7 @@ const Analytics = ({ params, today = false }) => {
           <Button variant="contained" color="primary" onClick={() => console.log(t('addNewCar'))}>
             {t('addNewCar')}
           </Button>
-          <Button variant="contained" color="secondary" onClick={() => {setModalOpen(true)}}>
+          <Button variant="outlined" onClick={() => {setModalOpen(true)}}>
             {t('createRowDataView')}
           </Button>
         </Grid>

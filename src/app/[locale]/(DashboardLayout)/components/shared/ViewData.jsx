@@ -8,9 +8,12 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  Button
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
 const modalStyle = {
@@ -48,9 +51,12 @@ const ViewDataModal = ({ open, handleClose }) => {
 
   useEffect(() => {
     // Initialize fields state with all available schema fields
-    const allFields = Object.values(schemaFields);
-    console.log(allFields);
-    const initialFieldsState = allFields.reduce((acc, field) => ({ ...acc, [field]: false }), {});
+    const initialFieldsState = {};
+    Object.keys(schemaFields).forEach(schema => {
+      schemaFields[schema].forEach(field => {
+        initialFieldsState[field] = false;
+      });
+    });
     setFields(initialFieldsState);
   }, []);
 
@@ -77,25 +83,32 @@ const ViewDataModal = ({ open, handleClose }) => {
             <CloseIcon />
           </IconButton>
         </Box>
-        <Grid container spacing={2} mt={2} sx={{ maxHeight: "300px", overflowY: "auto" }}>
+        <Grid container spacing={2} pr={2} mt={2} sx={{ maxHeight: "300px", overflowY: "auto" }}>
           <Grid item xs={12}>
-            <FormGroup>
-              {Object.keys(fields).map((key) => (
-                key.split(",").map((field) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={field}
-                        onChange={handleFieldChange}
-                        name={field}
+            {Object.keys(schemaFields).map((schema) => (
+              <Accordion key={schema}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography variant="subtitle1">{schema.charAt(0).toUpperCase() + schema.slice(1)}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <FormGroup>
+                    {schemaFields[schema].map((field) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={fields[field]}
+                            onChange={handleFieldChange}
+                            name={field}
+                          />
+                        }
+                        label={field.charAt(0).toUpperCase() + field.slice(1)}
+                        key={field}
                       />
-                    }
-                    label={field.charAt(0).toUpperCase() + field.slice(1)}
-                    key={field}
-                  />
-                ))
-              ))}
-            </FormGroup>
+                    ))}
+                  </FormGroup>
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Grid>
         </Grid>
         <Box mt={2} display="flex" justifyContent="flex-end">

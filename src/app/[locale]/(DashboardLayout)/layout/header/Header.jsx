@@ -113,7 +113,7 @@ const Header = ({ toggleMobileSidebar }) => {
         >
           <Box sx={{ p: 1, px: 2 }}>
             <List sx={{ overflowY: 'auto', maxHeight: '300px' }}> {/* Add overflow and max-height */}
-              {notifications.length>0 ?( notifications?.notifications?.map((notification, index) => (
+              {notifications?.notifications?.length > 0 ? (notifications?.notifications?.map((notification, index) => (
                 <ListItem key={index} disablePadding sx={{ borderBottom: '1px solid #f0f2f5' }}> {/* Add border bottom */}
                   <ListItemText primary={notification.message} primaryTypographyProps={{ variant: 'body1' }} /> {/* Adjust typography */}
 

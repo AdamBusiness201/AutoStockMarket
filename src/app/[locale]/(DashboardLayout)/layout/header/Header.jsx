@@ -3,7 +3,6 @@ import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Button, Popover
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 import Profile from './Profile';
 import axios from 'axios';
-import LanguageSelector from '../../components/shared/LanguageSelector';
 
 
 // Define your notification API endpoint
@@ -88,7 +87,6 @@ const Header = ({ toggleMobileSidebar }) => {
           </Badge>
         </IconButton>
 
-        <LanguageSelector />
         {/* Notifications Popover */}
         <Popover
           id="notifications-menu"

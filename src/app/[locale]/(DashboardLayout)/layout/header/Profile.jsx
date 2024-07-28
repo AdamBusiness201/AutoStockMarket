@@ -14,6 +14,8 @@ import {
   ListItemText,
 } from "@mui/material";
 
+import LanguageSelector from '../../components/shared/LanguageSelector';
+
 import { IconListCheck, IconMail, IconUser } from "@tabler/icons-react";
 
 const Profile = () => {
@@ -107,6 +109,11 @@ const Profile = () => {
           </ListItemIcon>
           <ListItemText>Logout</ListItemText>
         </MenuItem>
+
+        <MenuItem>
+        <LanguageSelector />
+        </MenuItem>
+        
       </Menu>
     </Box>
   );

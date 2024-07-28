@@ -66,7 +66,7 @@ export async function GET(req) {
     schemasParam.forEach((schema, index) => {
       response[schema] = results[index] || [];
     });
-console.log(response);
+
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);

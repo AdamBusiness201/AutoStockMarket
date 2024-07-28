@@ -51,8 +51,8 @@ const ViewDataPage = () => {
         results.forEach(result => {
           dataMap[result.schema] = result.data;
         });
-        setData(dataMap);
 
+        setData(dataMap);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -60,7 +60,6 @@ const ViewDataPage = () => {
 
     fetchData();
   }, []);
-
   return (
     <PageContainer title="View Data" description="Displaying data based on selected schema and fields">
       {Object.keys(data).map((schema) => (
@@ -75,8 +74,8 @@ const ViewDataPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Array.isArray(data[schema]) && data[schema].length > 0 ? (
-                  data[schema].map((record, rowIndex) => (
+                {Array.isArray(data[schema][schema]) && data[schema][schema].length > 0 ? (
+                  data[schema][schema].map((record, rowIndex) => (
                     <TableRow key={rowIndex}>
                       {fields[schema].map((field, fieldIndex) => (
                         <TableCell key={fieldIndex}>{record[field]}</TableCell>

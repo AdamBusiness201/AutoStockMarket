@@ -54,7 +54,6 @@ export async function GET(req) {
       queries.push(
         schemaModels[schema]
           .find(filter)
-          .select(selectedFieldsParam.join(' '))
           .sort({ createdAt: -1 })
       );
     }
@@ -67,7 +66,7 @@ export async function GET(req) {
     schemasParam.forEach((schema, index) => {
       response[schema] = results[index] || [];
     });
-
+console.log(response);
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);

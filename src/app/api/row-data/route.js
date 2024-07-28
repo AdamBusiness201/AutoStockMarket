@@ -34,40 +34,39 @@ export async function GET(req) {
 
   // Extract selected fields from query params
   const selectedFieldsParam = req.nextUrl.searchParams.getAll("fields");
-  const selectedFields = new Set(selectedFieldsParam);
+  const schemasParam = req.nextUrl.searchParams.getAll("schema");
+
+  // Define the schema models mapping
+  const schemaModels = {
+    car: Car,
+    transaction: Transaction,
+    customer: Customer,
+    carDetails: CarDetails,
+    maintenanceTask: MaintenanceTask,
+    soldCar: SoldCar,
+    partner: Partner
+  };
 
   const queries = [];
 
-  if (selectedFields.has("car")) {
-    queries.push(Car.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
-  if (selectedFields.has("transaction")) {
-    queries.push(Transaction.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
-  if (selectedFields.has("customer")) {
-    queries.push(Customer.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
-  if (selectedFields.has("carDetails")) {
-    queries.push(CarDetails.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
-  if (selectedFields.has("maintenanceTask")) {
-    queries.push(MaintenanceTask.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
-  if (selectedFields.has("soldCar")) {
-    queries.push(SoldCar.find(filter).select(selectedFieldsParam.join(' ')).sort({ createdAt: -1 }));
-  }
+  schemasParam.forEach(schema => {
+    if (schemaModels[schema]) {
+      queries.push(
+        schemaModels[schema]
+          .find(filter)
+          .select(selectedFieldsParam.join(' '))
+          .sort({ createdAt: -1 })
+      );
+    }
+  });
 
   try {
     const results = await Promise.all(queries);
 
-    const response = {
-      cars: results[0] || [],
-      transactions: results[1] || [],
-      customers: results[2] || [],
-      carDetails: results[3] || [],
-      maintenanceTasks: results[4] || [],
-      soldCars: results[5] || [],
-    };
+    const response = {};
+    schemasParam.forEach((schema, index) => {
+      response[schema] = results[index] || [];
+    });
 
     return NextResponse.json(response);
   } catch (error) {

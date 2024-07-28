@@ -36,7 +36,7 @@ const ViewDataPage = () => {
         setFields(schemaFields);
 
         const fetchPromises = Object.keys(schemaFields).map(async (schema) => {
-          const response = await fetch(`API_ENDPOINT_TO_FETCH_DATA?schema=${schema}&fields=${schemaFields[schema].join(',')}`);
+          const response = await fetch(`/api/row-data?schema=${schema}&fields=${schemaFields[schema].join(',')}`);
           
           if (response.ok) {
             return { schema, data: await response.json() };
@@ -75,13 +75,21 @@ const ViewDataPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data[schema].map((record, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {fields[schema].map((field, fieldIndex) => (
-                      <TableCell key={fieldIndex}>{record[field]}</TableCell>
-                    ))}
+                {Array.isArray(data[schema]) && data[schema].length > 0 ? (
+                  data[schema].map((record, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {fields[schema].map((field, fieldIndex) => (
+                        <TableCell key={fieldIndex}>{record[field]}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={fields[schema].length}>
+                      <Typography align="center">No data available</Typography>
+                    </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>

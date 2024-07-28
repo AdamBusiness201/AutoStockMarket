@@ -48,7 +48,7 @@ const Dashboard = ({ params }) => {
         </Box>
       </DashboardCard>
       <DashboardCard>
-        <Analytics />
+        <Analytics locale={params.locale}/>
       </DashboardCard>
     </PageContainer>
   );

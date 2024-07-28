@@ -45,7 +45,7 @@ const schemaFields = {
   "transaction": ['type', 'date', 'amount', 'remainingAmount', 'bank', 'paymentMethod', 'paidCashOrChequeNumber', 'currency', 'amountInWords', 'description', 'partners', 'car']
 };
 
-const ViewDataModal = ({ open, handleClose }) => {
+const ViewDataModal = ({ open, handleClose, locale }) => {
   const router = useRouter();
   const [fields, setFields] = useState({});
 
@@ -54,7 +54,7 @@ const ViewDataModal = ({ open, handleClose }) => {
     const initialFieldsState = {};
     Object.keys(schemaFields).forEach(schema => {
       schemaFields[schema].forEach(field => {
-        initialFieldsState[field] = false;
+        initialFieldsState[`${schema}.${field}`] = false;
       });
     });
     setFields(initialFieldsState);
@@ -69,8 +69,13 @@ const ViewDataModal = ({ open, handleClose }) => {
 
   const handleOk = () => {
     const selectedFields = Object.keys(fields).filter(key => fields[key]);
-    const params = new URLSearchParams(selectedFields.map(field => ['fields', field]));
-    router.push(`/view-data?${params.toString()}`);
+    const params = new URLSearchParams();
+    selectedFields.forEach(field => {
+      const [schema, fieldName] = field.split('.');
+      params.append('schema', schema);
+      params.append('fields', fieldName);
+    });
+    router.push(`/${locale}/ReportsAndAnalytics/view-data?${params.toString()}`);
     handleClose();
   };
 
@@ -96,9 +101,9 @@ const ViewDataModal = ({ open, handleClose }) => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={fields[field]}
+                            checked={fields[`${schema}.${field}`]}
                             onChange={handleFieldChange}
-                            name={field}
+                            name={`${schema}.${field}`}
                           />
                         }
                         label={field.charAt(0).toUpperCase() + field.slice(1)}

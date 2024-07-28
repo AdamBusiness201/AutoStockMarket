@@ -11,7 +11,7 @@ import moment from 'moment';
 import { useTranslations } from 'next-intl';
 import ViewDataModal from './ViewData'; // Import the modal
 
-const Analytics = ({ params, today = false }) => {
+const Analytics = ({ locale, today = false }) => {
   const [analytics, setAnalytics] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [startDate, setStartDate] = useState(today ? moment(new Date()).format('YYYY-MM-DD') : null);
@@ -55,7 +55,7 @@ const Analytics = ({ params, today = false }) => {
 
   return (
     <Box>
-      <ViewDataModal open={modalOpen} handleClose={() => {setModalOpen(false)}}/>
+      <ViewDataModal open={modalOpen} handleClose={() => {setModalOpen(false)}} locale={locale}/>
       <Grid container spacing={2} sx={{ marginBottom: 2 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Button variant="contained" color="primary" onClick={() => console.log(t('addNewCar'))}>

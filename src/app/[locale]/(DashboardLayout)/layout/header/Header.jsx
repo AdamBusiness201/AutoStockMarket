@@ -13,7 +13,7 @@ const Header = ({ toggleMobileSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)', // Adding bottom shadow
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)', // Adding bottom shadow
     background: isScrolled ? 'rgba(106, 27, 154, 0.9)' : '#6a1b9a', // Purple background with transparency on scroll
     justifyContent: 'center',
     backdropFilter: 'blur(4px)',

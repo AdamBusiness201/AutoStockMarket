@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import ClientProvider from './ClientProvider';
+import './global.scss'
 
 const loadMessages = async (locale) => {
   try {
@@ -20,7 +21,7 @@ const RootLayout = async ({ children, params: { locale } }) => {
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <body>
+      <body >
         <ClientProvider locale={locale} messages={messages}>
           {children}
         </ClientProvider>

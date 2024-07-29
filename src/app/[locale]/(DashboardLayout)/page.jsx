@@ -20,7 +20,7 @@ const Dashboard = ({ params }) => {
 
   return (
     <PageContainer title="Dashboard" description="this is Dashboard" lang={params.lang}>
-      <DashboardCard>
+      {/* <DashboardCard>
         <Box>
           <Box
             display="flex"
@@ -46,7 +46,7 @@ const Dashboard = ({ params }) => {
             </Box>
           </Collapse>
         </Box>
-      </DashboardCard>
+      </DashboardCard> */}
       <DashboardCard>
         <Analytics locale={params.locale}/>
       </DashboardCard>

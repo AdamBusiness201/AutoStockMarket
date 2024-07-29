@@ -38,7 +38,7 @@ export default function RootLayout({ children, params: { locale } }) {
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
       {/* ------------------------------------------- */}
-      <PageWrapper className="page-wrapper">
+      <PageWrapper className="page-wrapper" sx={{paddingBottom: "10px"}}>
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
@@ -49,7 +49,9 @@ export default function RootLayout({ children, params: { locale } }) {
         <Container
           sx={{
             paddingTop: "20px",
-            maxWidth: "1200px",
+            maxWidth: "100%",
+            backgroundColor: "white",
+            borderRadius: "20px",
           }}
         >
           {/* ------------------------------------------- */}

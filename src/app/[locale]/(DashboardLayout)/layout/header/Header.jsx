@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Button, Popover, List, ListItem, ListItemText } from '@mui/material';
+import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 import Profile from './Profile';
 import axios from 'axios';
-
 
 // Define your notification API endpoint
 const NOTIFICATION_API_ENDPOINT = '/api/notification';
@@ -11,16 +10,19 @@ const NOTIFICATION_API_ENDPOINT = '/api/notification';
 const Header = ({ toggleMobileSidebar }) => {
   const [notifications, setNotifications] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Adding bottom shadow
-    background: '#6a1b9a', // Purple background
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)', // Adding bottom shadow
+    background: isScrolled ? 'rgba(106, 27, 154, 0.9)' : '#6a1b9a', // Purple background with transparency on scroll
     justifyContent: 'center',
     backdropFilter: 'blur(4px)',
+    transition: 'background 1s ease',
     [theme.breakpoints.up('lg')]: {
       minHeight: '50px',
     },
   }));
+
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
     width: '100%',
     color: theme.palette.text.secondary,
@@ -41,6 +43,21 @@ const Header = ({ toggleMobileSidebar }) => {
     };
 
     fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   // Function to handle opening the popover
@@ -117,18 +134,15 @@ const Header = ({ toggleMobileSidebar }) => {
               {notifications?.notifications?.length > 0 ? (notifications?.notifications?.map((notification, index) => (
                 <ListItem key={index} disablePadding sx={{ borderBottom: '1px solid #f0f2f5' }}> {/* Add border bottom */}
                   <ListItemText primary={notification.message} primaryTypographyProps={{ variant: 'body1' }} /> {/* Adjust typography */}
-
                 </ListItem>
               ))) : (
                 <ListItem disablePadding sx={{ textAlign: "center" }}> {/* Add border bottom */}
                   <ListItemText primary={"No Notifications"} primaryTypographyProps={{ variant: 'body1' }} /> {/* Adjust typography */}
-
                 </ListItem>
               )}
             </List>
           </Box>
         </Popover>
-
 
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">

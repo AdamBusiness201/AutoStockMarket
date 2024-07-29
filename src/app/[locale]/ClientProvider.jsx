@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #888; /* Scrollbar thumb color */
+    background-color: #6a1b9a; /* Scrollbar thumb color */
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb:hover {

@@ -27,7 +27,8 @@ const Sidebar = ({ locale }) => {
           zIndex: 1300,
           transition: 'left 0.3s',
           background: "#f7f7f7",
-          borderEndStartRadius: "0px"
+          borderEndStartRadius: "0px",
+          borderStartStartRadius: "0px"
         }}
       >
         {isSidebarOpen ? <Close /> : <MenuIcon/>}

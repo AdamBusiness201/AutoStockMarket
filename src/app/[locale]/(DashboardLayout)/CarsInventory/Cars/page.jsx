@@ -118,7 +118,7 @@ const CarsPage = () => {
             alignItems="center"
             justifyContent={"space-between"}
           >
-            <Box px={3}>
+            <Box pr={3}>
               <IconButton
                 onClick={() => setModalOpen(true)}
                 aria-label={t('addNewCar')}

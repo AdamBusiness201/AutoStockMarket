@@ -23,15 +23,20 @@ const Sidebar = ({ locale }) => {
         sx={{
           position: 'fixed',
           bottom: 16,
-          left: isSidebarOpen ? sidebarWidth : 16,
+          left: isSidebarOpen ? sidebarWidth : 0,
           zIndex: 1300,
           transition: 'left 0.3s',
-          background: "#f7f7f7",
+          background: "#8522c1",
           borderEndStartRadius: "0px",
-          borderStartStartRadius: "0px"
+          borderStartStartRadius: "0px",
+          color: "white",
+          '&:hover': {
+            background: "#8522c1"
+          }
         }}
+        disableRipple
       >
-        {isSidebarOpen ? <Close /> : <MenuIcon/>}
+        {isSidebarOpen ? <Close /> : <MenuIcon />}
       </IconButton>
       <Drawer
         anchor={lgUp ? 'left' : 'left'}

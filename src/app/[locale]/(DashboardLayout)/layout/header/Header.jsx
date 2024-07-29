@@ -13,12 +13,12 @@ const Header = ({ toggleMobileSidebar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    boxShadow: 'none',
-    background: "#f7f7f7",
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Adding bottom shadow
+    background: '#6a1b9a', // Purple background
     justifyContent: 'center',
     backdropFilter: 'blur(4px)',
     [theme.breakpoints.up('lg')]: {
-      minHeight: '70px',
+      minHeight: '50px',
     },
   }));
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
@@ -81,9 +81,12 @@ const Header = ({ toggleMobileSidebar }) => {
           aria-controls="notifications-menu"
           aria-haspopup="true"
           onClick={handlePopoverOpen}
+          sx={{
+            background: "#8522c1"
+          }}
         >
           <Badge badgeContent={notifications.count} color="primary">
-            <IconBellRinging size="21" stroke="1.5" />
+            <IconBellRinging size="21" stroke="1.5" color='white' />
           </Badge>
         </IconButton>
 

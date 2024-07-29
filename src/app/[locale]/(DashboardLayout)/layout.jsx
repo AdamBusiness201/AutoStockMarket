@@ -38,7 +38,7 @@ export default function RootLayout({ children, params: { locale } }) {
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
       {/* ------------------------------------------- */}
-      <PageWrapper className="page-wrapper" sx={{paddingBottom: "10px"}}>
+      <PageWrapper className="page-wrapper">
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
@@ -52,6 +52,7 @@ export default function RootLayout({ children, params: { locale } }) {
             maxWidth: "100%",
             backgroundColor: "white",
             borderRadius: "20px",
+            marginY: "20px",
           }}
         >
           {/* ------------------------------------------- */}

@@ -49,7 +49,7 @@ const Menuitems = [
     id: uniqueId(),
     title: "Dashboard",
     icon: TfiDashboard,
-    href: "/",
+    href: "/dashboard",
     translatedTitle: "ملف 2 - السيارات",
   },
   {

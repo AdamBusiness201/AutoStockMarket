@@ -34,15 +34,20 @@ const DashboardCard = ({
           </Typography>
         </CardContent>
       ) : (
-        <CardContent sx={{ p: "30px" }}>
+        <>
           {title ? (
             <Stack
-              direction="row"
-              spacing={2}
-              justifyContent="space-between"
-              alignItems={"center"}
-              mb={3}
-            >
+            direction="row"
+            spacing={2}
+            justifyContent="space-between"
+            alignItems="center"
+            mb={3}
+            sx={{
+              backgroundColor: "#6a1b9a", // Purple background
+              color: "white", // White text
+              padding: "16px", // Padding around the content
+            }}
+          >
               <Box>
                 {title ? <Typography variant="h5">{title}</Typography> : ""}
 
@@ -57,9 +62,8 @@ const DashboardCard = ({
               {action}
             </Stack>
           ) : null}
-
-          {children}
-        </CardContent>
+          <CardContent sx={{ p: "30px" }}>{children}</CardContent>
+        </>
       )}
 
       {middlecontent}

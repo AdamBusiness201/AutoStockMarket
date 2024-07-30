@@ -7,13 +7,18 @@ const LinkStyled = styled(Link)(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  textDecoration: "none", 
+  textDecoration: "none",
 }));
 
-const Logo = () => {
+const Logo = ({ width = 200, height = 200 }) => {
   return (
     <LinkStyled href="/en">
-      <Image src="/images/logos/asm_logo.png" alt="Company Logo" width={200} height={100} />
+      <Image
+        src="/images/logos/asm_logo.png"
+        alt="Company Logo"
+        width={width}
+        height={height}
+      />
       {/* Use Typography here */}
     </LinkStyled>
   );

@@ -51,6 +51,9 @@ const HeroSection = ({locale}) => {
               Our system simplifies car store management, streamlining inventory, sales, and customer relations for a seamless experience.
             </Typography>
             <Box sx={{ textAlign: "center" }}>
+            <Button variant="contained" color="primary" href={`${locale}/dashboards`} size="large" sx={{ mr: 2 }}>
+                See Dashboard
+              </Button>
               <Button variant="contained" color="primary" href={`${locale}/authentication/register`} size="large" sx={{ mr: 2 }}>
                 Sign Up
               </Button>

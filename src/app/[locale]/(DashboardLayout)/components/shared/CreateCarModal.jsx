@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  TextField,
   Grid,
   TableCell,
   TableContainer,
@@ -22,6 +21,7 @@ import {
   InputLabel,
   Select
 } from "@mui/material";
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import * as XLSX from "xlsx"; // Import xlsx library
 import { ToastContainer, toast } from 'react-toastify';
@@ -89,7 +89,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
       return (
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Car Name"
               name="name"
@@ -98,7 +98,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Color"
               name="color"
@@ -107,7 +107,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Model"
               name="model"
@@ -116,7 +116,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Chassis Number"
               name="chassisNumber"
@@ -126,7 +126,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Engine Number"
               name="engineNumber"
@@ -136,7 +136,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Plate Number"
               name="plateNumber"
@@ -146,7 +146,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Odometer Number"
               name="odometerNumber"
@@ -162,7 +162,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
       return (
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Owner"
               name="owner"
@@ -190,7 +190,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
 
           {idType === "ownerID" ? (
             <Grid item xs={4}>
-              <TextField
+              <ClearableTextField
                 fullWidth
                 label="Owner National Identification Number"
                 name="ownerID"
@@ -201,7 +201,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             </Grid>
           ) : (
             <Grid item xs={4}>
-              <TextField
+              <ClearableTextField
                 fullWidth
                 label="Driving License"
                 name="ownerDrivingLicense"
@@ -213,7 +213,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           )}
 
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Maintenance"
               name="maintenance"
@@ -223,7 +223,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           </Grid>
 
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Current Location"
               name="currentLocation"
@@ -233,7 +233,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Purchase Details"
               name="purchaseDetails"
@@ -255,7 +255,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
 
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
+                  <ClearableTextField
                     fullWidth
                     label="Partner Name"
                     name={`partners.name`}
@@ -264,7 +264,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+                  <ClearableTextField
                     fullWidth
                     select
                     label="Partner Type"
@@ -277,10 +277,10 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                         {type}
                       </MenuItem>
                     ))}
-                  </TextField>
+                  </ClearableTextField>
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+                  <ClearableTextField
                     fullWidth
                     label="Partner Email"
                     name={`partner.email`}
@@ -289,7 +289,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+                  <ClearableTextField
                     fullWidth
                     label="Partner Phone"
                     name={`partner.phone`}
@@ -298,7 +298,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+                  <ClearableTextField
                     fullWidth
                     type="number"
                     label="Partnership Percentage"
@@ -330,7 +330,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
       return (
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Entry Date"
               type="date"
@@ -343,7 +343,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Price"
               type="number"
@@ -353,7 +353,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Currency"
               name="currency"
@@ -366,11 +366,11 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                   {currency.symbol} - {currency.code} - {currency.name}
                 </MenuItem>
               ))}
-            </TextField>
+            </ClearableTextField>
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Amount in Words"
               name="amountInWords"
@@ -382,7 +382,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
 
 
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               select
               label="Payment Method"
@@ -392,10 +392,10 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             >
               <MenuItem value="Cash">Cash</MenuItem>
               <MenuItem value="Installment">Installment</MenuItem>
-            </TextField>
+            </ClearableTextField>
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Paid Cash/Cheque Number"
               name="paidCashOrChequeNumber"
@@ -404,7 +404,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Bank"
               name="bank"
@@ -415,7 +415,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           {financeData.paymentMethod === "Installment" && (
             <>
               <Grid item xs={4}>
-                <TextField
+                <ClearableTextField
                   fullWidth
                   label="First Installment"
                   type="number"
@@ -425,7 +425,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
                 />
               </Grid>
               <Grid item xs={4}>
-                <TextField
+                <ClearableTextField
                   fullWidth
                   label="Remaining Amount"
                   name="remainingAmount"

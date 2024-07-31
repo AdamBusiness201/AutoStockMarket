@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useMediaQuery, Box, Drawer, IconButton } from '@mui/material';
+import { useMediaQuery, Box, Drawer, IconButton, CssBaseline } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Close } from '@mui/icons-material';
 import Logo from '../shared/logo/Logo';
@@ -18,12 +18,13 @@ const Sidebar = ({ locale }) => {
 
   return (
     <>
+      <CssBaseline />
       <IconButton
         onClick={handleToggleSidebar}
         sx={{
           position: 'fixed',
           bottom: 16,
-          left: isSidebarOpen ? sidebarWidth : 0,
+          left: isSidebarOpen && lgUp ? sidebarWidth : 0,
           zIndex: 1300,
           transition: 'left 0.3s',
           background: "#8522c1",
@@ -39,17 +40,16 @@ const Sidebar = ({ locale }) => {
         {isSidebarOpen ? <Close /> : <MenuIcon />}
       </IconButton>
       <Drawer
-        anchor={lgUp ? 'left' : 'left'}
+        anchor='left'
         open={isSidebarOpen}
         onClose={handleToggleSidebar}
-        variant={lgUp ? 'temporary' : 'temporary'}
+        variant={lgUp ? 'persistent' : 'temporary'}
         PaperProps={{
           sx: {
             width: sidebarWidth,
             boxShadow: (theme) => theme.shadows[8],
             boxSizing: 'border-box',
             background: '#f7f7f7',
-            ...(locale === 'ar' ? { right: '0px' } : { left: '0px' }),
           },
         }}
       >
@@ -84,6 +84,15 @@ const Sidebar = ({ locale }) => {
           </Box>
         </Box>
       </Drawer>
+      {lgUp && isSidebarOpen && (
+        <Box
+          sx={{
+            width: sidebarWidth,
+            flexShrink: 0,
+            transition: 'width 0.3s',
+          }}
+        />
+      )}
     </>
   );
 };

@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  TextField,
   Grid,
   TableCell,
   TableContainer,
@@ -21,6 +20,7 @@ import {
   Autocomplete, // Import Autocomplete
   Select,
 } from "@mui/material";
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 
 const steps = ["Transaction Details", "Review"];
@@ -44,7 +44,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
       return (
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               select
               label="Transaction Type"
@@ -54,10 +54,10 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
             >
               <MenuItem value="Income">Income</MenuItem>
               <MenuItem value="Expense">Expense</MenuItem>
-            </TextField>
+            </ClearableTextField>
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Date"
               type="date"
@@ -70,7 +70,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Amount"
               name="amount"
@@ -79,7 +79,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Description"
               name="description"
@@ -92,7 +92,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
               fullWidth
               options={carOptions}
               getOptionLabel={(option) => `${option.name} | ${option.chassisNumber}`} // Concatenating name and chassisNumber
-              renderInput={(params) => <TextField {...params} label="Car" />}
+              renderInput={(params) => <ClearableTextField {...params} label="Car" />}
               value={car} // Set the initial value of the Autocomplete
               onChange={(event, value) => handleInputChange({ target: { name: "car", value: value?._id } })}
             />

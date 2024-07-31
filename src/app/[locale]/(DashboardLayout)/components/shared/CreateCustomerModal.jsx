@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  TextField,
   Grid,
   TableCell,
   TableContainer,
@@ -19,6 +18,8 @@ import {
   MenuItem,
   InputAdornment,
 } from "@mui/material";
+
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import * as XLSX from "xlsx";
 
@@ -43,7 +44,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
       return (
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Customer Name"
               name="name"
@@ -52,7 +53,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Email"
               name="email"
@@ -76,7 +77,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
                 </MenuItem>
               )}
               renderInput={(params) => (
-                <TextField {...params} label="Nationality" variant="outlined" />
+                <ClearableTextField {...params} label="Nationality" variant="outlined" />
               )}
               value={
                 nationalities.find(
@@ -96,7 +97,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Phone"
               name="phone"
@@ -106,7 +107,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="National ID"
               name="nationalID"

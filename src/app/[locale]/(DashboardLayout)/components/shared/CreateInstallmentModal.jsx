@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  TextField,
   Grid,
   TableCell,
   TableContainer,
@@ -20,6 +19,7 @@ import {
   Switch,
   FormControlLabel,
 } from "@mui/material";
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,7 +45,7 @@ function getStepContent(step, installmentData, handleInputChange) {
       return (
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Installment Date"
               type="date"
@@ -58,7 +58,7 @@ function getStepContent(step, installmentData, handleInputChange) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Amount"
               name="amount"
@@ -67,7 +67,7 @@ function getStepContent(step, installmentData, handleInputChange) {
             />
           </Grid>
           <Grid item xs={10}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Description"
               name="description"

@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  TextField,
   Grid,
   FormControl,
   InputLabel,
@@ -20,6 +19,7 @@ import {
   TableCell,
   Paper,
 } from "@mui/material";
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 
 const steps = ["Task Details", "Review"];
@@ -78,7 +78,7 @@ function getStepContent(
       return (
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Car Name"
               name="externalCarDetails.name"
@@ -87,7 +87,7 @@ function getStepContent(
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Color"
               name="externalCarDetails.color"
@@ -96,7 +96,7 @@ function getStepContent(
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Model"
               name="externalCarDetails.model"
@@ -105,7 +105,7 @@ function getStepContent(
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Chassis Number"
               name="externalCarDetails.chassisNumber"
@@ -140,7 +140,7 @@ function getStepContent(
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               multiline
               label="Task Description"
@@ -150,7 +150,7 @@ function getStepContent(
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Task Cost"
               name="taskCost"
@@ -159,7 +159,7 @@ function getStepContent(
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Task Date"
               type="date"

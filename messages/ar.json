@@ -98,6 +98,32 @@
       "page": "صفحة",
       "of": "من",
       "partner": "الشريك"
+    },
+    "soldCars": {
+      "title": "السيارات المباعة",
+      "description": "إدارة السيارات المباعة",
+      "search": "بحث",
+      "carName": "اسم السيارة",
+      "purchaserName": "اسم المشتري",
+      "purchaseDate": "تاريخ الشراء",
+      "purchasePrice": "سعر الشراء",
+      "error": "فشل في جلب السيارات المباعة. يرجى المحاولة مرة أخرى لاحقًا."
+    },
+    "customers": {
+      "title": "Customers",
+      "description": "Customers Management",
+      "addNewCustomer": "Add New Customer",
+      "name": "Name",
+      "contactDetails": "Contact Details",
+      "phoneNumber": "Phone Number",
+      "email": "Email",
+      "nationality": "Nationality",
+      "nationalID": "National ID",
+      "debts": "Debts",
+      "error": "Failed to fetch customers. Please try again later."
     }
+    
+    
+
   }
 }

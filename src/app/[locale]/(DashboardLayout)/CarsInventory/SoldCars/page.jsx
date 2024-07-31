@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -16,20 +16,20 @@ import {
   Box,
   Pagination,
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 
 const SoldCarsPage = () => {
   const router = useRouter();
   const [soldCars, setSoldCars] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(10); // Number of items per page
+  const [perPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  const [error, setError] = useState(""); // Define error state
+  const [error, setError] = useState("");
+  const t = useTranslations('default.soldCars');
 
-  // Define fetchSoldCars function
   const fetchSoldCars = async () => {
     try {
-      console.log("fetching sold cars");
       const response = await axios.get(`/api/sold-cars`, {
         params: {
           searchQuery,
@@ -39,11 +39,11 @@ const SoldCarsPage = () => {
       });
       setSoldCars(response.data.soldCars);
       setTotalPages(Math.ceil(response.data.totalCount / perPage));
-      setError(""); // Clear error on successful fetch
+      setError("");
     } catch (error) {
       console.error("Error fetching sold cars:", error);
-      setError("Failed to fetch sold cars. Please try again later.");
-      setSoldCars([]); // Set soldCars array to empty in case of error
+      setError(t('error'));
+      setSoldCars([]);
     }
   };
 
@@ -57,7 +57,7 @@ const SoldCarsPage = () => {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
   };
 
   const handlePaginationChange = (event, pageNumber) => {
@@ -65,8 +65,8 @@ const SoldCarsPage = () => {
   };
 
   return (
-    <PageContainer title="Sold Cars" description="Sold Cars Management">
-      <DashboardCard title="Sold Cars">
+    <PageContainer title={t('title')} description={t('description')}>
+      <DashboardCard title={t('title')}>
         <Box
           mb={2}
           display="flex"
@@ -76,7 +76,7 @@ const SoldCarsPage = () => {
           <Box flexGrow={1}>
             <TextField
               name="search"
-              label="Search"
+              label={t('search')}
               variant="outlined"
               size="small"
               value={searchQuery}
@@ -92,10 +92,10 @@ const SoldCarsPage = () => {
           <Table aria-label="sold cars table">
             <TableHead>
               <TableRow>
-                <TableCell>Car Name</TableCell>
-                <TableCell>Purchaser Name</TableCell>
-                <TableCell>Purchase Date</TableCell>
-                <TableCell>Purchase Price</TableCell>
+                <TableCell>{t('carName')}</TableCell>
+                <TableCell>{t('purchaserName')}</TableCell>
+                <TableCell>{t('purchaseDate')}</TableCell>
+                <TableCell>{t('purchasePrice')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -98,6 +98,30 @@
       "page": "Page",
       "of": "Of",
       "partner": "Partner"
+    },
+    "soldCars": {
+      "title": "Sold Cars",
+      "description": "Sold Cars Management",
+      "search": "Search",
+      "carName": "Car Name",
+      "purchaserName": "Purchaser Name",
+      "purchaseDate": "Purchase Date",
+      "purchasePrice": "Purchase Price",
+      "error": "Failed to fetch sold cars. Please try again later."
+    },
+    "customers": {
+      "title": "العملاء",
+      "description": "إدارة العملاء",
+      "addNewCustomer": "إضافة عميل جديد",
+      "name": "الاسم",
+      "contactDetails": "بيانات الاتصال",
+      "phoneNumber": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "nationality": "الجنسية",
+      "nationalID": "الرقم الوطني",
+      "debts": "الديون",
+      "error": "فشل في جلب العملاء. يرجى المحاولة مرة أخرى لاحقًا."
     }
+    
   }
 }

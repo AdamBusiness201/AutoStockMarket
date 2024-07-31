@@ -1,5 +1,4 @@
-
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -20,6 +19,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const CustomersPage = () => {
   const router = useRouter();
@@ -33,6 +33,7 @@ const CustomersPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(50); // Number of items per page
   const [error, setError] = useState(""); // Define error state
+  const t = useTranslations('default.customers'); // Initialize useTranslations hook with namespace 'customers'
 
   // Define fetchCustomers function
   const fetchCustomers = async () => {
@@ -49,7 +50,7 @@ const CustomersPage = () => {
       setError(""); // Clear error on successful fetch
     } catch (error) {
       console.error("Error fetching customers:", error.response.data);
-      setError("Failed to fetch customers. Please try again later.");
+      setError(t('error')); // Use translation for error message
       setCustomers([]); // Set customers array to empty in case of error
     }
   };
@@ -74,8 +75,8 @@ const CustomersPage = () => {
   };
 
   return (
-    <PageContainer title="Customers" description="Customers Management">
-      <DashboardCard title="Customers">
+    <PageContainer title={t('title')} description={t('description')}>
+      <DashboardCard title={t('title')}>
         <Box
           mb={2}
           display="flex"
@@ -86,7 +87,7 @@ const CustomersPage = () => {
           <Box mr={1}>
             <IconButton
               onClick={() => setModalOpen(true)}
-              aria-label="add new customer"
+              aria-label={t('addNewCustomer')}
               color="primary"
             >
               <Add />
@@ -97,7 +98,7 @@ const CustomersPage = () => {
           <Box flexGrow={1}>
             <TextField
               name="name"
-              label="Name"
+              label={t('name')}
               variant="outlined"
               size="small"
               value={filters.name}
@@ -106,7 +107,7 @@ const CustomersPage = () => {
             />
             <TextField
               name="contactDetails"
-              label="Contact Details"
+              label={t('contactDetails')}
               variant="outlined"
               size="small"
               value={filters.contactDetails}
@@ -122,12 +123,12 @@ const CustomersPage = () => {
           <Table aria-label="customers table">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Phone Number</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Nationality</TableCell>
-                <TableCell>National ID</TableCell>
-                <TableCell>Debts</TableCell>
+                <TableCell>{t('name')}</TableCell>
+                <TableCell>{t('phoneNumber')}</TableCell>
+                <TableCell>{t('email')}</TableCell>
+                <TableCell>{t('nationality')}</TableCell>
+                <TableCell>{t('nationalID')}</TableCell>
+                <TableCell>{t('debts')}</TableCell>
                 {/* Add more table headers as needed */}
               </TableRow>
             </TableHead>
@@ -161,8 +162,9 @@ const CustomersPage = () => {
       <CreateCustomerModal // Render CreateCustomerModal component
         open={modalOpen}
         handleClose={() => {
-          confirm("Are you sure you want to close?");
-          setModalOpen(false)
+          if (confirm(t('confirmCloseModal'))) {
+            setModalOpen(false);
+          }
         }}
         fetchCustomers={fetchCustomers}
       />
@@ -171,4 +173,3 @@ const CustomersPage = () => {
 };
 
 export default CustomersPage;
-

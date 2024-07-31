@@ -65,7 +65,22 @@ const InvoiceTable = ({ invoices }) => (
     </Table>
   </TableContainer>
 );
-
+const defaultCarData = {
+  name: '',
+  color: '',
+  model: '',
+  chassisNumber: '',
+  engineNumber: '',
+  plateNumber: '',
+  odometerNumber: '',
+  owner: '',
+  ownerID: '',
+  ownerDrivingLicense: '',
+  maintenance: '',
+  currentLocation: '',
+  purchaseDetails: '',
+  entryDate: '',
+};
 function getStepContent(step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)
@@ -561,7 +576,7 @@ const CreateCarModal = ({
   open,
   handleClose,
   fetchCars,
-  initialCarData,
+  initialCarData = defaultCarData,
   isEditing,
 }) => {
   const [idType, setIdType] = useState("ownerID");

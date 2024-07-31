@@ -1,13 +1,15 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 import Profile from './Profile';
 import axios from 'axios';
+import SidebarOpener from '../../components/shared/SidebarOpener';
 
 // Define your notification API endpoint
 const NOTIFICATION_API_ENDPOINT = '/api/notification';
 
-const Header = ({ toggleMobileSidebar }) => {
+const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
   const [notifications, setNotifications] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -89,23 +91,28 @@ const Header = ({ toggleMobileSidebar }) => {
         >
           <IconMenu width="20" height="20" />
         </IconButton>
+        <Stack spacing={1} direction="row" alignItems="center">
+          <SidebarOpener toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
+          <IconButton
+            size="large"
+            aria-label="show notifications"
+            color="inherit"
+            aria-controls="notifications-menu"
+            aria-haspopup="true"
+            onClick={handlePopoverOpen}
+            sx={{
+              background: "#8522c1",
+              marginX: 3,
+            }}
+          >
+            <Badge badgeContent={notifications.count} color="primary">
+              <IconBellRinging size="21" stroke="1.5" color='white' />
+            </Badge>
+          </IconButton>
+        </Stack>
         {/* Notification icon with badge */}
-        <IconButton
-          size="large"
-          aria-label="show notifications"
-          color="inherit"
-          aria-controls="notifications-menu"
-          aria-haspopup="true"
-          onClick={handlePopoverOpen}
-          sx={{
-            background: "#8522c1"
-          }}
-        >
-          <Badge badgeContent={notifications.count} color="primary">
-            <IconBellRinging size="21" stroke="1.5" color='white' />
-          </Badge>
-        </IconButton>
+
 
         {/* Notifications Popover */}
         <Popover

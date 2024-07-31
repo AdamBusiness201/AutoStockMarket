@@ -110,17 +110,17 @@
       "error": "Failed to fetch sold cars. Please try again later."
     },
     "customers": {
-      "title": "العملاء",
-      "description": "إدارة العملاء",
-      "addNewCustomer": "إضافة عميل جديد",
-      "name": "الاسم",
-      "contactDetails": "بيانات الاتصال",
-      "phoneNumber": "رقم الهاتف",
-      "email": "البريد الإلكتروني",
-      "nationality": "الجنسية",
-      "nationalID": "الرقم الوطني",
-      "debts": "الديون",
-      "error": "فشل في جلب العملاء. يرجى المحاولة مرة أخرى لاحقًا."
+      "title": "Customers",
+      "description": "Customers Management",
+      "addNewCustomer": "Add New Customer",
+      "name": "Name",
+      "contactDetails": "Contact Details",
+      "phoneNumber": "Phone Number",
+      "email": "Email",
+      "nationality": "Nationality",
+      "nationalID": "National ID",
+      "debts": "Debts",
+      "error": "Failed to fetch customers. Please try again later."
     }
     
   }

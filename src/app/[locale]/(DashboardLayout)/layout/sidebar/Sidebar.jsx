@@ -1,48 +1,22 @@
 'use client';
-import React, { useState } from 'react';
-import { useMediaQuery, Box, Drawer, IconButton, CssBaseline } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Close } from '@mui/icons-material';
+import React, { useState, useEffect } from 'react';
+import { useMediaQuery, Box, Drawer, CssBaseline } from '@mui/material';
 import Logo from '../shared/logo/Logo';
 import SidebarItems from './SidebarItems';
+import Cookie from 'js-cookie';
 
-const Sidebar = ({ locale }) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+const Sidebar = ({ locale, isSidebarOpen, toggleSidebar }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-
   const sidebarWidth = '270px';
 
-  const handleToggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
 
   return (
     <>
       <CssBaseline />
-      <IconButton
-        onClick={handleToggleSidebar}
-        sx={{
-          position: 'fixed',
-          bottom: 16,
-          left: isSidebarOpen && lgUp ? sidebarWidth : 0,
-          zIndex: 1300,
-          transition: 'left 0.3s',
-          background: "#8522c1",
-          borderEndStartRadius: "0px",
-          borderStartStartRadius: "0px",
-          color: "white",
-          '&:hover': {
-            background: "#8522c1"
-          }
-        }}
-        disableRipple
-      >
-        {isSidebarOpen ? <Close /> : <MenuIcon />}
-      </IconButton>
       <Drawer
-        anchor='left'
+        anchor={locale === "ar" ? "right" : 'left'}
         open={isSidebarOpen}
-        onClose={handleToggleSidebar}
+        onClose={() => toggleSidebar(false)}
         variant={lgUp ? 'persistent' : 'temporary'}
         PaperProps={{
           sx: {

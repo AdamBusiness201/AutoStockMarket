@@ -3,8 +3,8 @@ import { styled, Container, Box } from "@mui/material";
 import React, { useState } from "react";
 import Header from "@/app/(DashboardLayout)/layout/header/Header";
 import Sidebar from "@/app/(DashboardLayout)/layout/sidebar/Sidebar";
-import { useRouter } from 'next/navigation'; // Use useRouter to get the current route
 import { usePathname } from "next/navigation";
+
 const MainWrapper = styled("div")(() => ({
   display: "flex",
   minHeight: "100vh",
@@ -27,11 +27,16 @@ export default function RootLayout({ children, params: { locale } }) {
 
   // Check if the current path is the home page
   const isHomePage = pathname === `/${locale}`; // Adjust the condition as needed
-console.log(isHomePage, pathname)
+  console.log(isHomePage, pathname)
+
   // Render only the children if it's the home page
   if (isHomePage) {
     return <>{children}</>;
   }
+
+  const handleToggleSidebar = (newSidebarState) => {
+    setSidebarOpen(newSidebarState);
+  };
 
   return (
     <MainWrapper className="mainwrapper">
@@ -42,6 +47,7 @@ console.log(isHomePage, pathname)
         isSidebarOpen={isSidebarOpen}
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)}
+        toggleSidebar={handleToggleSidebar} // Corrected here
         locale={locale}
       />
       {/* ------------------------------------------- */}
@@ -51,7 +57,11 @@ console.log(isHomePage, pathname)
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
-        <Header toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
+        <Header 
+          toggleMobileSidebar={() => setMobileSidebarOpen(true)} 
+          toggleSidebar={handleToggleSidebar} // Corrected here
+          isSidebarOpen={isSidebarOpen}
+        />
         {/* ------------------------------------------- */}
         {/* PageContent */}
         {/* ------------------------------------------- */}

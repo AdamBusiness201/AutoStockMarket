@@ -19,7 +19,12 @@ import {
   FormControl,
   InputLabel,
   Select,
+  InputAdornment,
+  IconButton,
+  ClearIcon,
+
 } from "@mui/material";
+import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 
 const steps = ["Employee Details", "Review"];
@@ -44,7 +49,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
       return (
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Employee Name"
               name="name"
@@ -53,7 +58,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Position"
               name="position"
@@ -62,7 +67,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Salary"
               name="salary"
@@ -72,7 +77,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Hire Date"
               name="hireDate"
@@ -82,7 +87,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Benefits"
               name="benefits"
@@ -91,7 +96,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Email"
               name="email"
@@ -101,7 +106,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Phone"
               name="phone"
@@ -110,7 +115,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Address"
               name="address"
@@ -119,7 +124,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="National ID"
               name="nationalID"
@@ -155,7 +160,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <ClearableTextField
               fullWidth
               label="Status Reason"
               name="statusReason"

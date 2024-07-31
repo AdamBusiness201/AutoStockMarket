@@ -10,7 +10,7 @@ const LinkStyled = styled(Link)(() => ({
   textDecoration: "none",
 }));
 
-const Logo = ({ width = 200, height = 200 }) => {
+const Logo = ({ width = 200, height = 150 }) => {
   return (
     <LinkStyled href="/en">
       <Image

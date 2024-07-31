@@ -1,54 +1,43 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-import { Box, Button, Collapse, Typography, IconButton, Link } from '@mui/material';
-import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
+import { Box, Typography, Tabs, Tab } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import Analytics from '@/app/(DashboardLayout)/components/shared/Analytics';
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 
+const timeRanges = [
+  { label: 'This Week', value: 'thisWeek' },
+  { label: 'Last Week', value: 'lastWeek' },
+  { label: 'This Month', value: 'thisMonth' },
+  { label: 'Last Month', value: 'lastMonth' },
+  { label: 'Lifetime', value: 'lifetime' },
+];
+
 const Dashboard = ({ params }) => {
-  const [isQuickActionsOpen, setQuickActionsOpen] = useState(true);
+  const [selectedRange, setSelectedRange] = useState('lastMonth'); // Default time range
 
-  const handleQuickActionsToggle = () => {
-    setQuickActionsOpen(!isQuickActionsOpen);
-  };
-
-  const handleAddNewCar = () => {
-    // Add logic to handle adding a new car
-    console.log("Add new car button clicked!");
+  const handleTabChange = (event, newValue) => {
+    setSelectedRange(newValue);
   };
 
   return (
     <PageContainer title="Dashboard" description="this is Dashboard" lang={params.lang}>
-      {/* <DashboardCard>
-        <Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            onClick={handleQuickActionsToggle}
-            cursor="pointer"
-          >
-            <Typography variant="h6" gutterBottom>
-              Quick Actions
-            </Typography>
+      {/* Time Range Tabs */}
+      <Box mb={2}>
+        <Tabs
+          value={selectedRange}
+          onChange={handleTabChange}
+          aria-label="time range tabs"
+        >
+          {timeRanges.map((range) => (
+            <Tab key={range.value} label={range.label} value={range.value} />
+          ))}
+        </Tabs>
+      </Box>
 
-            <IconButton>
-              {isQuickActionsOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-            </IconButton>
-
-          </Box>
-          <Collapse in={isQuickActionsOpen}>
-            <Box>
-              <Link href="/en/CarsInventory/Cars?CreateCar=true" target="_blank" underline="none">
-                <DashboardCard title={"Add New Car"} />
-              </Link>
-            </Box>
-          </Collapse>
-        </Box>
-      </DashboardCard> */}
-      <DashboardCard>
-        <Analytics locale={params.locale}/>
+      {/* Dashboard Card */}
+      <DashboardCard title={`Dashboard of ${timeRanges.find(range => range.value === selectedRange)?.label}`}>
+        <Analytics locale={params.locale} timeRange={selectedRange}/>
       </DashboardCard>
     </PageContainer>
   );

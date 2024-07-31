@@ -15,12 +15,33 @@ export async function GET(req, { params }) {
   let startDate, endDate;
   const startDateParam = req.nextUrl.searchParams.get("startDate");
   const endDateParam = req.nextUrl.searchParams.get("endDate");
+  const timeRange = req.nextUrl.searchParams.get("timeRange");
 
-  if (startDateParam) {
-    startDate = moment(startDateParam).startOf('day').toDate();
-  }
-  if (endDateParam) {
-    endDate = moment(endDateParam).endOf('day').toDate();
+  if (timeRange) {
+    const now = moment();
+    if (timeRange === "thisWeek") {
+      startDate = now.startOf("week").toDate();
+      endDate = now.endOf("week").toDate();
+    } else if (timeRange === "thisMonth") {
+      startDate = now.startOf("month").toDate();
+      endDate = now.endOf("month").toDate();
+    } else if (timeRange === "lastWeek") {
+      startDate = now.subtract(1, "week").startOf("week").toDate();
+      endDate = now.subtract(1, "week").endOf("week").toDate();
+    } else if (timeRange === "lastMonth") {
+      startDate = now.subtract(1, "month").startOf("month").toDate();
+      endDate = now.subtract(1, "month").endOf("month").toDate();
+    } else if (timeRange === "lifetime") {
+      startDate = new Date(0); // Set to the Unix epoch (January 1, 1970)
+      endDate = now.toDate(); // Current date and time
+    }
+  } else {
+    if (startDateParam) {
+      startDate = moment(startDateParam).startOf("day").toDate();
+    }
+    if (endDateParam) {
+      endDate = moment(endDateParam).endOf("day").toDate();
+    }
   }
 
   const filter = {};
@@ -53,8 +74,8 @@ export async function GET(req, { params }) {
   }
 
   try {
-    const totalCarsPromise = Car.find(carFilter).sort({ createdAt: -1 });
-    const totalTransactionsPromise = Transaction.find(transactionFilter).sort({ createdAt: -1 });
+    const totalCarsPromise = Car.find(carFilter);
+    const totalTransactionsPromise = Transaction.find(transactionFilter);
     const totalCustomersPromise = Customer.find(customerFilter).sort({ createdAt: -1 });
     const totalSoldCarsPromise = SoldCar.find(carFilter).sort({ createdAt: -1 });
     const totalMaintenanceCostsPromise = MaintenanceTask.aggregate([
@@ -65,8 +86,8 @@ export async function GET(req, { params }) {
       { $match: filter },
       { $group: { _id: null, totalDebt: { $sum: "$debts" } } },
     ]);
-    const carDetailsPromise = CarDetails.find(carFilter).sort({ createdAt: -1 });
-    const maintenanceTasksPromise = MaintenanceTask.find().sort({ createdAt: -1 });
+    const carDetailsPromise = CarDetails.find(carFilter);
+    const maintenanceTasksPromise = MaintenanceTask.find();
     const recentTransactionsPromise = Transaction.find(transactionFilter).sort({ createdAt: -1 })
       .sort({ createdAt: -1 })
       .limit(5);

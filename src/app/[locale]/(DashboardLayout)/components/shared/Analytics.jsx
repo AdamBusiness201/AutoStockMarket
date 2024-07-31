@@ -11,7 +11,7 @@ import moment from 'moment';
 import { useTranslations } from 'next-intl';
 import ViewDataModal from './ViewData'; // Import the modal
 
-const Analytics = ({ locale, today = false }) => {
+const Analytics = ({ locale, today = false, timeRange }) => {
   const [analytics, setAnalytics] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [startDate, setStartDate] = useState(today ? moment(new Date()).format('YYYY-MM-DD') : null);
@@ -24,7 +24,7 @@ const Analytics = ({ locale, today = false }) => {
 
   const fetchData = async () => {
     try {
-      const url = `/api/analytics`;
+      const url = `/api/analytics?timeRange=${timeRange}`;
       const queryParams = {};
 
       if (startDate) {
@@ -55,13 +55,13 @@ const Analytics = ({ locale, today = false }) => {
 
   return (
     <Box>
-      <ViewDataModal open={modalOpen} handleClose={() => {setModalOpen(false)}} locale={locale}/>
+      <ViewDataModal open={modalOpen} handleClose={() => { setModalOpen(false) }} locale={locale} />
       <Grid container spacing={2} sx={{ marginBottom: 2 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Button variant="contained" color="primary" onClick={() => console.log(t('addNewCar'))}>
             {t('addNewCar')}
           </Button>
-          <Button variant="outlined" onClick={() => {setModalOpen(true)}}>
+          <Button variant="outlined" onClick={() => { setModalOpen(true) }}>
             {t('createRowDataView')}
           </Button>
         </Grid>
@@ -77,6 +77,7 @@ const Analytics = ({ locale, today = false }) => {
                   shrink: true,
                 }}
                 fullWidth
+
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>

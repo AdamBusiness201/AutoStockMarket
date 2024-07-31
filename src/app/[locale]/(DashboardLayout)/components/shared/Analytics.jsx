@@ -51,7 +51,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
 
   useEffect(() => {
     fetchData();
-  }, [startDate, endDate, filter]);
+  }, [startDate, endDate, filter, timeRange]);
 
   return (
     <Box>

@@ -17,84 +17,76 @@ export async function GET(req, { params }) {
   const endDateParam = req.nextUrl.searchParams.get("endDate");
   const timeRange = req.nextUrl.searchParams.get("timeRange");
 
-  if (timeRange) {
-    const now = moment();
-    if (timeRange === "thisWeek") {
-      startDate = now.startOf("week").toDate();
-      endDate = now.endOf("week").toDate();
-    } else if (timeRange === "thisMonth") {
-      startDate = now.startOf("month").toDate();
-      endDate = now.endOf("month").toDate();
-    } else if (timeRange === "lastWeek") {
-      startDate = now.subtract(1, "week").startOf("week").toDate();
-      endDate = now.subtract(1, "week").endOf("week").toDate();
-    } else if (timeRange === "lastMonth") {
-      startDate = now.subtract(1, "month").startOf("month").toDate();
-      endDate = now.subtract(1, "month").endOf("month").toDate();
-    } else if (timeRange === "lifetime") {
-      startDate = new Date(0); // Set to the Unix epoch (January 1, 1970)
-      endDate = now.toDate(); // Current date and time
-    }
-  } else {
-    if (startDateParam) {
-      startDate = moment(startDateParam).startOf("day").toDate();
-    }
-    if (endDateParam) {
-      endDate = moment(endDateParam).endOf("day").toDate();
-    }
-  }
-
-  const filter = {};
-  if (startDate && endDate) {
-    filter.createdAt = { $gte: startDate, $lt: endDate };
-  } else if (startDate) {
-    filter.createdAt = { $gte: startDate };
-  } else if (endDate) {
-    filter.createdAt = { $lt: endDate };
-  }
-
-  // Additional category filters
-  const carCategory = req.nextUrl.searchParams.get("carCategory");
-  const transactionCategory = req.nextUrl.searchParams.get("transactionCategory");
-  const customerCategory = req.nextUrl.searchParams.get("customerCategory");
-
-  const carFilter = { ...filter };
-  if (carCategory) {
-    carFilter.category = carCategory;
-  }
-
-  const transactionFilter = { ...filter };
-  if (transactionCategory) {
-    transactionFilter.category = transactionCategory;
-  }
-
-  const customerFilter = { ...filter };
-  if (customerCategory) {
-    customerFilter.category = customerCategory;
-  }
+  console.log("Received timeRange:", timeRange);
+  console.log("Received startDateParam:", startDateParam);
+  console.log("Received endDateParam:", endDateParam);
 
   try {
-    const totalCarsPromise = Car.find(carFilter);
-    const totalTransactionsPromise = Transaction.find(transactionFilter);
-    const totalCustomersPromise = Customer.find(customerFilter).sort({ createdAt: -1 });
-    const totalSoldCarsPromise = SoldCar.find(carFilter).sort({ createdAt: -1 });
-    const totalMaintenanceCostsPromise = MaintenanceTask.aggregate([
-      { $match: filter },
-      { $group: { _id: null, totalCost: { $sum: "$taskCost" } } },
-    ]);
-    const totalCustomerDebtPromise = Customer.aggregate([
-      { $match: filter },
-      { $group: { _id: null, totalDebt: { $sum: "$debts" } } },
-    ]);
-    const carDetailsPromise = CarDetails.find(carFilter);
-    const maintenanceTasksPromise = MaintenanceTask.find();
-    const recentTransactionsPromise = Transaction.find(transactionFilter).sort({ createdAt: -1 })
-      .sort({ createdAt: -1 })
-      .limit(5);
-    const totalSellingPricesPromise = SoldCar.aggregate([
-      { $match: filter },
-      { $group: { _id: null, totalSellingPrices: { $sum: "$purchasePrice" } } },
-    ]);
+    if (timeRange) {
+      const now = moment();
+      if (timeRange === "thisWeek") {
+        startDate = now.startOf("week").toDate();
+        endDate = now.endOf("week").toDate();
+      } else if (timeRange === "thisMonth") {
+        startDate = now.startOf("month").toDate();
+        endDate = now.endOf("month").toDate();
+      } else if (timeRange === "lastWeek") {
+        startDate = now.subtract(1, "week").startOf("week").toDate();
+        endDate = now.subtract(1, "week").endOf("week").toDate();
+      } else if (timeRange === "lastMonth") {
+        startDate = now.subtract(1, "month").startOf("month").toDate();
+        endDate = now.subtract(1, "month").endOf("month").toDate();
+      } else if (timeRange === "lifetime") {
+        startDate = new Date(0);
+        endDate = now.toDate();
+      }
+    } else {
+      if (startDateParam) {
+        startDate = moment(startDateParam).startOf("day").toDate();
+      }
+      if (endDateParam) {
+        endDate = moment(endDateParam).endOf("day").toDate();
+      }
+    }
+
+    console.log("Computed startDate:", startDate);
+    console.log("Computed endDate:", endDate);
+
+    const filter = {};
+    if (startDate && endDate) {
+      filter.createdAt = { $gte: startDate, $lt: endDate };
+    } else if (startDate) {
+      filter.createdAt = { $gte: startDate };
+    } else if (endDate) {
+      filter.createdAt = { $lt: endDate };
+    }
+
+    console.log("Filter:", filter);
+
+    const carCategory = req.nextUrl.searchParams.get("carCategory");
+    const transactionCategory = req.nextUrl.searchParams.get("transactionCategory");
+    const customerCategory = req.nextUrl.searchParams.get("customerCategory");
+
+    const carFilter = { ...filter };
+    if (carCategory) {
+      carFilter.category = carCategory;
+    }
+
+    const transactionFilter = { ...filter };
+    if (transactionCategory) {
+      transactionFilter.category = transactionCategory;
+    }
+
+    const customerFilter = { ...filter };
+    if (customerCategory) {
+      customerFilter.category = customerCategory;
+    }
+
+    console.log("Filters applied: ", {
+      carFilter,
+      transactionFilter,
+      customerFilter
+    });
 
     const [
       cars,
@@ -106,19 +98,41 @@ export async function GET(req, { params }) {
       carDetails,
       maintenanceTasks,
       recentTransactions,
-      totalSellingPrices
+      totalSellingPrices,
     ] = await Promise.all([
-      totalCarsPromise,
-      totalTransactionsPromise,
-      totalCustomersPromise,
-      totalSoldCarsPromise,
-      totalMaintenanceCostsPromise,
-      totalCustomerDebtPromise,
-      carDetailsPromise,
-      maintenanceTasksPromise,
-      recentTransactionsPromise,
-      totalSellingPricesPromise
+      Car.find(carFilter),
+      Transaction.find(transactionFilter),
+      Customer.find(customerFilter).sort({ createdAt: -1 }),
+      SoldCar.find(carFilter).sort({ createdAt: -1 }),
+      MaintenanceTask.aggregate([
+        { $match: filter },
+        { $group: { _id: null, totalCost: { $sum: "$taskCost" } } },
+      ]),
+      Customer.aggregate([
+        { $match: filter },
+        { $group: { _id: null, totalDebt: { $sum: "$debts" } } },
+      ]),
+      CarDetails.find(carFilter),
+      MaintenanceTask.find(),
+      Transaction.find(transactionFilter).sort({ createdAt: -1 }).limit(5),
+      SoldCar.aggregate([
+        { $match: filter },
+        { $group: { _id: null, totalSellingPrices: { $sum: "$purchasePrice" } } },
+      ]),
     ]);
+
+    console.log("Data fetched: ", {
+      cars,
+      transactions,
+      customers,
+      soldCars,
+      totalMaintenanceCosts,
+      totalCustomerDebt,
+      carDetails,
+      maintenanceTasks,
+      recentTransactions,
+      totalSellingPrices
+    });
 
     let totalReceived = 0;
     let totalExpenses = 0;
@@ -163,50 +177,51 @@ export async function GET(req, { params }) {
       { $sort: { "_id.year": 1, "_id.month": 1 } },
     ]);
 
-    // Format data for charts
     const formatChartData = (data, type) => {
-      if (type === 'pie') {
+      if (type === "pie") {
         return {
-          labels: data.map(item => item.label),
-          series: data.map(item => item.value),
+          labels: data.map((item) => item.label),
+          series: data.map((item) => item.value),
         };
-      } else if (type === 'column' || type === 'line') {
+      } else if (type === "column" || type === "line") {
         return {
-          categories: data.map(item => item.category),
-          series: [{
-            name: 'Data',
-            data: data.map(item => item.value),
-          }],
+          categories: data.map((item) => item.category),
+          series: [
+            {
+              name: "Data",
+              data: data.map((item) => item.value),
+            },
+          ],
         };
       }
       return {};
     };
 
     const carValueChartData = formatChartData(
-      carDetails.map(car => ({
+      carDetails.map((car) => ({
         category: new Date(car.createdAt).toLocaleDateString(),
         value: car.value,
       })),
-      'line'
+      "line"
     );
     const maintenanceAmountsChartData = formatChartData(
-      maintenanceTasks.map(task => ({
+      maintenanceTasks.map((task) => ({
         category: new Date(task.createdAt).toLocaleDateString(),
         value: task.taskCost,
       })),
-      'line'
+      "line"
     );
     const totalSellingPricesChartData = formatChartData(
-      soldCars.map(car => ({ category: car.name, value: car.purchasePrice })),
-      'column'
+      soldCars.map((car) => ({ category: car.name, value: car.purchasePrice })),
+      "column"
     );
 
     const transactionAmountsChartData = formatChartData(
-      transactions.map(transaction => ({
+      transactions.map((transaction) => ({
         category: new Date(transaction.createdAt).toLocaleDateString(),
         value: transaction.amount,
       })),
-      'line'
+      "line"
     );
 
     const response = {
@@ -245,7 +260,7 @@ export async function GET(req, { params }) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error(error);
+    console.error("Error retrieving dashboard data:", error);
     return NextResponse.json(
       { error: "Could not retrieve dashboard data: " + error.message },
       { status: 500 }

@@ -14,7 +14,7 @@ const timeRanges = [
 ];
 
 const Dashboard = ({ params }) => {
-  const [selectedRange, setSelectedRange] = useState('lastMonth'); // Default time range
+  const [selectedRange, setSelectedRange] = useState('thisWeek'); // Default time range
 
   const handleTabChange = (event, newValue) => {
     setSelectedRange(newValue);

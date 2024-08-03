@@ -21,7 +21,6 @@ const Sidebar = ({ locale, isSidebarOpen, toggleSidebar }) => {
         PaperProps={{
           sx: {
             width: sidebarWidth,
-            boxShadow: (theme) => theme.shadows[8],
             boxSizing: 'border-box',
             background: '#f7f7f7',
           },

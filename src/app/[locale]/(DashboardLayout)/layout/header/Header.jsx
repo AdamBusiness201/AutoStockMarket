@@ -14,9 +14,11 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const AppBarStyled = styled(AppBar)(({ theme }) => ({
+  const AppBarStyled = styled(AppBar)(({ theme, isScrolled }) => ({
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)', // Adding bottom shadow
-    background: isScrolled ? 'rgba(106, 27, 154, 0.9)' : '#6a1b9a', // Purple background with transparency on scroll
+    background: isScrolled
+      ? 'linear-gradient(223deg, #481268, #6a1b9a)' // Gradient with transparency on scroll
+      : 'linear-gradient(90deg, #6a1b9a, #6a1b9a)', // Solid purple when not scrolled
     justifyContent: 'center',
     backdropFilter: 'blur(4px)',
     transition: 'background 1s ease',
@@ -24,7 +26,7 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
       minHeight: '50px',
     },
   }));
-
+  
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
     width: '100%',
     color: theme.palette.text.secondary,

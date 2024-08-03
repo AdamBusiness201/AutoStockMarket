@@ -14,6 +14,8 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import { background } from '@chakra-ui/react';
+import zIndex from '@mui/material/styles/zIndex';
 
 // Define your styles and schema fields
 const modalStyle = {
@@ -26,9 +28,6 @@ const modalStyle = {
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: "16px",
-  display: 'flex',
-  flexDirection: 'column',
-  height: '80vh',
 };
 
 const headerStyle = {
@@ -37,21 +36,7 @@ const headerStyle = {
 };
 
 const bodyStyle = {
-  flex: 1,
-  display: 'flex',
-};
-
-const tabsContainerStyle = {
-  width: '25%',
-  borderRight: '1px solid #ddd',
-  overflowY: 'auto',
-  maxHeight: 'calc(80vh - 80px)', // Adjust based on header/footer height
-};
-
-const formContainerStyle = {
-  width: '75%',
-  overflowY: 'auto',
-  maxHeight: 'calc(80vh - 80px)', // Adjust based on header/footer height
+  padding: '16px',
 };
 
 const footerStyle = {
@@ -125,42 +110,49 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
 
         {/* Body */}
         <Box sx={bodyStyle}>
-          {/* Tabs */}
-          <Box sx={tabsContainerStyle}>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={tabValue}
-              onChange={(e, newValue) => setTabValue(newValue)}
-            >
-              {Object.keys(schemaFields).map((schema) => (
-                <Tab
-                  label={schema.charAt(0).toUpperCase() + schema.slice(1)}
-                  value={schema}
-                  key={schema}
-                />
-              ))}
-            </Tabs>
-          </Box>
-
-          {/* Form */}
-          <Box sx={formContainerStyle}>
-            <FormGroup>
-              {schemaFields[tabValue].map((field) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={fields[`${tabValue}.${field}`]}
-                      onChange={handleFieldChange}
-                      name={`${tabValue}.${field}`}
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <Box sx={{
+                borderRight: 1, borderColor: 'divider', maxHeight: '60vh', // Adjust this value as needed
+                overflowY: 'auto',
+              }}>
+                <Tabs
+                  orientation="vertical"
+                  variant="scrollable"
+                  value={tabValue}
+                  onChange={(e, newValue) => setTabValue(newValue)}
+                >
+                  {Object.keys(schemaFields).map((schema) => (
+                    <Tab
+                      label={schema.charAt(0).toUpperCase() + schema.slice(1)}
+                      value={schema}
+                      key={schema}
                     />
-                  }
-                  label={field.charAt(0).toUpperCase() + field.slice(1)}
-                  key={field}
-                />
-              ))}
-            </FormGroup>
-          </Box>
+                  ))}
+                </Tabs>
+              </Box>
+            </Grid>
+            <Grid item xs={9}>
+              <FormGroup sx={{
+                maxHeight: '60vh', // Adjust this value as needed
+                overflowY: 'auto',
+              }}>
+                {schemaFields[tabValue].map((field) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={fields[`${tabValue}.${field}`]}
+                        onChange={handleFieldChange}
+                        name={`${tabValue}.${field}`}
+                      />
+                    }
+                    label={field.charAt(0).toUpperCase() + field.slice(1)}
+                    key={field}
+                  />
+                ))}
+              </FormGroup>
+            </Grid>
+          </Grid>
         </Box>
 
         {/* Footer */}

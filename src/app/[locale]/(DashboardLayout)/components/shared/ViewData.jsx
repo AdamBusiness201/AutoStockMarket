@@ -25,13 +25,40 @@ const modalStyle = {
   maxWidth: "1500px",
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 4,
   borderRadius: "16px",
+  display: 'flex',
+  flexDirection: 'column',
+  height: '80vh',
 };
 
-const scrollableContentStyle = {
-  maxHeight: '60vh', // Adjust this value as needed
+const headerStyle = {
+  padding: '16px',
+  borderBottom: '1px solid #ddd',
+};
+
+const bodyStyle = {
+  flex: 1,
+  display: 'flex',
+};
+
+const tabsContainerStyle = {
+  width: '25%',
+  borderRight: '1px solid #ddd',
   overflowY: 'auto',
+  maxHeight: 'calc(80vh - 80px)', // Adjust based on header/footer height
+};
+
+const formContainerStyle = {
+  width: '75%',
+  overflowY: 'auto',
+  maxHeight: 'calc(80vh - 80px)', // Adjust based on header/footer height
+};
+
+const footerStyle = {
+  padding: '16px',
+  borderTop: '1px solid #ddd',
+  display: 'flex',
+  justifyContent: 'flex-end',
 };
 
 const schemaFields = {
@@ -88,52 +115,56 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={modalStyle}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        {/* Header */}
+        <Box sx={headerStyle} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Customize View</Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </Box>
-        <Grid container spacing={2} mt={1}>
-          <Grid item xs={3}>
-            <Box sx={{ borderRight: 1, borderColor: 'divider', ...scrollableContentStyle }}>
-              <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={tabValue}
-                onChange={(e, newValue) => setTabValue(newValue)}
-              >
-                {Object.keys(schemaFields).map((schema) => (
-                  <Tab
-                    label={schema.charAt(0).toUpperCase() + schema.slice(1)}
-                    value={schema}
-                    key={schema}
-                  />
-                ))}
-              </Tabs>
-            </Box>
-          </Grid>
-          <Grid item xs={9}>
-            <Box sx={scrollableContentStyle}>
-              <FormGroup>
-                {schemaFields[tabValue].map((field) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={fields[`${tabValue}.${field}`]}
-                        onChange={handleFieldChange}
-                        name={`${tabValue}.${field}`}
-                      />
-                    }
-                    label={field.charAt(0).toUpperCase() + field.slice(1)}
-                    key={field}
-                  />
-                ))}
-              </FormGroup>
-            </Box>
-          </Grid>
-        </Grid>
-        <Box mt={2} display="flex" justifyContent="flex-end">
+
+        {/* Body */}
+        <Box sx={bodyStyle}>
+          {/* Tabs */}
+          <Box sx={tabsContainerStyle}>
+            <Tabs
+              orientation="vertical"
+              variant="scrollable"
+              value={tabValue}
+              onChange={(e, newValue) => setTabValue(newValue)}
+            >
+              {Object.keys(schemaFields).map((schema) => (
+                <Tab
+                  label={schema.charAt(0).toUpperCase() + schema.slice(1)}
+                  value={schema}
+                  key={schema}
+                />
+              ))}
+            </Tabs>
+          </Box>
+
+          {/* Form */}
+          <Box sx={formContainerStyle}>
+            <FormGroup>
+              {schemaFields[tabValue].map((field) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={fields[`${tabValue}.${field}`]}
+                      onChange={handleFieldChange}
+                      name={`${tabValue}.${field}`}
+                    />
+                  }
+                  label={field.charAt(0).toUpperCase() + field.slice(1)}
+                  key={field}
+                />
+              ))}
+            </FormGroup>
+          </Box>
+        </Box>
+
+        {/* Footer */}
+        <Box sx={footerStyle}>
           <Button variant="contained" color="primary" onClick={handleOk}>
             OK
           </Button>

@@ -21,7 +21,7 @@ const Dashboard = ({ params }) => {
   };
 
   return (
-    <PageContainer title="Dashboard" description="this is Dashboard" lang={params.lang}>
+    <PageContainer title="Dashboard" description="this is Dashboard" lang={params.lang} >
       {/* Time Range Tabs */}
       <Box mb={2}>
         <Tabs

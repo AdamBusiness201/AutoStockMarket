@@ -69,7 +69,6 @@ export default function RootLayout({ children, params: { locale } }) {
           sx={{
             paddingTop: "20px",
             maxWidth: "100%",
-            backgroundColor: "white",
             borderRadius: "20px",
             marginY: "20px",
           }}

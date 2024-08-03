@@ -9,13 +9,13 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  Tabs,
+  Tab
 } from '@mui/material';
-import { Close as CloseIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
+// Define your styles and schema fields
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -27,6 +27,11 @@ const modalStyle = {
   boxShadow: 24,
   p: 4,
   borderRadius: "16px",
+};
+
+const scrollableContentStyle = {
+  maxHeight: '60vh', // Adjust this value as needed
+  overflowY: 'auto',
 };
 
 const schemaFields = {
@@ -48,6 +53,7 @@ const schemaFields = {
 const ViewDataModal = ({ open, handleClose, locale }) => {
   const router = useRouter();
   const [fields, setFields] = useState({});
+  const [tabValue, setTabValue] = useState('attendance');
 
   useEffect(() => {
     // Initialize fields state with all available schema fields
@@ -88,32 +94,43 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
             <CloseIcon />
           </IconButton>
         </Box>
-        <Grid container spacing={2} pr={2} mt={2} sx={{ maxHeight: "300px", overflowY: "auto" }}>
-          <Grid item xs={12}>
-            {Object.keys(schemaFields).map((schema) => (
-              <Accordion key={schema}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1">{schema.charAt(0).toUpperCase() + schema.slice(1)}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <FormGroup>
-                    {schemaFields[schema].map((field) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={fields[`${schema}.${field}`]}
-                            onChange={handleFieldChange}
-                            name={`${schema}.${field}`}
-                          />
-                        }
-                        label={field.charAt(0).toUpperCase() + field.slice(1)}
-                        key={field}
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={3}>
+            <Box sx={{ borderRight: 1, borderColor: 'divider', ...scrollableContentStyle }}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={tabValue}
+                onChange={(e, newValue) => setTabValue(newValue)}
+              >
+                {Object.keys(schemaFields).map((schema) => (
+                  <Tab
+                    label={schema.charAt(0).toUpperCase() + schema.slice(1)}
+                    value={schema}
+                    key={schema}
+                  />
+                ))}
+              </Tabs>
+            </Box>
+          </Grid>
+          <Grid item xs={9}>
+            <Box sx={scrollableContentStyle}>
+              <FormGroup>
+                {schemaFields[tabValue].map((field) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={fields[`${tabValue}.${field}`]}
+                        onChange={handleFieldChange}
+                        name={`${tabValue}.${field}`}
                       />
-                    ))}
-                  </FormGroup>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+                    }
+                    label={field.charAt(0).toUpperCase() + field.slice(1)}
+                    key={field}
+                  />
+                ))}
+              </FormGroup>
+            </Box>
           </Grid>
         </Grid>
         <Box mt={2} display="flex" justifyContent="flex-end">

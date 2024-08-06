@@ -259,17 +259,29 @@ export async function GET(req, res) {
     // Calculate skip value for pagination
     const skip = (page - 1) * perPage;
 
-    // Query cars with pagination and filters
+    // Fetch cars with pagination and filters
     const cars = await Car.find(filter)
       .sort({ createdAt: -1 })
       .populate("owner")
       .skip(skip)
       .limit(perPage);
 
+    // Fetch car details for each car
+    const carIds = cars.map((car) => car._id);
+    const carDetails = await CarDetails.find({ car: { $in: carIds } });
+
+    // Map car details to their respective cars
+    const carsWithDetails = cars.map((car) => ({
+      ...car._doc,
+      carDetails: carDetails.find(
+        (details) => details.car.toString() === car._id.toString()
+      ),
+    }));
+
     // Get total count of cars (without pagination)
     const totalCount = await Car.countDocuments(filter);
 
-    return NextResponse.json({ cars, totalCount });
+    return NextResponse.json({ cars: carsWithDetails, totalCount });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

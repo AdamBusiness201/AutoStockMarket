@@ -43,28 +43,7 @@ const modalStyle = {
   p: 4,
   borderRadius: "16px", // Rounded corners
 };
-const InvoiceTable = ({ invoices }) => (
-  <TableContainer component={Paper}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Invoice Number</TableCell>
-          <TableCell>Date</TableCell>
-          <TableCell>Amount</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {invoices.map((invoice, index) => (
-          <TableRow key={index}>
-            <TableCell>{invoice.number}</TableCell>
-            <TableCell>{invoice.date}</TableCell>
-            <TableCell>{invoice.amount}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+
 const defaultCarData = {
   name: '',
   color: '',
@@ -81,6 +60,68 @@ const defaultCarData = {
   purchaseDetails: '',
   entryDate: '',
 };
+// List of years for the select list
+const years = Array.from(new Array(50), (val, index) => new Date().getFullYear() - index);
+// List of colors for the select list
+const colors = [
+  'Red',
+  'Blue',
+  'Green',
+  'Black',
+  'White',
+  'Silver',
+  'Gray',
+  'Yellow',
+  'Orange',
+  'Brown',
+  'Purple',
+  'Other'
+];
+
+function CarColorSelect({ carData, handleInputChange }) {
+  const [selectedColor, setSelectedColor] = useState(carData?.color || '');
+
+  const handleColorChange = (event) => {
+    const value = event.target.value;
+    setSelectedColor(value);
+    handleInputChange(event);
+  };
+
+  return (
+    <>
+      <Grid item xs={4}>
+        <FormControl fullWidth>
+          <InputLabel id="color-label">Color</InputLabel>
+          <Select
+            labelId="color-label"
+            name="color"
+            value={selectedColor}
+            onChange={handleColorChange}
+            label="Color"
+          >
+            {colors.map((color) => (
+              <MenuItem key={color} value={color}>
+                {color}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      {selectedColor === 'Other' && (
+        <Grid item xs={4}>
+          <ClearableTextField
+            fullWidth
+            label="Custom Color"
+            name="customColor"
+            value={carData?.customColor || ''}
+            onChange={handleInputChange}
+          />
+        </Grid>
+      )}
+    </>
+  );
+}
+
 function getStepContent(step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)
@@ -97,23 +138,24 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
               onChange={handleInputChange}
             />
           </Grid>
+          <CarColorSelect carData={carData} handleInputChange={handleInputChange}/>
           <Grid item xs={4}>
-            <ClearableTextField
-              fullWidth
-              label="Color"
-              name="color"
-              value={carData?.color}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <ClearableTextField
-              fullWidth
-              label="Model"
-              name="model"
-              value={carData?.model}
-              onChange={handleInputChange}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="model-label">Model</InputLabel>
+              <Select
+                labelId="model-label"
+                name="model"
+                value={carData?.model || ''}
+                onChange={handleInputChange}
+                label="Model"
+              >
+                {years.map((year) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={4}>
             <ClearableTextField

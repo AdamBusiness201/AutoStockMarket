@@ -121,7 +121,52 @@
       "nationalID": "National ID",
       "debts": "Debts",
       "error": "Failed to fetch customers. Please try again later."
+    },
+    "expenses": {
+      "title": "Exhibition Expenses",
+      "description": "Overview of expenses incurred during the exhibition",
+      "table": {
+        "day": "Day",
+        "month": "Month",
+        "date": "Date",
+        "type": "Type",
+        "description": "Description",
+        "value": "Value"
+      }
+    },
+    "financialOverview": {
+      "title": "Financial Overview",
+      "description": "Overview of expenses and salaries",
+      "tables": {
+        "expenses": {
+          "title": "Expenses Fixed",
+          "headers": {
+            "description": "Description",
+            "amount": "Amount",
+            "analysis": "Analysis"
+          }
+        },
+        "salaries": {
+          "title": "Salaries",
+          "headers": {
+            "description": "Description",
+            "amount": "Amount",
+            "analysis": "Analysis"
+          }
+        }
+      }
+    },
+    "recoveriesPage": {
+    "title": "Recoveries",
+    "description": "Details of recoveries for different accounts and their amounts",
+    "table": {
+      "headers": {
+        "accountName": "Account Name",
+        "recoveryAmount": "Recovery Amount",
+        "description": "Description",
+        "date": "Date"
+      }
     }
-    
+  }
   }
 }

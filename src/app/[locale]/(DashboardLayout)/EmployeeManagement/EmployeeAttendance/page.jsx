@@ -201,15 +201,15 @@ const AttendancePage = () => {
                   <TableRow key={index}>
                     <TableCell>{record.employeeName}</TableCell>
                     <TableCell>{record.salary}</TableCell>
-                    <TableCell>{record.valuePerDay}</TableCell>
+                    <TableCell>{record.valuePerDay.toFixed(2)}</TableCell>
                     <TableCell>{record.workingDays}</TableCell>
                     <TableCell>{record.absentDays}</TableCell>
-                    <TableCell>{record.valueOfAbsences}</TableCell>
+                    <TableCell>{record.valueOfAbsences.toFixed(2)}</TableCell>
                     <TableCell>{record.violations}</TableCell>
                     <TableCell>{record.advances}</TableCell>
-                    <TableCell>{record.netSalary}</TableCell>
+                    <TableCell>{record.netSalary.toFixed(2)}</TableCell>
                     <TableCell>{record.commission}</TableCell>
-                    <TableCell>{record.total}</TableCell>
+                    <TableCell>{record.total.toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

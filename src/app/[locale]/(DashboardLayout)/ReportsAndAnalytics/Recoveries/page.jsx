@@ -11,15 +11,17 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 
 const RecoveriesPage = () => {
+  const t = useTranslations('default.recoveriesPage');
   const [recoveriesData, setRecoveriesData] = useState([]);
 
   useEffect(() => {
     const fetchRecoveriesData = async () => {
       try {
         // Adjust this to your API endpoint for fetching recoveries data
-        const response = await fetch("API_ENDPOINT_TO_FETCH_RECOVERIES_DATA");
+        const response = await fetch("/api/recoveries");
         
         if (response.ok) {
           const data = await response.json();
@@ -36,16 +38,16 @@ const RecoveriesPage = () => {
   }, []);
 
   return (
-    <PageContainer title="Recoveries" description="Details recoveries for different accounts and their amounts">
-      <DashboardCard title="Recoveries Overview">
+    <PageContainer title={t('title')} description={t('description')}>
+      <DashboardCard title={t('title')}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="recoveries table">
             <TableHead>
               <TableRow>
-                <TableCell>Account Name (اسم الحساب)</TableCell>
-                <TableCell>Recovery Amount (مبلغ التعويض)</TableCell>
-                <TableCell>Description (البيان)</TableCell>
-                <TableCell>Date (التاريخ)</TableCell>
+                <TableCell>{t('table.headers.accountName')}</TableCell>
+                <TableCell>{t('table.headers.recoveryAmount')}</TableCell>
+                <TableCell>{t('table.headers.description')}</TableCell>
+                <TableCell>{t('table.headers.date')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

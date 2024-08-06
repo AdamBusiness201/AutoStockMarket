@@ -11,8 +11,10 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 
 const FinancialOverviewPage = () => {
+  const t = useTranslations('default.financialOverview');
   const [expensesData, setExpensesData] = useState([]);
   const [salariesData, setSalariesData] = useState([]);
 
@@ -51,15 +53,15 @@ const FinancialOverviewPage = () => {
     fetchSalariesData();
   }, []);
 
-  const renderTable = (data, title) => (
-    <DashboardCard title={title}>
+  const renderTable = (data, tableKey) => (
+    <DashboardCard title={t(`tables.${tableKey}.title`)}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label={`${title} table`}>
+        <Table sx={{ minWidth: 650 }} aria-label={`${tableKey} table`}>
           <TableHead>
             <TableRow>
-              <TableCell>البيان (Description)</TableCell>
-              <TableCell>القيمة (Amount)</TableCell>
-              <TableCell>تحليل (Analysis)</TableCell>
+              <TableCell>{t(`tables.${tableKey}.headers.description`)}</TableCell>
+              <TableCell>{t(`tables.${tableKey}.headers.amount`)}</TableCell>
+              <TableCell>{t(`tables.${tableKey}.headers.analysis`)}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,9 +79,9 @@ const FinancialOverviewPage = () => {
   );
 
   return (
-    <PageContainer title="Financial Overview" description="Overview of expenses and salaries">
-      {renderTable(expensesData, "Expenses Fixed (المصروفات الثابته)")}
-      {renderTable(salariesData, "Salaries (رواتب)")}
+    <PageContainer title={t('title')} description={t('description')}>
+      {renderTable(expensesData, "expenses")}
+      {renderTable(salariesData, "salaries")}
     </PageContainer>
   );
 };

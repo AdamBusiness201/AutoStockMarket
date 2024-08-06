@@ -121,9 +121,52 @@
       "nationalID": "الرقم الوطني",
       "debts": "الديون",
       "error": "فشل في جلب العملاء. يرجى المحاولة مرة أخرى لاحقًا."
+    },
+    "expenses": {
+      "title": "مصاريف المعرض",
+      "description": "نظرة عامة على النفقات التي تكبدت خلال المعرض",
+      "table": {
+        "day": "اليوم",
+        "month": "الشهر",
+        "date": "التاريخ",
+        "type": "النوع",
+        "description": "البيان",
+        "value": "القيمة"
+      }
+    },
+    "financialOverview": {
+      "title": "نظرة عامة مالية",
+      "description": "نظرة عامة على النفقات والرواتب",
+      "tables": {
+        "expenses": {
+          "title": "المصروفات الثابتة",
+          "headers": {
+            "description": "البيان",
+            "amount": "القيمة",
+            "analysis": "تحليل"
+          }
+        },
+        "salaries": {
+          "title": "الرواتب",
+          "headers": {
+            "description": "البيان",
+            "amount": "القيمة",
+            "analysis": "تحليل"
+          }
+        }
+      }
+    },
+    "recoveriesPage": {
+    "title": "التعويضات",
+    "description": "تفاصيل التعويضات للحسابات المختلفة ومبالغها",
+    "table": {
+      "headers": {
+        "accountName": "اسم الحساب",
+        "recoveryAmount": "مبلغ التعويض",
+        "description": "البيان",
+        "date": "التاريخ"
+      }
     }
-    
-    
-
+  }
   }
 }

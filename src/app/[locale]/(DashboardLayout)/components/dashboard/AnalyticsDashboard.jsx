@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme, Typography, Stack, Card, CardContent, Box, CircularProgress } from "@mui/material";
+import { formatNumber } from '../../../../../utils/numberUtils'
 
 const AnalyticsDashboard = ({ title, data, chartData, chartType, icon, iconLink, loading }) => {
   const theme = useTheme();
@@ -77,7 +78,7 @@ const AnalyticsDashboard = ({ title, data, chartData, chartType, icon, iconLink,
                 <Typography variant="h6" color="textSecondary">
                   {title}
                 </Typography>
-                <Typography variant="h4">{data}</Typography>
+                <Typography variant="h4">{formatNumber(data)}</Typography>
               </Box>
             </Stack>
             {chartType && (

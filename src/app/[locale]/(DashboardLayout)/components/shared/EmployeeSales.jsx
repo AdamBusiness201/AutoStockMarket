@@ -96,7 +96,7 @@ const SalesRecords = ({ employeeId }) => {
                       <TableCell>{soldCar.previousOwner}</TableCell>
                       <TableCell>{soldCar.purchaser}</TableCell>
                       <TableCell>{soldCar.purchaseDate}</TableCell>
-                      <TableCell>{soldCar.purchasePrice}</TableCell>
+                      <TableCell>{soldCar.purchasePrice.toFixed(2)}</TableCell>
                       <TableCell>{soldCar.sourceOfSelling}</TableCell>
                     </TableRow>
                   ))

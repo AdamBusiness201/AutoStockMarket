@@ -1,5 +1,7 @@
+// src/app/(DashboardLayout)/components/pages/SalariesPage.jsx
 "use client";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import {
@@ -19,11 +21,10 @@ const SalariesPage = () => {
     const fetchSalaryData = async () => {
       try {
         // Adjust this to your API endpoint for fetching salary data
-        const response = await fetch("API_ENDPOINT_TO_FETCH_SALARY_DATA");
-        
-        if (response.ok) {
-          const data = await response.json();
-          setSalaryData(data);
+        const response = await axios.get("/api/employee/salary");
+
+        if (response.status === 200) {
+          setSalaryData(response.data);
         } else {
           console.error("Failed to fetch salary data");
         }

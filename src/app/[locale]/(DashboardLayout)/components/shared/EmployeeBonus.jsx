@@ -85,7 +85,7 @@ const BonusRecords = ({ employeeId, deductions = false }) => {
                   bonuses.map((bonus) => (
                     <TableRow key={bonus._id}>
                       <TableCell>{bonus.dateReceived}</TableCell>
-                      <TableCell>{bonus.amount}</TableCell>
+                      <TableCell>{bonus.amount.toFixed(2)}</TableCell>
                       <TableCell>{bonus.reason}</TableCell>
                     </TableRow>
                   ))

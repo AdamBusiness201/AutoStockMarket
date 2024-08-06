@@ -11,8 +11,10 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 
 const ExpensesExhibitionPage = () => {
+  const t = useTranslations('default.expenses');
   const [expensesData, setExpensesData] = useState([]);
 
   useEffect(() => {
@@ -36,18 +38,18 @@ const ExpensesExhibitionPage = () => {
   }, []);
 
   return (
-    <PageContainer title="Exhibition Expenses" description="Overview of expenses incurred during the exhibition">
-      <DashboardCard title="Expenses Overview">
+    <PageContainer title={t('title')} description={t('description')}>
+      <DashboardCard title={t('title')}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="exhibition expenses table">
             <TableHead>
               <TableRow>
-                <TableCell>Day (اليوم)</TableCell>
-                <TableCell>Month (الشهر)</TableCell>
-                <TableCell>Date (التاريخ)</TableCell>
-                <TableCell>Type (النوع)</TableCell>
-                <TableCell>Description (البيان)</TableCell>
-                <TableCell>Value (القيمة)</TableCell>
+                <TableCell>{t('table.day')}</TableCell>
+                <TableCell>{t('table.month')}</TableCell>
+                <TableCell>{t('table.date')}</TableCell>
+                <TableCell>{t('table.type')}</TableCell>
+                <TableCell>{t('table.description')}</TableCell>
+                <TableCell>{t('table.value')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -9,11 +9,13 @@ import Flag from 'react-world-flags';
 const LanguageSelector = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const lang = pathname?.split("/")[1];
+  const lang = pathname?.split("/")[1] || 'en';
 
   const changeLanguage = (event) => {
     const newLang = event.target.value;
-    router.replace(`/${newLang}`);
+    // Update the locale while preserving the rest of the path
+    const newPathname = pathname.replace(`/${lang}`, `/${newLang}`);
+    router.push(newPathname);
   };
 
   const languages = [
@@ -42,7 +44,7 @@ const LanguageSelector = () => {
         <InputLabel id="language-selector-label">Language</InputLabel>
         <StyledSelect
           labelId="language-selector-label"
-          value={lang || 'en'}
+          value={lang}
           onChange={changeLanguage}
           label="Language"
         >

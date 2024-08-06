@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import AnalysisCard from './DashboardAnalysisCard';
+import { formatNumber } from '../../../../../utils/numberUtils'
 
 const CarTransactionsList = ({ transactions }) => {
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ const CarTransactionsList = ({ transactions }) => {
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
               title="Total Transactions"
-              number={totalTransactions}
+              number={formatNumber(totalTransactions)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>

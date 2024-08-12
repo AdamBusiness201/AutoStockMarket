@@ -6,6 +6,7 @@ import PageContainer from "@/app/(DashboardLayout)/components/container/PageCont
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import CreateCustomerModal from "../../../components/shared/CreateCustomerModal";
 import Autocomplete from "@mui/material/Autocomplete";
+import AddCarConfirmationModal from "@/app/(DashboardLayout)/components/shared/AddCarConfirmationModal";
 import {
   Table,
   TableBody,
@@ -37,7 +38,8 @@ import {
   BuildOutlined,
   EditOutlined,
   DeleteOutline,
-  MoneyOffOutlined
+  MoneyOffOutlined,
+  AddBusinessOutlined
 } from "@mui/icons-material";
 import CreateCarModal from "../../../components/shared/CreateCarModal";
 import MaintenanceTasksList from "../../../components/shared/CarMaintenanceTasks";
@@ -307,11 +309,25 @@ const CarDetailsPage = ({ params }) => {
     "Facebook Marketplace",
   ]; // Example array of selling sources
   const [customerModalOpen, setCustomerModalOpen] = useState(false);
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const handleSave = () => {
+    setConfirmationOpen(true);
+  };
+  
+  const handleConfirmAdd = () => {
+    setConfirmationOpen(false);
+  };
   return (
     <PageContainer
       title={`Car Details | ${car?.name} | ${car?.model}`}
       description="Details of the selected car"
     >
+      <AddCarConfirmationModal
+  open={confirmationOpen}
+  handleClose={() => setConfirmationOpen(false)}
+  car={car} // Pass the current car data
+  handleConfirmAdd={handleConfirmAdd}
+/>
       <CreateTransactionModal open={transactionModalOpen} car={car} fetchTransactions={fetchTransactions} handleClose={() => setTransactionModalOpen(false)} />
       <CreateInstallmentModal open={installmentModalOpen} car={car} fetchInstallments={fetchInstallments} handleClose={() => setInstallmentModalOpen(false)} />
       <DashboardCard>
@@ -382,6 +398,20 @@ const CarDetailsPage = ({ params }) => {
                       style={{ marginRight: 10 }}
                     >
                       <SellOutlined />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
+                    title={`Sell ${car?.name}`}
+                    arrow
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                  >
+                    <IconButton
+                      color="primary"
+                      onClick={() => setConfirmationOpen(true)}
+                      style={{ marginRight: 10 }}
+                    >
+                      <AddBusinessOutlined />
                     </IconButton>
                   </Tooltip>
                   <Tooltip

@@ -27,6 +27,8 @@ import * as XLSX from "xlsx"; // Import xlsx library
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { currencies } from './currencies'
+import carNamesData from '../../../../../../messages/car_names_and_models.json'; // Adjust the path based on your project structure
+
 
 const steps = ["Car Details", "Ownership", "Partnership", "Finance", "Review"];
 
@@ -121,7 +123,28 @@ function CarColorSelect({ carData, handleInputChange }) {
     </>
   );
 }
-
+const CarNameSelect = ({ carData, handleInputChange }) => {
+  return (
+      <Grid item xs={4}>
+          <FormControl fullWidth>
+              <InputLabel>Car Name</InputLabel>
+              <Select
+                  name="name"
+                  value={carData?.name || ''}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  label="Car Name"
+              >
+                  {Object.keys(carNamesData).map(carName => (
+                      <MenuItem key={carName} value={carName}>
+                          {carName}
+                      </MenuItem>
+                  ))}
+              </Select>
+          </FormControl>
+      </Grid>
+  );
+};
 function getStepContent(step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)
@@ -129,15 +152,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
     case 0: // Car Details
       return (
         <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <ClearableTextField
-              fullWidth
-              label="Car Name"
-              name="name"
-              value={carData?.name}
-              onChange={handleInputChange}
-            />
-          </Grid>
+          <CarNameSelect carData={carData} handleInputChange={handleInputChange}/>
           <CarColorSelect carData={carData} handleInputChange={handleInputChange}/>
           <Grid item xs={4}>
             <FormControl fullWidth>

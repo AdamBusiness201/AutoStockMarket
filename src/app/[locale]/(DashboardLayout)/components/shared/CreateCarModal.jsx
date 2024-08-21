@@ -1051,7 +1051,6 @@ const CreateCarModal = ({
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        clo
       >
 
         <Box sx={modalStyle}>

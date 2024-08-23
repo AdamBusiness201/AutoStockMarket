@@ -1046,81 +1046,84 @@ const CreateCarModal = ({
   return (
     <>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-
-        <Box sx={modalStyle}>
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-            transition="Flip"
-          />
-          <Stepper activeStep={activeStep}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div style={{ paddingTop: 20, paddingBottom: 20 }}>
-
-            <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
-              {getStepContent(activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-
-              <input
-                accept=".xlsx,.xls"
-                style={{ display: "none" }}
-                id="contained-button-file"
-                multiple={false}
-                type="file"
-                onChange={handleFileUpload}
-              />
-              <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span">
-                  {loading ? "Loading" : "Upload Excel"}
-                </Button>
-              </label>
-              <Button variant="contained" color="primary" sx={{ marginLeft: 1 }} onClick={handleExportTemplate}>
-                Download Template
+<Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={modalStyle}>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition="Flip"
+        />
+        <Stepper activeStep={activeStep}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
+            {getStepContent(activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <input
+              accept=".xlsx,.xls"
+              style={{ display: "none" }}
+              id="contained-button-file"
+              multiple={false}
+              type="file"
+              onChange={handleFileUpload}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" component="span">
+                {loading ? "Loading" : "Upload Excel"}
               </Button>
-              <Button
-                color="inherit"
-                variant="outlined"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ marginLeft: 1 }}
-              >
-                Back
+            </label>
+            <Button variant="contained" color="primary" sx={{ marginLeft: 1 }} onClick={handleExportTemplate}>
+              Download Template
+            </Button>
+            <Button
+              color="inherit"
+              variant="outlined"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ marginLeft: 1 }}
+            >
+              Back
+            </Button>
+
+            <Box sx={{ flex: "1 1 auto" }} />
+            {activeStep === 2 && (
+              <Button variant="outlined" onClick={addPartner} sx={{ marginRight: 2 }}>
+                Add Partner
               </Button>
-
-
-
-              <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep === 2 && (
-                <Button variant="outlined" onClick={addPartner} sx={{ marginRight: 2 }}>Add Partner</Button>
-              )}
-              <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
-                {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
-              </Button>
-
-            </Box>
-          </div>
-        </Box>
-      </Modal>
+            )}
+            <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
+              {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
+            </Button>
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              sx={{ marginLeft: 1, fontWeight: "bold" }}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </div>
+      </Box>
+    </Modal>
     </>
   );
 };

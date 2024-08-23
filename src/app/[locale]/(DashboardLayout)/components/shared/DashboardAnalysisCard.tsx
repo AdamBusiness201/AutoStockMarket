@@ -12,7 +12,7 @@ const AnalysisCard = ({ title, number }: Props) => {
       sx={{
         borderRadius: 2,
         overflow: "hidden",
-        marginBottom: 5,
+        marginBottom: 2,
         marginTop: 2,
       }}
     >

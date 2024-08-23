@@ -7,6 +7,7 @@ import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCa
 import CreateCustomerModal from "../../../components/shared/CreateCustomerModal";
 import Autocomplete from "@mui/material/Autocomplete";
 import AddCarConfirmationModal from "@/app/(DashboardLayout)/components/shared/AddCarConfirmationModal";
+import CarAnalytics from "../../../components/shared/CarAnalytics";
 import {
   Table,
   TableBody,
@@ -915,6 +916,9 @@ const CarDetailsPage = ({ params }) => {
         </div>
       </DashboardCard>
       <DashboardCard>
+        <CarAnalytics carData={car}/>
+      </DashboardCard>
+      <DashboardCard>
         <MaintenanceTasksList maintenanceTasks={maintenanceTasks} />
       </DashboardCard>
       <DashboardCard>
@@ -926,6 +930,7 @@ const CarDetailsPage = ({ params }) => {
       <DashboardCard>
         <InstallmentsList installments={installments} />
       </DashboardCard>
+
     </PageContainer>
   );
 };

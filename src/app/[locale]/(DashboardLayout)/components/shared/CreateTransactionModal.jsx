@@ -279,6 +279,13 @@ const CreateTransactionModal = ({
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              sx={{ marginLeft: 1, fontWeight: "bold" }}
+            >
+              Cancel
+            </Button>
           </Box>
         </div>
       </Box>

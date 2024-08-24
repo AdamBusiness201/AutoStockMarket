@@ -19,7 +19,9 @@ import {
   InputAdornment,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  Autocomplete,
+  TextField
 } from "@mui/material";
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
@@ -80,38 +82,39 @@ const colors = [
   'Other'
 ];
 
-function CarColorSelect({ carData, handleInputChange }) {
+
+const CarColorSelect = ({ carData, handleInputChange }) => {
   const [selectedColor, setSelectedColor] = useState(carData?.color || '');
 
-  const handleColorChange = (event) => {
-    const value = event.target.value;
-    setSelectedColor(value);
-    handleInputChange(event);
+  const handleColorChange = (event, newValue) => {
+    setSelectedColor(newValue);
+    // Make sure to handle both color change and custom color update
+    handleInputChange({ target: { name: 'color', value: newValue } });
+    if (newValue !== 'Other') {
+      handleInputChange({ target: { name: 'customColor', value: '' } });
+    }
   };
 
   return (
     <>
       <Grid item xs={4}>
-        <FormControl fullWidth>
-          <InputLabel id="color-label">Color</InputLabel>
-          <Select
-            labelId="color-label"
-            name="color"
-            value={selectedColor}
-            onChange={handleColorChange}
-            label="Color"
-          >
-            {colors.map((color) => (
-              <MenuItem key={color} value={color}>
-                {color}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Autocomplete
+          value={selectedColor}
+          onChange={handleColorChange}
+          options={colors}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Color"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
       </Grid>
       {selectedColor === 'Other' && (
         <Grid item xs={4}>
-          <ClearableTextField
+          <TextField
             fullWidth
             label="Custom Color"
             name="customColor"
@@ -122,29 +125,26 @@ function CarColorSelect({ carData, handleInputChange }) {
       )}
     </>
   );
-}
+};
+
 const CarNameSelect = ({ carData, handleInputChange }) => {
+  // Convert carNamesData object keys to an array for Autocomplete
+  const carNames = Object.keys(carNamesData);
+
   return (
-      <Grid item xs={4}>
-          <FormControl fullWidth>
-              <InputLabel>Car Name</InputLabel>
-              <Select
-                  name="name"
-                  value={carData?.name || ''}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  label="Car Name"
-              >
-                  {Object.keys(carNamesData).map(carName => (
-                      <MenuItem key={carName} value={carName}>
-                          {carName}
-                      </MenuItem>
-                  ))}
-              </Select>
-          </FormControl>
-      </Grid>
+    <Grid item xs={4}>
+      <Autocomplete
+        value={carData?.name || ''}
+        onChange={(event, newValue) => handleInputChange({ target: { name: 'name', value: newValue } })}
+        options={carNames}
+        renderInput={(params) => (
+          <TextField {...params} label="Car Name" variant="outlined" fullWidth />
+        )}
+      />
+    </Grid>
   );
 };
+
 function getStepContent(step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)

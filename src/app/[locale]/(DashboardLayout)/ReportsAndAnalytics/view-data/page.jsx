@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios"; // Import axios
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import {
   Table,
@@ -56,14 +57,18 @@ const ViewDataPage = () => {
         });
 
         setFields(schemaFields);
-
+console.log(schemaFields);
         const fetchPromises = Object.keys(schemaFields).map(async (schema) => {
-          const response = await fetch(`/api/row-data?schema=${schema}&fields=${schemaFields[schema].join(',')}`);
-
-          if (response.ok) {
-            return { schema, data: await response.json() };
-          } else {
-            console.error(`Failed to fetch data for schema ${schema}`);
+          try {
+            const response = await axios.get(`/api/row-data`, {
+              params: {
+                schema,
+                fields: schemaFields[schema].join(',')
+              }
+            });
+            return { schema, data: response.data };
+          } catch (error) {
+            console.error(`Failed to fetch data for schema ${schema}`, error);
             return { schema, data: [] };
           }
         });
@@ -73,7 +78,7 @@ const ViewDataPage = () => {
         results.forEach(result => {
           dataMap[result.schema] = result.data;
         });
-
+console.log(dataMap);
         setData(dataMap);
         if (Object.keys(dataMap).length > 0) {
           setTabValue(Object.keys(dataMap)[0]); // Set the default tab to the first schema
@@ -120,8 +125,8 @@ const ViewDataPage = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {Array.isArray(data[schema]) && data[schema].length > 0 ? (
-                        data[schema].map((record, rowIndex) => (
+                      {Array.isArray(data[schema][schema]) && data[schema][schema].length > 0 ? (
+                        data[schema][schema].map((record, rowIndex) => (
                           <TableRow key={rowIndex}>
                             {fields[schema].map((field, fieldIndex) => (
                               <TableCell key={fieldIndex}>{record[field]}</TableCell>

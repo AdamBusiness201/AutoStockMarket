@@ -17,10 +17,10 @@ export async function GET(req) {
   const endDateParam = req.nextUrl.searchParams.get("endDate");
 
   if (startDateParam) {
-    startDate = moment(startDateParam).startOf('day').toDate();
+    startDate = moment(startDateParam).startOf("day").toDate();
   }
   if (endDateParam) {
-    endDate = moment(endDateParam).endOf('day').toDate();
+    endDate = moment(endDateParam).endOf("day").toDate();
   }
 
   const filter = {};
@@ -44,18 +44,14 @@ export async function GET(req) {
     carDetails: CarDetails,
     maintenanceTask: MaintenanceTask,
     soldCar: SoldCar,
-    partner: Partner
+    partner: Partner,
   };
 
   const queries = [];
 
-  schemasParam.forEach(schema => {
+  schemasParam.forEach((schema) => {
     if (schemaModels[schema]) {
-      queries.push(
-        schemaModels[schema]
-          .find(filter)
-          .sort({ createdAt: -1 })
-      );
+      queries.push(schemaModels[schema].find(filter).sort({ createdAt: -1 }));
     }
   });
 
@@ -66,7 +62,7 @@ export async function GET(req) {
     schemasParam.forEach((schema, index) => {
       response[schema] = results[index] || [];
     });
-
+    console.log(response);
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);

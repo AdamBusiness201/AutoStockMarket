@@ -21,11 +21,6 @@ const LanguageSelector = () => {
   const languages = [
     { code: 'en', name: 'English', flag: 'US' },
     { code: 'ar', name: 'العربية', flag: 'SA' },
-    { code: 'fr', name: 'Français', flag: 'FR' },
-    { code: 'de', name: 'Deutsch', flag: 'DE' },
-    { code: 'es', name: 'Español', flag: 'ES' },
-    { code: 'it', name: 'Italiano', flag: 'IT' },
-    { code: 'zh-CN', name: '中文', flag: 'CN' },
   ];
 
   const StyledSelect = styled(Select)({

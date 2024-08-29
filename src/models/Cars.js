@@ -3,6 +3,7 @@ import Customer from './Customer';
 
 const carSchema = new mongoose.Schema(
   {
+    brand: { type: String, required: true },
     name: { type: String, required: true },
     color: String,
     model: String,

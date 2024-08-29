@@ -49,6 +49,7 @@ const modalStyle = {
 };
 
 const defaultCarData = {
+  brand: '',
   name: '',
   color: '',
   model: '',
@@ -128,20 +129,54 @@ const CarColorSelect = ({ carData, handleInputChange }) => {
 };
 
 const CarNameSelect = ({ carData, handleInputChange }) => {
-  // Convert carNamesData object keys to an array for Autocomplete
-  const carNames = Object.keys(carNamesData);
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [models, setModels] = useState([]);
+
+  // Extract car brands for the first Autocomplete
+  const carBrands = carNamesData.map((brand) => brand.brand);
+
+  // Handle brand selection and update models
+  const handleBrandChange = (event, newValue) => {
+    setSelectedBrand(newValue);
+    const brandData = carNamesData.find((brand) => brand.brand === newValue);
+    setModels(brandData ? brandData.models : []);
+    // Reset model selection when brand changes
+    handleInputChange({ target: { name: 'name', value: '' } });
+  };
+
+  // Handle model selection
+  const handleModelChange = (event, newValue) => {
+    handleInputChange({ target: { name: 'name', value: newValue } });
+  };
 
   return (
-    <Grid item xs={4}>
-      <Autocomplete
-        value={carData?.name || ''}
-        onChange={(event, newValue) => handleInputChange({ target: { name: 'name', value: newValue } })}
-        options={carNames}
-        renderInput={(params) => (
-          <TextField {...params} label="Car Name" variant="outlined" fullWidth />
-        )}
-      />
-    </Grid>
+    <>
+      {/* Brand Selection */}
+      <Grid item xs={4}>
+        <Autocomplete
+          value={selectedBrand}
+          onChange={handleBrandChange}
+          options={carBrands}
+          renderInput={(params) => (
+            <TextField {...params} label="Car Brand" variant="outlined" fullWidth />
+          )}
+        />
+      </Grid>
+
+      {/* Model Selection */}
+      {selectedBrand && (
+        <Grid item xs={4}>
+          <Autocomplete
+            value={carData?.name || ''}
+            onChange={handleModelChange}
+            options={models}
+            renderInput={(params) => (
+              <TextField {...params} label="Car Model" variant="outlined" fullWidth />
+            )}
+          />
+        </Grid>
+      )}
+    </>
   );
 };
 
@@ -152,8 +187,8 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
     case 0: // Car Details
       return (
         <Grid container spacing={2}>
-          <CarNameSelect carData={carData} handleInputChange={handleInputChange}/>
-          <CarColorSelect carData={carData} handleInputChange={handleInputChange}/>
+          <CarNameSelect carData={carData} handleInputChange={handleInputChange} />
+          <CarColorSelect carData={carData} handleInputChange={handleInputChange} />
           <Grid item xs={4}>
             <FormControl fullWidth>
               <InputLabel id="model-label">Model</InputLabel>
@@ -1046,84 +1081,84 @@ const CreateCarModal = ({
   return (
     <>
 
-<Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={modalStyle}>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-          transition="Flip"
-        />
-        <Stepper activeStep={activeStep}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <div style={{ paddingTop: 20, paddingBottom: 20 }}>
-          <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
-            {getStepContent(activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <input
-              accept=".xlsx,.xls"
-              style={{ display: "none" }}
-              id="contained-button-file"
-              multiple={false}
-              type="file"
-              onChange={handleFileUpload}
-            />
-            <label htmlFor="contained-button-file">
-              <Button variant="contained" component="span">
-                {loading ? "Loading" : "Upload Excel"}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+            transition="Flip"
+          />
+          <Stepper activeStep={activeStep}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+            <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
+              {getStepContent(activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <input
+                accept=".xlsx,.xls"
+                style={{ display: "none" }}
+                id="contained-button-file"
+                multiple={false}
+                type="file"
+                onChange={handleFileUpload}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" component="span">
+                  {loading ? "Loading" : "Upload Excel"}
+                </Button>
+              </label>
+              <Button variant="contained" color="primary" sx={{ marginLeft: 1 }} onClick={handleExportTemplate}>
+                Download Template
               </Button>
-            </label>
-            <Button variant="contained" color="primary" sx={{ marginLeft: 1 }} onClick={handleExportTemplate}>
-              Download Template
-            </Button>
-            <Button
-              color="inherit"
-              variant="outlined"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ marginLeft: 1 }}
-            >
-              Back
-            </Button>
+              <Button
+                color="inherit"
+                variant="outlined"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ marginLeft: 1 }}
+              >
+                Back
+              </Button>
 
-            <Box sx={{ flex: "1 1 auto" }} />
-            {activeStep === 2 && (
-              <Button variant="outlined" onClick={addPartner} sx={{ marginRight: 2 }}>
-                Add Partner
+              <Box sx={{ flex: "1 1 auto" }} />
+              {activeStep === 2 && (
+                <Button variant="outlined" onClick={addPartner} sx={{ marginRight: 2 }}>
+                  Add Partner
+                </Button>
+              )}
+              <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
+                {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
               </Button>
-            )}
-            <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
-              {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
-            </Button>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              sx={{ marginLeft: 1, fontWeight: "bold" }}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </div>
-      </Box>
-    </Modal>
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                sx={{ marginLeft: 1, fontWeight: "bold" }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </div>
+        </Box>
+      </Modal>
     </>
   );
 };

@@ -16,8 +16,8 @@ import {
 import { Close as CloseIcon, DirectionsCar, People, Receipt, Person } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useTranslations } from 'next-intl'; // Import useTranslations for translation
 
-// Define your styles and schema fields
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -91,6 +91,7 @@ const icons = {
 };
 
 const ViewDataModal = ({ open, handleClose, locale }) => {
+  const t = useTranslations('default.ViewDataModal'); // Use the useTranslations hook
   const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -162,7 +163,7 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
       <Box sx={modalStyle}>
         {/* Header */}
         <Box sx={headerStyle} display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">Customize View</Typography>
+          <Typography variant="h6">{t('customizeView')}</Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -172,10 +173,10 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
         <Box sx={bodyStyle}>
           <Stepper activeStep={activeStep} alternativeLabel>
             <Step>
-              <StepLabel>Select Categories</StepLabel>
+              <StepLabel>{t('selectCategories')}</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Select Fields</StepLabel>
+              <StepLabel>{t('selectFields')}</StepLabel>
             </Step>
           </Stepper>
 
@@ -192,7 +193,7 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
                   >
                     {icons[category]}
                     <Typography variant="h6" sx={{ marginTop: '8px', textTransform: 'capitalize' }}>
-                      {`${category}s`}
+                      {t(`${category}`)}
                     </Typography>
                   </Box>
                 </Grid>
@@ -202,7 +203,7 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
 
           {activeStep === 1 && (
             <Box>
-              <Typography variant="h6" gutterBottom>Select fields for selected categories</Typography>
+              <Typography variant="h6" gutterBottom>{t('selectFieldsForCategories')}</Typography>
               <FormGroup sx={{ maxHeight: '60vh', overflowY: 'auto' }}>
                 {selectedCategories.flatMap(category =>
                   schemaFields[category].map(field => (
@@ -214,13 +215,12 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
                           name={`${category}.${field}`}
                         />
                       }
-                      label={field.charAt(0).toUpperCase() + field.slice(1)}
+                      label={t(field)}
                       key={field}
                     />
                   ))
                 )}
               </FormGroup>
-
             </Box>
           )}
         </Box>
@@ -234,17 +234,17 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
               onClick={handleNext}
               disabled={selectedCategories.length === 0}
             >
-              Next
+              {t('next')}
             </Button>
           ) :
             (
               <Button variant="contained" onClick={handleBack} sx={{ mr: 2 }}>
-                Back
+                {t('back')}
               </Button>
             )}
           {activeStep === 1 && (
             <Button variant="contained" color="primary" onClick={handleOk}>
-              OK
+              {t('ok')}
             </Button>
           )}
         </Box>

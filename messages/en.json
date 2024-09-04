@@ -1,5 +1,17 @@
 {
   "default": {
+    "Dashboard": {
+      "title": "Dashboard",
+      "description": "This is the Dashboard",
+      "timeRanges": {
+        "thisWeek": "This Week",
+        "lastWeek": "Last Week",
+        "thisMonth": "This Month",
+        "lastMonth": "Last Month",
+        "lifetime": "Lifetime"
+      },
+      "dashboardTitle": "Dashboard of "
+    },
     "sidebar": {
       "allEmployees": "All Employees",
       "cars": "Cars",
@@ -105,6 +117,61 @@
       "totalAbsences": "Total Absences",
       "errorFetchingData": "Failed to fetch attendance data. Please try again later."
     },
+    "ViewDataModal": {
+      "customizeView": "Customize View",
+      "selectCategories": "Select Categories",
+      "selectFields": "Select Fields",
+      "selectFieldsForCategories": "Select fields for selected categories",
+      "next": "Next",
+      "back": "Back",
+      "ok": "OK",
+      "car": "Car",
+      "employee": "Employee",
+      "transaction": "Transaction",
+      "customer": "Customer",
+      "name": "Name",
+      "color": "Color",
+      "model": "Model",
+      "chassisNumber": "Chassis Number",
+      "engineNumber": "Engine Number",
+      "plateNumber": "Plate Number",
+      "odometerNumber": "Odometer Number",
+      "owner": "Owner",
+      "purchaseDetails": "Purchase Details",
+      "maintenance": "Maintenance",
+      "currentLocation": "Current Location",
+      "entryDate": "Entry Date",
+      "services": "Services",
+      "carDetails": "Car Details",
+      "transactions": "Transactions",
+      "position": "Position",
+      "hireDate": "Hire Date",
+      "salary": "Salary",
+      "benefits": "Benefits",
+      "contactInfo": "Contact Information",
+      "status": "Status",
+      "statusReason": "Status Reason",
+      "admin": "Admin",
+      "attendance": "Attendance",
+      "deductions": "Deductions",
+      "bonus": "Bonus",
+      "type": "Type",
+      "date": "Date",
+      "amount": "Amount",
+      "remainingAmount": "Remaining Amount",
+      "bank": "Bank",
+      "paymentMethod": "Payment Method",
+      "paidCashOrChequeNumber": "Paid Cash/Cheque Number",
+      "currency": "Currency",
+      "amountInWords": "Amount in Words",
+      "description": "Description",
+      "partners": "Partners",
+      "drivingLicense": "Driving License",
+      "contactDetails": "Contact Details",
+      "debts": "Debts",
+      "nationalID": "National ID"
+    },
+
     "employeeSalary": {
       "employeeSalaries": "Employee Salaries",
       "overview": "Overview of employee salaries, deductions, and net pay",
@@ -115,8 +182,7 @@
       "additions": "Additions",
       "netSalary": "Net Salary",
       "errorFetchingData": "Failed to fetch salary data. Please try again later."
-    }
-,    
+    },
     "employees": {
       "employees": "Employees",
       "employeesManagement": "Employees Management",
@@ -125,8 +191,7 @@
       "position": "Position",
       "hireDate": "Hire Date",
       "errorFetchingEmployees": "Failed to fetch employees. Please try again later."
-    }
-,    
+    },
     "externalDebts": {
       "customers": "Customers",
       "customersManagement": "Customers Management",

@@ -9,13 +9,13 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Tabs,
-  Tab
+  Stepper,
+  Step,
+  StepLabel
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, DirectionsCar, People, Receipt, Person } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import { background } from '@chakra-ui/react';
-import zIndex from '@mui/material/styles/zIndex';
+import axios from 'axios';
 
 // Define your styles and schema fields
 const modalStyle = {
@@ -24,10 +24,12 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "80%",
-  maxWidth: "1500px",
+  maxWidth: "1000px",
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: "16px",
+  display: 'flex',
+  flexDirection: 'column',
 };
 
 const headerStyle = {
@@ -37,6 +39,9 @@ const headerStyle = {
 
 const bodyStyle = {
   padding: '16px',
+  flex: 1,
+  overflowY: 'auto',
+  maxHeight: 'calc(100vh - 200px)', // Adjust this based on header/footer size
 };
 
 const footerStyle = {
@@ -46,33 +51,56 @@ const footerStyle = {
   justifyContent: 'flex-end',
 };
 
+const boxStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '150px',
+  cursor: 'pointer',
+  border: '1px solid #ddd',
+  borderRadius: '8px',
+  padding: '16px',
+  '&:hover': {
+    borderColor: '#1976d2',
+    boxShadow: '0 0 10px rgba(25, 118, 210, 0.5)',
+  }
+};
+
 const schemaFields = {
-  "attendance": ['employee', 'date', 'attendanceStatus', 'shift', 'location', 'notes', 'timeIn', 'timeOut'],
-  "bonus": ['employee', 'amount', 'reason', 'dateReceived'],
-  "carDetails": ['car', 'value', 'currency', 'amountInWords', 'sellingPrice', 'capital', 'maintenanceCosts', 'netProfit', 'purchaseCompleted'],
-  "car": ['name', 'color', 'model', 'chassisNumber', 'engineNumber', 'plateNumber', 'odometerNumber', 'owner', 'purchaseDetails', 'maintenance', 'currentLocation', 'entryDate', 'services'],
+  "car": [
+    'name', 'color', 'model', 'chassisNumber', 'engineNumber', 'plateNumber', 'odometerNumber', 'owner',
+    'purchaseDetails', 'maintenance', 'currentLocation', 'entryDate', 'services', 'carDetails', 'transactions'
+  ],
+  "employee": [
+    'name', 'position', 'hireDate', 'salary', 'benefits', 'contactInfo', 'status', 'statusReason', 'admin',
+    'attendance', 'deductions', 'bonus'
+  ],
+  "transaction": [
+    'type', 'date', 'amount', 'remainingAmount', 'bank', 'paymentMethod', 'paidCashOrChequeNumber', 'currency',
+    'amountInWords', 'description', 'partners', 'car'
+  ],
   "customer": ['name', 'drivingLicense', 'contactDetails', 'debts', 'nationalID'],
-  "deduction": ['employee', 'amount', 'reason', 'date'],
-  "employee": ['name', 'position', 'hireDate', 'salary', 'benefits', 'contactInfo', 'status', 'statusReason', 'admin'],
-  "installment": ['installmentDate', 'amount', 'description', 'car', 'paid'],
-  "invoice": ['transaction', 'customerType', 'customer', 'invoiceDate', 'totalAmount'],
-  "maintenanceTask": ['car', 'externalCarDetails', 'taskDescription', 'taskDate', 'taskCost'],
-  "partner": ['name', 'type', 'contactInfo', 'partnershipPercentage', 'cars'],
-  "soldCar": ['car', 'previousOwner', 'purchaser', 'purchaseDate', 'purchasePrice', 'salesMember', 'sourceOfSelling'],
-  "transaction": ['type', 'date', 'amount', 'remainingAmount', 'bank', 'paymentMethod', 'paidCashOrChequeNumber', 'currency', 'amountInWords', 'description', 'partners', 'car']
+};
+
+const icons = {
+  "car": <DirectionsCar fontSize="large" color="primary" />,
+  "employee": <People fontSize="large" color="primary" />,
+  "transaction": <Receipt fontSize="large" color="primary" />,
+  "customer": <Person fontSize="large" color="primary" />,
 };
 
 const ViewDataModal = ({ open, handleClose, locale }) => {
   const router = useRouter();
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [fields, setFields] = useState({});
-  const [tabValue, setTabValue] = useState('attendance');
 
   useEffect(() => {
-    // Initialize fields state with all available schema fields
     const initialFieldsState = {};
-    Object.keys(schemaFields).forEach(schema => {
-      schemaFields[schema].forEach(field => {
-        initialFieldsState[`${schema}.${field}`] = false;
+    Object.keys(schemaFields).forEach(category => {
+      schemaFields[category].forEach(field => {
+        initialFieldsState[`${category}.${field}`] = false;
       });
     });
     setFields(initialFieldsState);
@@ -85,15 +113,47 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
     });
   };
 
-  const handleOk = () => {
+  const handleCategoryChange = (category) => {
+    setSelectedCategories(prevCategories =>
+      prevCategories.includes(category)
+        ? prevCategories.filter(c => c !== category)
+        : [...prevCategories, category]
+    );
+  };
+
+  const handleNext = () => {
+    setActiveStep(1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(0);
+  };
+
+  const handleOk = async () => {
     const selectedFields = Object.keys(fields).filter(key => fields[key]);
     const params = new URLSearchParams();
+    const schemaSet = new Set();
+
     selectedFields.forEach(field => {
       const [schema, fieldName] = field.split('.');
-      params.append('schema', schema);
       params.append('fields', fieldName);
+      schemaSet.add(schema);
     });
-    router.push(`/${locale}/ReportsAndAnalytics/view-data?${params.toString()}`);
+
+    schemaSet.forEach(schema => {
+      params.append('schema', schema);
+    });
+
+    try {
+      const response = await axios.get(`/api/row-data?${params.toString()}`);
+      const data = response.data;
+      console.log(data);
+
+      router.push(`/${locale}/ReportsAndAnalytics/view-data?${params.toString()}`);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    }
+
     handleClose();
   };
 
@@ -110,56 +170,83 @@ const ViewDataModal = ({ open, handleClose, locale }) => {
 
         {/* Body */}
         <Box sx={bodyStyle}>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Box sx={{
-                borderRight: 1, borderColor: 'divider', maxHeight: '60vh', // Adjust this value as needed
-                overflowY: 'auto',
-              }}>
-                <Tabs
-                  orientation="vertical"
-                  variant="scrollable"
-                  value={tabValue}
-                  onChange={(e, newValue) => setTabValue(newValue)}
-                >
-                  {Object.keys(schemaFields).map((schema) => (
-                    <Tab
-                      label={schema.charAt(0).toUpperCase() + schema.slice(1)}
-                      value={schema}
-                      key={schema}
+          <Stepper activeStep={activeStep} alternativeLabel>
+            <Step>
+              <StepLabel>Select Categories</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Select Fields</StepLabel>
+            </Step>
+          </Stepper>
+
+          {activeStep === 0 && (
+            <Grid container spacing={2} mt={3}>
+              {Object.keys(schemaFields).map((category) => (
+                <Grid item xs={6} md={3} key={category}>
+                  <Box
+                    sx={boxStyle}
+                    onClick={() => handleCategoryChange(category)}
+                    style={{
+                      backgroundColor: selectedCategories.includes(category) ? '#f5f5f5' : 'white'
+                    }}
+                  >
+                    {icons[category]}
+                    <Typography variant="h6" sx={{ marginTop: '8px', textTransform: 'capitalize' }}>
+                      {`${category}s`}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {activeStep === 1 && (
+            <Box>
+              <Typography variant="h6" gutterBottom>Select fields for selected categories</Typography>
+              <FormGroup sx={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                {selectedCategories.flatMap(category =>
+                  schemaFields[category].map(field => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={fields[`${category}.${field}`]}
+                          onChange={handleFieldChange}
+                          name={`${category}.${field}`}
+                        />
+                      }
+                      label={field.charAt(0).toUpperCase() + field.slice(1)}
+                      key={field}
                     />
-                  ))}
-                </Tabs>
-              </Box>
-            </Grid>
-            <Grid item xs={9}>
-              <FormGroup sx={{
-                maxHeight: '60vh', // Adjust this value as needed
-                overflowY: 'auto',
-              }}>
-                {schemaFields[tabValue].map((field) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={fields[`${tabValue}.${field}`]}
-                        onChange={handleFieldChange}
-                        name={`${tabValue}.${field}`}
-                      />
-                    }
-                    label={field.charAt(0).toUpperCase() + field.slice(1)}
-                    key={field}
-                  />
-                ))}
+                  ))
+                )}
               </FormGroup>
-            </Grid>
-          </Grid>
+
+            </Box>
+          )}
         </Box>
 
         {/* Footer */}
         <Box sx={footerStyle}>
-          <Button variant="contained" color="primary" onClick={handleOk}>
-            OK
-          </Button>
+          {activeStep === 0 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              disabled={selectedCategories.length === 0}
+            >
+              Next
+            </Button>
+          ) :
+            (
+              <Button variant="contained" onClick={handleBack} sx={{ mr: 2 }}>
+                Back
+              </Button>
+            )}
+          {activeStep === 1 && (
+            <Button variant="contained" color="primary" onClick={handleOk}>
+              OK
+            </Button>
+          )}
         </Box>
       </Box>
     </Modal>

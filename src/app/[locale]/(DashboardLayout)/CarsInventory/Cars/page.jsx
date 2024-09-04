@@ -28,7 +28,7 @@ import { Add } from "@mui/icons-material";
 import Loading from "../../loading";
 import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
-const CarsPage = () => {
+const CarsPage = ({ params: { locale } }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const t = useTranslations('default.cars'); // Initialize useTranslations hook with namespace 'cars'
@@ -77,9 +77,9 @@ const CarsPage = () => {
   }, [filters, currentPage, rowsPerPage]);
 
   const handleRowClick = (id) => {
-    router.push(`/en/CarsInventory/Cars/${id}`);
+    // Construct the new URL by appending the id to the base path while maintaining the locale
+    router.push(`/${locale}/CarsInventory/Cars/${id}`);
   };
-
   const handleFilterChange = (e) => {
     setFilters({
       ...filters,
@@ -216,6 +216,7 @@ const CarsPage = () => {
               <Table aria-label="cars table">
                 <TableHead>
                   <TableRow>
+                    <TableCell>{t('brand')}</TableCell>
                     <TableCell>{t('name')}</TableCell>
                     <TableCell>{t('color')}</TableCell>
                     <TableCell>{t('model')}</TableCell>
@@ -236,6 +237,8 @@ const CarsPage = () => {
                       style={{ cursor: "pointer" }}
                       hover={true}
                     >
+                      <TableCell
+                        onClick={() => handleRowClick(car._id)}>{car?.brand}</TableCell>
                       <TableCell
                         onClick={() => handleRowClick(car._id)}>{car.name}</TableCell>
                       <TableCell>{car.color}</TableCell>

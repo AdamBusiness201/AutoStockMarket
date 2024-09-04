@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 
 const ExpensesExhibitionPage = () => {
+  const t = useTranslations('default'); // Initialize the translation hook
   const [expensesData, setExpensesData] = useState([]);
 
   useEffect(() => {
@@ -25,10 +27,10 @@ const ExpensesExhibitionPage = () => {
           const data = await response.json();
           setExpensesData(data);
         } else {
-          console.error("Failed to fetch expenses data");
+          console.error(t("expensesExhibition.fetchError"));
         }
       } catch (error) {
-        console.error("Error fetching expenses data:", error);
+        console.error(t("expensesExhibition.fetchError"), error);
       }
     };
 
@@ -36,18 +38,18 @@ const ExpensesExhibitionPage = () => {
   }, []);
 
   return (
-    <PageContainer title="Expenses Exhibition" description="Details of exhibition expenses">
-      <DashboardCard title="Exhibition Expenses">
+    <PageContainer title={t("expensesExhibition.title")} description={t("expensesExhibition.description")}>
+      <DashboardCard title={t("expensesExhibition.cardTitle")}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="expenses table">
+          <Table sx={{ minWidth: 650 }} aria-label={t("expensesExhibition.tableAriaLabel")}>
             <TableHead>
               <TableRow>
-                <TableCell>Day</TableCell>
-                <TableCell>Month</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Value</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.day")}</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.month")}</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.date")}</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.type")}</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.description")}</TableCell>
+                <TableCell>{t("expensesExhibition.tableHeaders.value")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

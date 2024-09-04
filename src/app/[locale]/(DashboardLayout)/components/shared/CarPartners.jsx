@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -12,12 +11,13 @@ import {
   Collapse,
   IconButton,
   Paper,
-  Button,
   TablePagination,
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const PartnerList = ({ partners, car }) => {
+  const t = useTranslations('default'); // Initialize translation function
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -43,10 +43,10 @@ const PartnerList = ({ partners, car }) => {
         alignItems="center"
         justifyContent="space-between"
         onClick={() => setOpen(!open)}
-        cursor="pointer"
+        sx={{ cursor: "pointer" }}
       >
         <Typography variant="h6" gutterBottom>
-          Partners
+          {t('partnerList.title')}
         </Typography>
         <IconButton>
           {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -57,12 +57,12 @@ const PartnerList = ({ partners, car }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Percentage</TableCell>
+                <TableCell>{t('partnerList.name')}</TableCell>
+                <TableCell>{t('partnerList.type')}</TableCell>
+                <TableCell>{t('partnerList.email')}</TableCell>
+                <TableCell>{t('partnerList.phone')}</TableCell>
+                <TableCell>{t('partnerList.address')}</TableCell>
+                <TableCell>{t('partnerList.percentage')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -75,7 +75,10 @@ const PartnerList = ({ partners, car }) => {
                   <TableCell>
                     {partner.contactInfo.address.street}, {partner.contactInfo.address.city}, {partner.contactInfo.address.state}, {partner.contactInfo.address.country}, {partner.contactInfo.address.zipCode}
                   </TableCell>
-                  <TableCell>{partner.partnershipPercentage}% ({partner.partnershipPercentage / 100 * car.value})</TableCell>
+                  <TableCell>
+                    {partner.partnershipPercentage}% (
+                    {(partner.partnershipPercentage / 100) * car.value})
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

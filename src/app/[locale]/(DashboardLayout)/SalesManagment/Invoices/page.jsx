@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
@@ -15,8 +15,10 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const InvoicesPage = () => {
+  const t = useTranslations('default'); // Initialize the translation hook
   const [invoices, setInvoices] = useState([]);
   const [filters, setFilters] = useState({
     startDate: '',
@@ -36,10 +38,10 @@ const InvoicesPage = () => {
           const data = await response.json();
           setInvoices(data.invoices);
         } else {
-          console.error("Failed to fetch invoices");
+          console.error(t("invoices.fetchError"));
         }
       } catch (error) {
-        console.error("Error fetching invoices:", error);
+        console.error(t("invoices.fetchError"), error);
       }
     };
 
@@ -68,12 +70,12 @@ const InvoicesPage = () => {
   };
 
   return (
-    <PageContainer title="Invoices" description="List of all invoices">
-      <DashboardCard title="Invoice List">
+    <PageContainer title={t("invoices.title")} description={t("invoices.description")}>
+      <DashboardCard title={t("invoices.listTitle")}>
         <Box mb={2} display="flex" alignItems="center">
           <TextField
             name="startDate"
-            label="Start Date"
+            label={t("invoices.filters.startDate")}
             type="date"
             value={filters.startDate}
             onChange={handleFilterChange}
@@ -84,7 +86,7 @@ const InvoicesPage = () => {
           />
           <TextField
             name="endDate"
-            label="End Date"
+            label={t("invoices.filters.endDate")}
             type="date"
             value={filters.endDate}
             onChange={handleFilterChange}
@@ -95,7 +97,7 @@ const InvoicesPage = () => {
           />
           <TextField
             name="minAmount"
-            label="Min Amount"
+            label={t("invoices.filters.minAmount")}
             type="number"
             value={filters.minAmount}
             onChange={handleFilterChange}
@@ -106,7 +108,7 @@ const InvoicesPage = () => {
           />
           <TextField
             name="maxAmount"
-            label="Max Amount"
+            label={t("invoices.filters.maxAmount")}
             type="number"
             value={filters.maxAmount}
             onChange={handleFilterChange}
@@ -117,24 +119,24 @@ const InvoicesPage = () => {
           />
           <TextField
             name="transactionId"
-            label="Transaction ID"
+            label={t("invoices.filters.transactionId")}
             value={filters.transactionId}
             onChange={handleFilterChange}
             sx={{ marginRight: 2 }}
           />
           <Button variant="contained" onClick={handleClearFilters}>
-            Clear Filters
+            {t("invoices.clearFilters")}
           </Button>
         </Box>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="invoice table">
+          <Table sx={{ minWidth: 650 }} aria-label={t("invoices.tableAriaLabel")}>
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Transaction ID</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell>Invoice Date</TableCell>
-                <TableCell>Total Amount</TableCell>
+                <TableCell>{t("invoices.tableHeaders.id")}</TableCell>
+                <TableCell>{t("invoices.tableHeaders.transactionId")}</TableCell>
+                <TableCell>{t("invoices.tableHeaders.customer")}</TableCell>
+                <TableCell>{t("invoices.tableHeaders.invoiceDate")}</TableCell>
+                <TableCell>{t("invoices.tableHeaders.totalAmount")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

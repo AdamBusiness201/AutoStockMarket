@@ -78,11 +78,97 @@
       "recentTransactions": "اخر المعاملات",
       "topEmployees": "افضل الموظفين"
     },
+    "carAnalytics": {
+      "title": "تحليلات السيارة على منصة ASM للتجارة الإلكترونية",
+      "totalVisits": "إجمالي الزيارات",
+      "totalLikes": "إجمالي الإعجابات",
+      "totalShares": "إجمالي المشاركات",
+      "totalComments": "إجمالي التعليقات",
+      "uniqueVisitors": "الزوار الفريدون",
+      "averageLikesPerVisit": "متوسط الإعجابات لكل زيارة",
+      "averageSharesPerVisit": "متوسط المشاركات لكل زيارة",
+      "averageCommentsPerVisit": "متوسط التعليقات لكل زيارة",
+      "type": "النوع",
+      "date": "التاريخ",
+      "details": "التفاصيل",
+      "visit": "زيارة",
+      "visitorId": "معرف الزائر",
+      "like": "إعجاب",
+      "userId": "معرف المستخدم",
+      "share": "مشاركة",
+      "comment": "تعليق",
+      "userComment": "معرف المستخدم: {{userId}} - {{text}}"
+    },
+    "maintenanceTasks": {
+      "title": "مهام الصيانة",
+      "totalTasks": "إجمالي المهام",
+      "totalCosts": "إجمالي التكاليف",
+      "highestCostTask": "أعلى تكلفة للمهمة",
+      "lowestCostTask": "أقل تكلفة للمهمة",
+      "description": "الوصف",
+      "date": "التاريخ",
+      "cost": "التكلفة"
+    },
+    "partnerList": {
+      "title": "الشركاء",
+      "name": "الاسم",
+      "type": "النوع",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "address": "العنوان",
+      "percentage": "النسبة"
+    },
+
+    "installmentsList": {
+      "title": "أقساط السيارة",
+      "totalInstallments": "إجمالي الأقساط",
+      "totalAmount": "إجمالي المبلغ",
+      "date": "التاريخ",
+      "amount": "المبلغ",
+      "description": "الوصف",
+      "paid": "مدفوع",
+      "yes": "نعم",
+      "no": "لا"
+    },
+    "carTransactionsList": {
+      "title": "المعاملات المالية للسيارة",
+      "totalTransactions": "إجمالي المعاملات",
+      "totalAmount": "إجمالي المبلغ",
+      "type": "النوع",
+      "date": "التاريخ",
+      "amount": "المبلغ",
+      "description": "الوصف"
+    },
     "cars": {
+      "modal": {
+        "deleteTitle": "تأكيد الحذف",
+        "deleteDescription": "هل أنت متأكد أنك تريد حذف {car}؟",
+        "cancel": "إلغاء",
+        "delete": "حذف",
+        "sellTitle": "تأكيد بيع {car}",
+        "sellDescription": "هل أنت متأكد أنك تريد بيع {car}؟",
+        "purchaser": "المشتري",
+        "addNew": "إضافة جديد",
+        "sellingPrice": "سعر البيع",
+        "value": "القيمة",
+        "capital": "رأس المال",
+        "maintenanceCosts": "تكاليف الصيانة",
+        "netProfit": "صافي الربح",
+        "sales": "المبيعات",
+        "sourceOfSelling": "مصدر البيع",
+        "sourceHelperText": "اختر مصدر البيع (إذا كان من الخارج فقط)",
+        "sell": "بيع",
+        "addMaintenanceTitle": "إضافة مهمة صيانة",
+        "taskDescription": "وصف المهمة",
+        "taskDate": "تاريخ المهمة",
+        "taskCost": "تكلفة المهمة",
+        "addTask": "إضافة المهمة"
+      },
       "title": "السيارات",
       "description": "مخزون السيارات",
       "addNewCar": "إضافة سيارة جديدة",
       "name": "الاسم",
+      "brand": "الماركة",
       "color": "اللون",
       "model": "الموديل",
       "chassisNumber": "رقم الهيكل",
@@ -97,7 +183,15 @@
       "rowsPerPage": "عدد الصفوف في الصفحة",
       "page": "صفحة",
       "of": "من",
-      "partner": "الشريك"
+      "partner": "الشريك",
+      "seeCarMaintenanceTasks": "عرض مهام صيانة السيارة",
+      "price": "السعر",
+      "partnership": "شراكة",
+      "forASM": "لـ ASM",
+      "paid": "مدفوع",
+      "sellingPrice": "سعر البيع",
+      "maintenanceCosts": "تكاليف الصيانة",
+      "netProfit": "صافي الربح"
     },
     "soldCars": {
       "title": "السيارات المباعة",
@@ -156,17 +250,193 @@
         }
       }
     },
+
+    "transactions": {
+      "title": "المعاملات",
+      "description": "تاريخ المعاملات",
+      "addNewTransaction": "إضافة معاملة جديدة",
+      "type": "النوع",
+      "of": "لـ",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "minAmount": "الحد الأدنى للمبلغ",
+      "maxAmount": "الحد الأقصى للمبلغ",
+      "carId": "رقم تعريف السيارة",
+      "date": "التاريخ",
+      "amount": "المبلغ",
+      "carNameChassis": "اسم السيارة | رقم الهيكل",
+      "transactionDescription": "الوصف",
+      "failedToFetch": "فشل في جلب بيانات المعاملات. يرجى المحاولة مرة أخرى لاحقًا.",
+      "tableHeaders": {
+        "transactionsTable": "جدول المعاملات",
+        "type": "النوع",
+        "date": "التاريخ",
+        "amount": "المبلغ",
+        "car": "السيارة",
+        "description": "الوصف",
+        "id": "المعرف"
+      },
+      "labels": {
+        "back": "رجوع",
+        "next": "التالي",
+        "finish": "إنهاء",
+        "cancel": "إلغاء"
+      }
+    },
+    "employees": {
+      "employees": "الموظفون",
+      "employeesManagement": "إدارة الموظفين",
+      "addNewEmployee": "إضافة موظف جديد",
+      "name": "الاسم",
+      "position": "الوظيفة",
+      "hireDate": "تاريخ التوظيف",
+      "errorFetchingEmployees": "فشل في جلب الموظفين. يرجى المحاولة مرة أخرى لاحقاً."
+    }
+    
+,
+"employeeSalary": {
+  "employeeSalaries": "رواتب الموظفين",
+  "overview": "نظرة عامة على رواتب الموظفين والخصومات والراتب الصافي",
+  "salariesOverview": "نظرة عامة على الرواتب",
+  "employeeName": "اسم الموظف",
+  "basicSalary": "الراتب الأساسي",
+  "totalDeductions": "إجمالي الخصومات",
+  "additions": "الإضافات",
+  "netSalary": "الراتب الصافي",
+  "errorFetchingData": "فشل في جلب بيانات الرواتب. يرجى المحاولة مرة أخرى لاحقاً."
+}
+
+,   
+"employeeAttendance": {
+  "attendanceAndAbsence": "حضور وغياب الموظفين",
+  "overview": "نظرة عامة على حضور وغياب الموظفين",
+  "attendanceToday": "حضور اليوم",
+  "exportToXlsx": "تصدير إلى XLSX",
+  "employeeName": "اسم الموظف",
+  "attendanceStatus": "حالة الحضور",
+  "shift": "الوردية",
+  "timeIn": "وقت الدخول",
+  "timeOut": "وقت الخروج",
+  "assign": "تعيين",
+  "attendanceSummary": "ملخص الحضور",
+  "salary": "الراتب",
+  "valuePerDay": "القيمة لكل يوم",
+  "numberOfWorkingDays": "عدد أيام العمل",
+  "numberOfAbsentDays": "عدد أيام الغياب",
+  "valueOfAbsences": "قيمة الغيابات",
+  "violations": "الانتهاكات",
+  "advances": "المقدمات",
+  "netSalary": "الراتب الصافي",
+  "commission": "العمولة",
+  "total": "الإجمالي",
+  "attendanceDetails": "تفاصيل الحضور",
+  "absencePeriod": "فترة الغياب",
+  "totalAbsences": "إجمالي الغيابات",
+  "errorFetchingData": "فشل في جلب بيانات الحضور. يرجى المحاولة مرة أخرى لاحقاً."
+}
+,
+    "externalDebts": {
+      "customers": "العملاء",
+      "customersManagement": "إدارة العملاء",
+      "addNewCustomer": "إضافة عميل جديد",
+      "name": "الاسم",
+      "contactDetails": "تفاصيل الاتصال",
+      "debts": "الديون",
+      "errorFetchingCustomers": "فشل في جلب العملاء. يرجى المحاولة مرة أخرى لاحقاً."
+    }
+    
+,    
+    "externalCarMaintenance": {
+      "carMaintenanceExhibition": "عرض صيانة السيارة",
+      "maintenanceExpenses": "نفقات الصيانة للسيارات المعروضة",
+      "externalCarsMaintenance": "صيانة السيارات الخارجية",
+      "addTask": "أضف مهمة",
+      "carName": "اسم السيارة",
+      "maintenanceValue": "قيمة الصيانة",
+      "description": "الوصف",
+      "date": "التاريخ",
+      "color": "اللون",
+      "model": "النموذج",
+      "chassisNumber": "رقم الشاسيه",
+      "owner": "المالك",
+      "errorFetchingData": "فشل في جلب بيانات صيانة السيارة. يرجى المحاولة مرة أخرى لاحقًا."
+    },
+    "maintenance": {
+      "maintenance": "الصيانة",
+      "totalMaintenanceCost": "إجمالي تكلفة الصيانة",
+      "numberOfTasks": "عدد المهام",
+      "carID": "معرف السيارة",
+      "taskDescription": "وصف المهمة",
+      "taskDate": "تاريخ المهمة",
+      "taskCost": "تكلفة المهمة",
+      "errorFetchingData": "فشل في جلب بيانات الصيانة. يرجى المحاولة مرة أخرى لاحقًا."
+    },
+    "expensesExhibition": {
+      "title": "عرض المصروفات",
+      "description": "تفاصيل مصروفات المعرض",
+      "cardTitle": "مصروفات المعرض",
+      "fetchError": "فشل في جلب بيانات المصروفات. يرجى المحاولة مرة أخرى لاحقًا.",
+      "tableAriaLabel": "جدول المصروفات",
+      "tableHeaders": {
+        "day": "اليوم",
+        "month": "الشهر",
+        "date": "التاريخ",
+        "type": "النوع",
+        "description": "الوصف",
+        "value": "القيمة"
+      }
+    },
+    "invoices": {
+      "title": "الفواتير",
+      "description": "قائمة بجميع الفواتير",
+      "listTitle": "قائمة الفواتير",
+      "fetchError": "فشل في جلب الفواتير. يرجى المحاولة مرة أخرى لاحقًا.",
+      "filters": {
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء",
+        "minAmount": "الحد الأدنى للمبلغ",
+        "maxAmount": "الحد الأقصى للمبلغ",
+        "transactionId": "رقم المعاملة"
+      },
+      "clearFilters": "مسح الفلاتر",
+      "tableAriaLabel": "جدول الفواتير",
+      "tableHeaders": {
+        "id": "رقم",
+        "transactionId": "رقم المعاملة",
+        "customer": "العميل",
+        "invoiceDate": "تاريخ الفاتورة",
+        "totalAmount": "المبلغ الإجمالي"
+      }
+    },
+    "income": {
+      "title": "الدخل",
+      "description": "إجمالي الدخل وتفاصيل السيارة",
+      "from": "من",
+      "to": "إلى",
+      "fetchError": "فشل في جلب بيانات الدخل. يرجى المحاولة مرة أخرى لاحقًا.",
+      "totalIncome": "إجمالي الدخل",
+      "totalCars": "عدد السيارات",
+      "tableHeaders": {
+        "incomeDetailsTable": "جدول تفاصيل الدخل",
+        "carId": "رقم السيارة",
+        "name": "الاسم",
+        "color": "اللون",
+        "model": "الموديل",
+        "netProfit": "صافي الربح",
+        "saleDate": "تاريخ البيع"
+      }
+    },
     "recoveriesPage": {
-    "title": "التعويضات",
-    "description": "تفاصيل التعويضات للحسابات المختلفة ومبالغها",
-    "table": {
-      "headers": {
-        "accountName": "اسم الحساب",
-        "recoveryAmount": "مبلغ التعويض",
-        "description": "البيان",
-        "date": "التاريخ"
+      "title": "التعويضات",
+      "description": "تفاصيل التعويضات للحسابات المختلفة ومبالغها",
+      "table": {
+        "headers": {
+          "accountName": "اسم الحساب",
+          "recoveryAmount": "مبلغ التعويض",
+          "description": "البيان",
+          "date": "التاريخ"
+        }
       }
     }
-  }
   }
 }

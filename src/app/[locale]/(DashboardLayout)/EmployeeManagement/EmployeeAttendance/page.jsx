@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
@@ -17,8 +17,10 @@ import {
 import axios from "axios";
 import Loading from "@/app/loading";
 import * as XLSX from "xlsx";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const AttendancePage = () => {
+  const t = useTranslations('default.employeeAttendance'); // Initialize translations
   const [attendanceData, setAttendanceData] = useState([]);
   const [attendanceAnalyticsData, setAttendanceAnalyticsData] = useState([]);
   const [attendanceSummaryData, setAttendanceSummaryData] = useState([]);
@@ -38,6 +40,7 @@ const AttendancePage = () => {
       }
     } catch (error) {
       console.error("Error fetching attendance data:", error);
+      alert(t('errorFetchingData')); // Use translation for error message
     } finally {
       setIsLoading(false);
     }
@@ -83,8 +86,8 @@ const AttendancePage = () => {
   };
 
   return (
-    <PageContainer title="Attendance and Absence of Employees" description="Overview of employee attendance and absence">
-      <DashboardCard title="Attendance Today">
+    <PageContainer title={t('attendanceAndAbsence')} description={t('overview')}>
+      <DashboardCard title={t('attendanceToday')}>
         <>
           <Button
             variant="contained"
@@ -92,7 +95,7 @@ const AttendancePage = () => {
             onClick={() => exportToXLSX(attendanceData, "AttendanceToday.xlsx")}
             sx={{ marginBottom: 2 }}
           >
-            Export to XLSX
+            {t('exportToXlsx')}
           </Button>
           <TableContainer component={Paper}>
             {isLoading ? (
@@ -101,11 +104,11 @@ const AttendancePage = () => {
               <Table sx={{ minWidth: 650 }} aria-label="attendance table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Employee Name</TableCell>
-                    <TableCell>Attendance Status</TableCell>
-                    <TableCell>Shift</TableCell>
-                    <TableCell>Time In</TableCell>
-                    <TableCell>Time Out</TableCell>
+                    <TableCell>{t('employeeName')}</TableCell>
+                    <TableCell>{t('attendanceStatus')}</TableCell>
+                    <TableCell>{t('shift')}</TableCell>
+                    <TableCell>{t('timeIn')}</TableCell>
+                    <TableCell>{t('timeOut')}</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -139,7 +142,7 @@ const AttendancePage = () => {
                           variant="outlined"
                           onClick={() => handleAssignCurrentTime(index, 'timeIn')}
                         >
-                          Set Time In
+                          {t('timeIn')}
                         </Button>
                       </TableCell>
                       <TableCell>
@@ -148,7 +151,7 @@ const AttendancePage = () => {
                           variant="outlined"
                           onClick={() => handleAssignCurrentTime(index, 'timeOut')}
                         >
-                          Set Time Out
+                          {t('timeOut')}
                         </Button>
                       </TableCell>
                       <TableCell>
@@ -157,7 +160,7 @@ const AttendancePage = () => {
                           variant="outlined"
                           onClick={() => handleSubmitAttendance(record)}
                         >
-                          Assign
+                          {t('assign')}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -169,7 +172,7 @@ const AttendancePage = () => {
         </>
       </DashboardCard>
 
-      <DashboardCard title="Attendance Summary">
+      <DashboardCard title={t('attendanceSummary')}>
         <>
           <Button
             variant="contained"
@@ -177,23 +180,23 @@ const AttendancePage = () => {
             onClick={() => exportToXLSX(attendanceAnalyticsData, "AttendanceSummary.xlsx")}
             sx={{ marginBottom: 2 }}
           >
-            Export to XLSX
+            {t('exportToXlsx')}
           </Button>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="attendance summary table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Employee Name</TableCell>
-                  <TableCell>Salary</TableCell>
-                  <TableCell>Value per Day</TableCell>
-                  <TableCell>Number of Working Days</TableCell>
-                  <TableCell>Number of Absent Days</TableCell>
-                  <TableCell>Value of Absences</TableCell>
-                  <TableCell>Violations</TableCell>
-                  <TableCell>Advances</TableCell>
-                  <TableCell>Net Salary</TableCell>
-                  <TableCell>Commission</TableCell>
-                  <TableCell>Total</TableCell>
+                  <TableCell>{t('employeeName')}</TableCell>
+                  <TableCell>{t('salary')}</TableCell>
+                  <TableCell>{t('valuePerDay')}</TableCell>
+                  <TableCell>{t('numberOfWorkingDays')}</TableCell>
+                  <TableCell>{t('numberOfAbsentDays')}</TableCell>
+                  <TableCell>{t('valueOfAbsences')}</TableCell>
+                  <TableCell>{t('violations')}</TableCell>
+                  <TableCell>{t('advances')}</TableCell>
+                  <TableCell>{t('netSalary')}</TableCell>
+                  <TableCell>{t('commission')}</TableCell>
+                  <TableCell>{t('total')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -218,7 +221,7 @@ const AttendancePage = () => {
         </>
       </DashboardCard>
 
-      <DashboardCard title="Attendance Details">
+      <DashboardCard title={t('attendanceDetails')}>
         <>
           <Button
             variant="contained"
@@ -226,15 +229,15 @@ const AttendancePage = () => {
             onClick={() => exportToXLSX(attendanceSummaryData, "AttendanceDetails.xlsx")}
             sx={{ marginBottom: 2 }}
           >
-            Export to XLSX
+            {t('exportToXlsx')}
           </Button>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="attendance details table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Employee Name</TableCell>
-                  <TableCell>Absence Period</TableCell>
-                  <TableCell>Total Absences</TableCell>
+                  <TableCell>{t('employeeName')}</TableCell>
+                  <TableCell>{t('absencePeriod')}</TableCell>
+                  <TableCell>{t('totalAbsences')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

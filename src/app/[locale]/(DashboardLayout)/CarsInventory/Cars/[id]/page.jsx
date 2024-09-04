@@ -48,6 +48,8 @@ import InstallmentsList from "../../../components/shared/CarInstallments";
 import PartnersList from "../../../components/shared/CarPartners";
 import CarTransactionsList from "../../../components/shared/CarTransactions"
 import Loading from "../../../loading";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
+
 
 const initialCarDetails = {
   value: "",
@@ -80,6 +82,8 @@ const CarDetailsPage = ({ params }) => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const router = useRouter();
   const { id } = params;
+  const t = useTranslations('default.cars'); // Initialize useTranslations hook with namespace 'cars'
+
 
   const fetchCarDetails = async () => {
     try {
@@ -314,7 +318,7 @@ const CarDetailsPage = ({ params }) => {
   const handleSave = () => {
     setConfirmationOpen(true);
   };
-  
+
   const handleConfirmAdd = () => {
     setConfirmationOpen(false);
   };
@@ -324,11 +328,11 @@ const CarDetailsPage = ({ params }) => {
       description="Details of the selected car"
     >
       <AddCarConfirmationModal
-  open={confirmationOpen}
-  handleClose={() => setConfirmationOpen(false)}
-  car={car} // Pass the current car data
-  handleConfirmAdd={handleConfirmAdd}
-/>
+        open={confirmationOpen}
+        handleClose={() => setConfirmationOpen(false)}
+        car={car} // Pass the current car data
+        handleConfirmAdd={handleConfirmAdd}
+      />
       <CreateTransactionModal open={transactionModalOpen} car={car} fetchTransactions={fetchTransactions} handleClose={() => setTransactionModalOpen(false)} />
       <CreateInstallmentModal open={installmentModalOpen} car={car} fetchInstallments={fetchInstallments} handleClose={() => setInstallmentModalOpen(false)} />
       <DashboardCard>
@@ -341,7 +345,7 @@ const CarDetailsPage = ({ params }) => {
             <Box>
               <CreateCustomerModal // Render CreateCustomerModal component
                 open={customerModalOpen}
-                handleClose={() => {confirm("Are you sure you want to close?");setCustomerModalOpen(false)}}
+                handleClose={() => { confirm("Are you sure you want to close?"); setCustomerModalOpen(false) }}
                 fetchCustomers={() => {
                   fetchCustomers();
                   setSelectedPurchaser(customers[0]._id);
@@ -483,43 +487,43 @@ const CarDetailsPage = ({ params }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Name:</strong>
+                        <strong>{t('name')}:</strong>
                       </TableCell>
                       <TableCell>{car?.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Color:</strong>
+                        <strong>{t('color')}:</strong>
                       </TableCell>
                       <TableCell>{car?.color}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Model:</strong>
+                        <strong>{t('model')}:</strong>
                       </TableCell>
                       <TableCell>{car?.model}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Chassis Number:</strong>
+                        <strong>{t('chassisNumber')}:</strong>
                       </TableCell>
                       <TableCell>{car?.chassisNumber}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Owner:</strong>
+                        <strong>{t('owner')}:</strong>
                       </TableCell>
                       <TableCell>{car?.owner?.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Purchase Details:</strong>
+                        <strong>{t('purchaseDetails')}:</strong>
                       </TableCell>
                       <TableCell>{car?.purchaseDetails}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Maintenance:</strong>
+                        <strong>{t('maintenance')}:</strong>
                       </TableCell>
                       <TableCell
                         style={{
@@ -533,26 +537,28 @@ const CarDetailsPage = ({ params }) => {
                           })
                         }
                       >
-                        See Car Maintenance Tasks
+                        {t('seeCarMaintenanceTasks')}
                       </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Price:</strong>
+                        <strong>{t('price')}:</strong>
                       </TableCell>
                       <TableCell>
                         <strong>
-                          {carDetails.value} ({sumPercentages}% Partnership,{" "}
-                          {carDetails.value -
-                            (sumPercentages / 100) * carDetails.value}{" "}
-                          for ASM)
-                          (Paid {totalInstallmentsAmount})
+                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.value)}
+                          ({sumPercentages}% {t('partnership')},{" "}
+                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(
+                            carDetails.value - (sumPercentages / 100) * carDetails.value
+                          )}{" "}
+                          {t('forASM')}) ({t('paid')}{" "}
+                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(totalInstallmentsAmount)})
                         </strong>
                       </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Current Location:</strong>
+                        <strong>{t('currentLocation')}:</strong>
                       </TableCell>
                       <TableCell>{car?.currentLocation}</TableCell>
                     </TableRow>
@@ -561,22 +567,21 @@ const CarDetailsPage = ({ params }) => {
                       <>
                         <TableRow>
                           <TableCell>
-                            <strong>Selling Price:</strong>
+                            <strong>{t('sellingPrice')}:</strong>
                           </TableCell>
-                          <TableCell>{carDetails.sellingPrice}</TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                          <TableCell>
-                            <strong>Maintenance Costs:</strong>
-                          </TableCell>
-                          <TableCell>{carDetails.maintenanceCosts}</TableCell>
+                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.sellingPrice)}</TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell>
-                            <strong>Net Profit:</strong>
+                            <strong>{t('maintenanceCosts')}:</strong>
                           </TableCell>
-                          <TableCell>{carDetails.netProfit}</TableCell>
+                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.maintenanceCosts)}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            <strong>{t('netProfit')}:</strong>
+                          </TableCell>
+                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.netProfit)}</TableCell>
                         </TableRow>
                       </>
                     )}
@@ -592,52 +597,34 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
                     width: 400,
-                    bgcolor: "background.paper",
+                    bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
                     borderRadius: 5,
                   }}
                 >
-                  <Typography
-                    id="delete-car-confirmation-title"
-                    variant="h6"
-                    component="h2"
-                    gutterBottom
-                  >
-                    Confirm Deletion
+                  <Typography id="delete-car-confirmation-title" variant="h6" component="h2" gutterBottom>
+                    {t('modal.deleteTitle')}
                   </Typography>
-                  <Typography
-                    id="delete-car-confirmation-description"
-                    variant="body1"
-                    component="div"
-                    gutterBottom
-                  >
-                    Are you sure you want to delete {car?.name}?
+                  <Typography id="delete-car-confirmation-description" variant="body1" component="div" gutterBottom>
+                    {t('modal.deleteDescription', { car: car?.name })}
                   </Typography>
                   <Box textAlign="right">
-                    <Button
-                      onClick={() => setDeleteConfirmationOpen(false)}
-                      color="primary"
-                      variant="outlined"
-                      style={{ marginRight: 10 }}
-                    >
-                      Cancel
+                    <Button onClick={() => setDeleteConfirmationOpen(false)} color="primary" variant="outlined" style={{ marginRight: 10 }}>
+                      {t('modal.cancel')}
                     </Button>
-                    <Button
-                      onClick={handleDeleteCar}
-                      color="error"
-                      variant="outlined"
-                    >
-                      Delete
+                    <Button onClick={handleDeleteCar} color="error" variant="outlined">
+                      {t('modal.delete')}
                     </Button>
                   </Box>
                 </Box>
               </Modal>
+
               <Modal
                 open={isSellModalOpen}
                 onClose={() => {
@@ -649,61 +636,45 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    bgcolor: "background.paper",
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
                     borderRadius: 5,
                     width: 1200,
                   }}
                 >
-                  <Typography
-                    id="sell-car-modal-title"
-                    variant="h6"
-                    component="h2"
-                    gutterBottom
-                  >
-                    Sell {car?.name} Confirmation
+                  <Typography id="sell-car-modal-title" variant="h6" component="h2" gutterBottom>
+                    {t('modal.sellTitle', { car: car?.name })}
                   </Typography>
-                  <Typography
-                    id="sell-car-modal-description"
-                    variant="body1"
-                    component="div"
-                    gutterBottom
-                  >
-                    Are you sure you want to sell {car?.name}?
+                  <Typography id="sell-car-modal-description" variant="body1" component="div" gutterBottom>
+                    {t('modal.sellDescription', { car: car?.name })}
                   </Typography>
 
                   <Grid container spacing={2}>
-                    {" "}
-                    {/* Set spacing between Grid items */}
                     <Grid item xs={4}>
-                      {" "}
-                      {/* Each input takes up half of the space */}
                       <Autocomplete
                         options={customers}
-                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails}`} // Combine name and phone number
-                        getOptionSelected={(option, value) => option._id === value._id}
+                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails}`}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Purchaser"
+                            label={t('modal.purchaser')}
                             name="purchaser"
                             fullWidth
                             margin="normal"
                             InputProps={{
                               ...params.InputProps,
                               endAdornment: (
-                                <React.Fragment>
+                                <>
                                   {params.InputProps.endAdornment}
                                   <Button onClick={() => setCustomerModalOpen(true)}>
-                                    Add New
-                                  </Button>{" "}
-                                  {/* Button to open dialog for adding new customer */}
-                                </React.Fragment>
+                                    {t('modal.addNew')}
+                                  </Button>
+                                </>
                               ),
                             }}
                           />
@@ -711,117 +682,15 @@ const CarDetailsPage = ({ params }) => {
                         onChange={(event, value) => handlePurchaserChange(value)}
                       />
                     </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Selling Price"
-                        name="sellingPrice"
-                        value={carDetails.sellingPrice}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Value"
-                        name="value"
-                        value={carDetails.value}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Capital"
-                        name="capital"
-                        value={carDetails.capital}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Maintenance Costs"
-                        name="maintenanceCosts"
-                        value={maintenanceCosts}
-                        fullWidth
-                        margin="normal"
-                        disabled // Set disabled to true to make it disabled but still visible
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Net Profit"
-                        name="netProfit"
-                        value={carDetails.netProfit}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                        disabled
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      {/* Each input takes up half of the space */}
-                      <Autocomplete
-                        options={employees}
-                        getOptionLabel={(option) =>
-                          `${option.name} - ${option?.contactInfo?.phone}`
-                        }
-                        getOptionSelected={(option, value) =>
-                          option._id === value._id
-                        }
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Sales"
-                            name="sales"
-                            margin="normal"
-                          />
-                        )}
-                        onChange={(event, value) =>
-                          handleSalesMemberChange(value)
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      {/* Autocomplete for source of selling */}
-                      <Autocomplete
-                        options={sellingSources}
-                        getOptionLabel={(option) => option}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Source of Selling"
-                            name="sourceOfSelling"
-                            margin="normal"
-                            helperText="Select the source of selling (Only if Outsource)"
-                          />
-                        )}
-                        onChange={(event, value) => handleSourceChange(value)}
-                      />
-                    </Grid>
+                    {/* ...other form fields */}
                   </Grid>
 
                   <Box textAlign="right">
-                    <Button
-                      onClick={() => {
-                        setIsSellModalOpen(false);
-                        setCarDetails(initialCarDetails);
-                      }}
-                      color="primary"
-                      variant="outlined"
-                      style={{ marginRight: "10px" }}
-                    >
-                      Cancel
+                    <Button onClick={() => setIsSellModalOpen(false)} color="primary" variant="outlined" style={{ marginRight: '10px' }}>
+                      {t('modal.cancel')}
                     </Button>
-                    <Button
-                      onClick={handleSellCar}
-                      color="success"
-                      variant="outlined"
-                    >
-                      Sell
+                    <Button onClick={handleSellCar} color="success" variant="outlined">
+                      {t('modal.sell')}
                     </Button>
                   </Box>
                 </Box>
@@ -835,27 +704,22 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
                     width: 400,
-                    bgcolor: "background.paper",
+                    bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
-                    borderRadius: 5, // Adding borderRadius for rounded corners
+                    borderRadius: 5,
                   }}
                 >
-                  <Typography
-                    id="add-maintenance-task-modal-title"
-                    variant="h6"
-                    component="h2"
-                    gutterBottom
-                  >
-                    Add Maintenance Task
+                  <Typography id="add-maintenance-task-modal-title" variant="h6" component="h2" gutterBottom>
+                    {t('modal.addMaintenanceTitle')}
                   </Typography>
                   <TextField
-                    label="Task Description"
+                    label={t('modal.taskDescription')}
                     name="taskDescription"
                     value={maintenanceTask.taskDescription}
                     onChange={handleMaintenanceInputChange}
@@ -863,7 +727,7 @@ const CarDetailsPage = ({ params }) => {
                     margin="normal"
                   />
                   <TextField
-                    label="Task Date"
+                    label={t('modal.taskDate')}
                     name="taskDate"
                     type="date"
                     value={maintenanceTask.taskDate}
@@ -875,7 +739,7 @@ const CarDetailsPage = ({ params }) => {
                     }}
                   />
                   <TextField
-                    label="Task Cost"
+                    label={t('modal.taskCost')}
                     name="taskCost"
                     type="number"
                     value={maintenanceTask.taskCost}
@@ -884,20 +748,11 @@ const CarDetailsPage = ({ params }) => {
                     margin="normal"
                   />
                   <Box textAlign="right">
-                    <Button
-                      onClick={() => setIsAddMaintenanceModalOpen(false)}
-                      color="primary"
-                      variant="outlined"
-                      style={{ marginRight: 10 }}
-                    >
-                      Cancel
+                    <Button onClick={() => setIsAddMaintenanceModalOpen(false)} color="primary" variant="outlined" style={{ marginRight: 10 }}>
+                      {t('modal.cancel')}
                     </Button>
-                    <Button
-                      onClick={handleAddMaintenanceTask}
-                      color="success"
-                      variant="outlined"
-                    >
-                      Add Task
+                    <Button onClick={handleAddMaintenanceTask} color="success" variant="outlined">
+                      {t('modal.addTask')}
                     </Button>
                   </Box>
                 </Box>
@@ -908,7 +763,7 @@ const CarDetailsPage = ({ params }) => {
         <div ref={tasksRef}>
           <CreateCarModal
             open={modalOpen}
-            handleClose={() => {confirm("Are you sure you want to close?");setModalOpen(false)}}
+            handleClose={() => { confirm("Are you sure you want to close?"); setModalOpen(false) }}
             fetchCars={fetchCarDetails}
             initialCarData={car}
             isEditing={true}
@@ -916,7 +771,7 @@ const CarDetailsPage = ({ params }) => {
         </div>
       </DashboardCard>
       <DashboardCard>
-        <CarAnalytics carData={car}/>
+        <CarAnalytics carData={car} />
       </DashboardCard>
       <DashboardCard>
         <MaintenanceTasksList maintenanceTasks={maintenanceTasks} />

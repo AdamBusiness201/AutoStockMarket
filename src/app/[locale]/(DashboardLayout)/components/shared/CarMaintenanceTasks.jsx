@@ -17,9 +17,12 @@ import {
   Grid
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import AnalysisCard from './DashboardAnalysisCard'
+import AnalysisCard from './DashboardAnalysisCard';
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
+
 
 const MaintenanceTasksList = ({ maintenanceTasks }) => {
+  const t = useTranslations('default'); // Initialize translation function
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -84,10 +87,10 @@ const MaintenanceTasksList = ({ maintenanceTasks }) => {
         alignItems="center"
         justifyContent="space-between"
         onClick={handleToggle}
-        cursor="pointer"
+        sx={{ cursor: "pointer" }}
       >
         <Typography variant="h6" gutterBottom>
-          Maintenance Tasks
+          {t('maintenanceTasks.title')}
         </Typography>
         <IconButton>
           {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -97,25 +100,25 @@ const MaintenanceTasksList = ({ maintenanceTasks }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <AnalysisCard
-              title="Total Tasks"
+              title={t('maintenanceTasks.totalTasks')}
               number={totalTasks}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AnalysisCard
-              title="Total Costs"
+              title={t('maintenanceTasks.totalCosts')}
               number={totalCosts}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AnalysisCard
-              title="Highest Cost Task"
+              title={t('maintenanceTasks.highestCostTask')}
               number={highestCostTask ? highestCostTask.taskCost : 0}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AnalysisCard
-              title="Lowest Cost Task"
+              title={t('maintenanceTasks.lowestCostTask')}
               number={lowestCostTask ? lowestCostTask.taskCost : 0}
             />
           </Grid>
@@ -125,9 +128,9 @@ const MaintenanceTasksList = ({ maintenanceTasks }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Description</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Cost</TableCell>
+                <TableCell>{t('maintenanceTasks.description')}</TableCell>
+                <TableCell>{t('maintenanceTasks.date')}</TableCell>
+                <TableCell>{t('maintenanceTasks.cost')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -16,9 +16,11 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import AnalysisCard from './DashboardAnalysisCard';
-import { formatNumber } from '../../../../../utils/numberUtils'
+import { formatNumber } from '../../../../../utils/numberUtils';
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const CarTransactionsList = ({ transactions }) => {
+  const t = useTranslations('default'); // Initialize translation function
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -64,10 +66,10 @@ const CarTransactionsList = ({ transactions }) => {
         alignItems="center"
         justifyContent="space-between"
         onClick={handleToggle}
-        cursor="pointer"
+        sx={{ cursor: "pointer" }}
       >
         <Typography variant="h6" gutterBottom>
-          Car Transactions
+          {t('carTransactionsList.title')}
         </Typography>
         <IconButton>
           {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -77,13 +79,13 @@ const CarTransactionsList = ({ transactions }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Transactions"
+              title={t('carTransactionsList.totalTransactions')}
               number={formatNumber(totalTransactions)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Amount"
+              title={t('carTransactionsList.totalAmount')}
               number={`$${totalAmount.toFixed(2)}`}
             />
           </Grid>
@@ -93,10 +95,10 @@ const CarTransactionsList = ({ transactions }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Type</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell>{t('carTransactionsList.type')}</TableCell>
+                <TableCell>{t('carTransactionsList.date')}</TableCell>
+                <TableCell>{t('carTransactionsList.amount')}</TableCell>
+                <TableCell>{t('carTransactionsList.description')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

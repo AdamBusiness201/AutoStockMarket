@@ -1,8 +1,8 @@
-
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import CreateCustomerModal from "@/app/(DashboardLayout)/components/shared/CreateCustomerModal";
@@ -22,22 +22,20 @@ import {
 import { Add } from "@mui/icons-material";
 
 const CustomersPage = () => {
+  const t = useTranslations('common'); // Initialize translations
   const router = useRouter();
   const [customers, setCustomers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     name: "",
     contactDetails: "",
-    // Add more filter fields as needed
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10); // Number of items per page
   const [error, setError] = useState(""); // Define error state
 
-  // Define fetchCustomers function
   const fetchCustomers = async () => {
     try {
-      console.log("fetching customers");
       const response = await axios.get("/api/customers", {
         params: {
           ...filters,
@@ -49,7 +47,7 @@ const CustomersPage = () => {
       setError(""); // Clear error on successful fetch
     } catch (error) {
       console.error("Error fetching customers:", error);
-      setError("Failed to fetch customers. Please try again later.");
+      setError(t('errorFetchingCustomers')); // Use translation for error message
       setCustomers([]); // Set customers array to empty in case of error
     }
   };
@@ -74,8 +72,8 @@ const CustomersPage = () => {
   };
 
   return (
-    <PageContainer title="Customers" description="Customers Management">
-      <DashboardCard title="Customers">
+    <PageContainer title={t('customers')} description={t('customersManagement')}>
+      <DashboardCard title={t('customers')}>
         <Box
           mb={2}
           display="flex"
@@ -86,7 +84,7 @@ const CustomersPage = () => {
           <Box mr={1}>
             <IconButton
               onClick={() => setModalOpen(true)}
-              aria-label="add new customer"
+              aria-label={t('addNewCustomer')}
               color="primary"
             >
               <Add />
@@ -97,7 +95,7 @@ const CustomersPage = () => {
           <Box flexGrow={1}>
             <TextField
               name="name"
-              label="Name"
+              label={t('name')}
               variant="outlined"
               size="small"
               value={filters.name}
@@ -106,7 +104,7 @@ const CustomersPage = () => {
             />
             <TextField
               name="contactDetails"
-              label="Contact Details"
+              label={t('contactDetails')}
               variant="outlined"
               size="small"
               value={filters.contactDetails}
@@ -122,8 +120,8 @@ const CustomersPage = () => {
           <Table aria-label="customers table">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Debts</TableCell>
+                <TableCell>{t('name')}</TableCell>
+                <TableCell>{t('debts')}</TableCell>
                 {/* Add more table headers as needed */}
               </TableRow>
             </TableHead>
@@ -150,9 +148,13 @@ const CustomersPage = () => {
           style={{ marginTop: 10 }}
         />
       </DashboardCard>
-      <CreateCustomerModal // Render CreateCustomerModal component
+      <CreateCustomerModal
         open={modalOpen}
-        handleClose={() => {confirm("Are you sure you want to close?");setModalOpen(false)}}
+        handleClose={() => { 
+          if (confirm("Are you sure you want to close?")) {
+            setModalOpen(false);
+          }
+        }}
         fetchCustomers={fetchCustomers}
       />
     </PageContainer>

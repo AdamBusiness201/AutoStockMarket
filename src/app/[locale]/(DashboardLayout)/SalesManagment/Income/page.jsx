@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
+
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import {
@@ -18,6 +20,7 @@ import Loading from "../../loading"; // Import the loading component
 import AnalysisCard from "../../components/shared/DashboardAnalysisCard";
 
 const IncomePage = () => {
+  const t = useTranslations('default'); // Initialize the translation hook
   const [incomeDetails, setIncomeDetails] = useState(null);
   const [filteredIncomeDetails, setFilteredIncomeDetails] = useState(null);
   const [loading, setLoading] = useState(false); // Add loading state
@@ -36,12 +39,12 @@ const IncomePage = () => {
           setFilteredIncomeDetails(data.incomeDetails);
           setError("");
         } else {
-          console.error("Failed to fetch income data");
-          setError("Failed to fetch income data. Please try again later.");
+          console.error(t("income.fetchError"));
+          setError(t("income.fetchError"));
         }
       } catch (error) {
-        console.error("Error fetching income data:", error);
-        setError("Failed to fetch income data. Please try again later.");
+        console.error(t("income.fetchError"), error);
+        setError(t("income.fetchError"));
       } finally {
         setLoading(false); // Set loading state to false when fetching ends
       }
@@ -66,12 +69,12 @@ const IncomePage = () => {
   }, [fromDate, toDate, incomeDetails]);
 
   return (
-    <PageContainer title="Income" description="Total Income and Car Details">
-      <DashboardCard title="Income">
+    <PageContainer title={t("income.title")} description={t("income.description")}>
+      <DashboardCard title={t("income.title")}>
         <Grid container spacing={2} sx={{ marginBottom: 2 }}>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="From"
+              label={t("income.from")}
               type="date"
               InputLabelProps={{ shrink: true }}
               value={fromDate}
@@ -81,7 +84,7 @@ const IncomePage = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="To"
+              label={t("income.to")}
               type="date"
               InputLabelProps={{ shrink: true }}
               value={toDate}
@@ -90,7 +93,6 @@ const IncomePage = () => {
             />
           </Grid>
         </Grid>
-
 
         {loading ? (
           <Loading />
@@ -101,28 +103,28 @@ const IncomePage = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <AnalysisCard
-                  title="Total Income"
+                  title={t("income.totalIncome")}
                   number={filteredIncomeDetails.totalIncome}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <AnalysisCard
-                  title="Number of Cars"
+                  title={t("income.totalCars")}
                   number={filteredIncomeDetails.totalCars}
                 />
               </Grid>
             </Grid>
 
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="income details table">
+              <Table sx={{ minWidth: 650 }} aria-label={t("income.tableHeaders.incomeDetailsTable")}>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Car ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Color</TableCell>
-                    <TableCell>Model</TableCell>
-                    <TableCell>Net Profit</TableCell>
-                    <TableCell>Sale Date</TableCell>
+                    <TableCell>{t("income.tableHeaders.carId")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.name")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.color")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.model")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.netProfit")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.saleDate")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

@@ -1,7 +1,8 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import CreateEmployeeModal from "@/app/(DashboardLayout)/components/shared/CreateEmployee"; // CreateEmployeeModal component to be implemented
@@ -21,13 +22,13 @@ import {
 import { Add } from "@mui/icons-material";
 
 const EmployeesPage = () => {
+  const t = useTranslations('default.employees'); // Initialize translations
   const router = useRouter();
   const [employees, setEmployees] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     name: "",
     position: "",
-    // Add more filter fields as needed
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10); // Number of items per page
@@ -49,7 +50,6 @@ const EmployeesPage = () => {
   // Define fetchEmployees function
   const fetchEmployees = async () => {
     try {
-      console.log("fetching employees");
       const response = await axios.get("/api/employee", {
         params: {
           ...filters,
@@ -61,7 +61,7 @@ const EmployeesPage = () => {
       setError(""); // Clear error on successful fetch
     } catch (error) {
       console.error("Error fetching employees:", error);
-      setError("Failed to fetch employees. Please try again later.");
+      setError(t('errorFetchingEmployees')); // Use translation for error message
       setEmployees([]); // Set employees array to empty in case of error
     }
   };
@@ -86,8 +86,8 @@ const EmployeesPage = () => {
   };
 
   return (
-    <PageContainer title="Employees" description="Employees Management">
-      <DashboardCard title="Employees">
+    <PageContainer title={t('employees')} description={t('employeesManagement')}>
+      <DashboardCard title={t('employees')}>
         <Box
           mb={2}
           display="flex"
@@ -98,7 +98,7 @@ const EmployeesPage = () => {
           <Box mr={1}>
             <IconButton
               onClick={() => setModalOpen(true)}
-              aria-label="add new employee"
+              aria-label={t('addNewEmployee')}
               color="primary"
             >
               <Add />
@@ -109,7 +109,7 @@ const EmployeesPage = () => {
           <Box flexGrow={1}>
             <TextField
               name="name"
-              label="Name"
+              label={t('name')}
               variant="outlined"
               size="small"
               value={filters.name}
@@ -118,7 +118,7 @@ const EmployeesPage = () => {
             />
             <TextField
               name="position"
-              label="Position"
+              label={t('position')}
               variant="outlined"
               size="small"
               value={filters.position}
@@ -134,9 +134,9 @@ const EmployeesPage = () => {
           <Table aria-label="employees table">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Position</TableCell>
-                <TableCell>Hire Date</TableCell>
+                <TableCell>{t('name')}</TableCell>
+                <TableCell>{t('position')}</TableCell>
+                <TableCell>{t('hireDate')}</TableCell>
                 {/* Add more table headers as needed */}
               </TableRow>
             </TableHead>
@@ -164,9 +164,13 @@ const EmployeesPage = () => {
           style={{ marginTop: 10 }}
         />
       </DashboardCard>
-      <CreateEmployeeModal // Render CreateEmployeeModal component
+      <CreateEmployeeModal
         open={modalOpen}
-        handleClose={() => {confirm("Are you sure you want to close?");setModalOpen(false)}}
+        handleClose={() => { 
+          if (confirm(t("Are you sure you want to close?"))) {
+            setModalOpen(false);
+          }
+        }}
         fetchEmployees={fetchEmployees}
         initialEmployeeData={initialEmployeeData}
       />

@@ -14,8 +14,8 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const AppBarStyled = styled(AppBar)(({ theme, isScrolled }) => ({
-    background: isScrolled
+  const AppBarStyled = styled(AppBar)(({ theme}) => ({
+    background: !isScrolled
       ? 'linear-gradient(223deg, #481268, #6a1b9a)' // Gradient with transparency on scroll
       : 'linear-gradient(90deg, #6a1b9a, #6a1b9a)', // Solid purple when not scrolled
     justifyContent: 'center',

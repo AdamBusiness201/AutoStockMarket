@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import {
@@ -17,6 +18,8 @@ import Loading from "../../loading"; // Import the loading component
 import AnalysisCard from "../../components/shared/DashboardAnalysisCard";
 
 const MaintenancePage = () => {
+  const t = useTranslations('default.maintenance'); // Initialize translations
+
   const [maintenanceDetails, setMaintenanceDetails] = useState(null);
   const [loading, setLoading] = useState(false); // Add loading state
   const [error, setError] = useState("");
@@ -32,22 +35,22 @@ const MaintenancePage = () => {
           setError("");
         } else {
           console.error("Failed to fetch maintenance data");
-          setError("Failed to fetch maintenance data. Please try again later.");
+          setError(t('errorFetchingData'));
         }
       } catch (error) {
         console.error("Error fetching maintenance data:", error);
-        setError("Failed to fetch maintenance data. Please try again later.");
+        setError(t('errorFetchingData'));
       } finally {
         setLoading(false); // Set loading state to false when fetching ends
       }
     };
 
     fetchMaintenanceDetails();
-  }, []);
+  }, [t]);
 
   return (
-    <PageContainer title="Maintenance" description="Total Maintenance Costs and Task Details">
-      <DashboardCard title="Maintenance">
+    <PageContainer title={t('maintenance')} description={t('totalMaintenanceCost') + ' and ' + t('numberOfTasks')}>
+      <DashboardCard title={t('maintenance')}>
         {loading ? (
           <Loading />
         ) : error ? (
@@ -57,13 +60,13 @@ const MaintenancePage = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <AnalysisCard
-                  title="Total Maintenance Cost"
+                  title={t('totalMaintenanceCost')}
                   number={maintenanceDetails.totalMaintenanceCost}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <AnalysisCard
-                  title="Number of Tasks"
+                  title={t('numberOfTasks')}
                   number={maintenanceDetails.totalTasks}
                 />
               </Grid>
@@ -73,10 +76,10 @@ const MaintenancePage = () => {
               <Table sx={{ minWidth: 650 }} aria-label="maintenance details table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Car ID</TableCell>
-                    <TableCell>Task Description</TableCell>
-                    <TableCell>Task Date</TableCell>
-                    <TableCell>Task Cost</TableCell>
+                    <TableCell>{t('carID')}</TableCell>
+                    <TableCell>{t('taskDescription')}</TableCell>
+                    <TableCell>{t('taskDate')}</TableCell>
+                    <TableCell>{t('taskCost')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

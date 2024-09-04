@@ -16,8 +16,10 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import AnalysisCard from './DashboardAnalysisCard';
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const InstallmentsList = ({ installments }) => {
+  const t = useTranslations('default'); // Initialize translation function
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -63,10 +65,10 @@ const InstallmentsList = ({ installments }) => {
         alignItems="center"
         justifyContent="space-between"
         onClick={handleToggle}
-        cursor="pointer"
+        sx={{ cursor: "pointer" }}
       >
         <Typography variant="h6" gutterBottom>
-          Car Installments
+          {t('installmentsList.title')}
         </Typography>
         <IconButton>
           {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -76,13 +78,13 @@ const InstallmentsList = ({ installments }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Installments"
+              title={t('installmentsList.totalInstallments')}
               number={totalInstallments}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Amount"
+              title={t('installmentsList.totalAmount')}
               number={`$${totalAmount.toFixed(2)}`}
             />
           </Grid>
@@ -92,10 +94,10 @@ const InstallmentsList = ({ installments }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Paid</TableCell>
+                <TableCell>{t('installmentsList.date')}</TableCell>
+                <TableCell>{t('installmentsList.amount')}</TableCell>
+                <TableCell>{t('installmentsList.description')}</TableCell>
+                <TableCell>{t('installmentsList.paid')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -106,7 +108,9 @@ const InstallmentsList = ({ installments }) => {
                   </TableCell>
                   <TableCell>${installment.amount.toFixed(2)}</TableCell>
                   <TableCell>{installment.description}</TableCell>
-                  <TableCell>{installment.paid ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    {installment.paid ? t('installmentsList.yes') : t('installmentsList.no')}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

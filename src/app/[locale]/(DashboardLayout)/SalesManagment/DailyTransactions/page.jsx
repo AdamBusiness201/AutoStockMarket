@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
+
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import {
@@ -15,6 +17,7 @@ import {
 } from "@mui/material";
 
 const TransactionsPage = () => {
+  const t = useTranslations('default'); // Initialize the translation hook
   const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
@@ -34,10 +37,10 @@ const TransactionsPage = () => {
           );
           setTransactions(todayTransactions);
         } else {
-          console.error("Failed to fetch transaction data");
+          console.error(t('transactions.fetchError'));
         }
       } catch (error) {
-        console.error("Error fetching transaction data:", error);
+        console.error(t('transactions.fetchError'), error);
       }
     };
 
@@ -51,29 +54,29 @@ const TransactionsPage = () => {
 
   const todayDate = isClient
     ? currentDateTime.toLocaleString(undefined, {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      })
-    : "Loading date and time...";
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    })
+    : t('transactions.loadingDateTime');
 
   return (
-    <PageContainer title="Transactions" description="Transactions History">
-      <DashboardCard title={`Transactions of ${todayDate}`}>
+    <PageContainer title={t('transactions.title')} description={t('transactions.description')}>
+      <DashboardCard title={`${t('transactions.title')} ${t('transactions.of')} ${todayDate}`}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="transactions table">
+          <Table sx={{ minWidth: 650 }} aria-label={t('transactions.tableHeaders.transactionsTable')}>
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Car ID</TableCell>
+                <TableCell>{t('transactions.tableHeaders.id')}</TableCell>
+                <TableCell>{t('transactions.tableHeaders.type')}</TableCell>
+                <TableCell>{t('transactions.tableHeaders.date')}</TableCell>
+                <TableCell>{t('transactions.tableHeaders.amount')}</TableCell>
+                <TableCell>{t('transactions.tableHeaders.description')}</TableCell>
+                <TableCell>{t('transactions.carId')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

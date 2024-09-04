@@ -1,5 +1,4 @@
-// src/app/(DashboardLayout)/components/pages/SalariesPage.jsx
-"use client";
+'use client';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
@@ -13,8 +12,10 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 
 const SalariesPage = () => {
+  const t = useTranslations('default.employeeSalary'); // Initialize translations
   const [salaryData, setSalaryData] = useState([]);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const SalariesPage = () => {
         }
       } catch (error) {
         console.error("Error fetching salary data:", error);
+        alert(t('errorFetchingData')); // Use translation for error message
       }
     };
 
@@ -37,17 +39,17 @@ const SalariesPage = () => {
   }, []);
 
   return (
-    <PageContainer title="Employee Salaries" description="Overview of employee salaries, deductions, and net pay">
-      <DashboardCard title="Salaries Overview">
+    <PageContainer title={t('employeeSalaries')} description={t('overview')}>
+      <DashboardCard title={t('salariesOverview')}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="salaries table">
             <TableHead>
               <TableRow>
-                <TableCell>Employee Name</TableCell>
-                <TableCell>Basic Salary</TableCell>
-                <TableCell>Total Deductions</TableCell>
-                <TableCell>Additions</TableCell>
-                <TableCell>Net Salary</TableCell>
+                <TableCell>{t('employeeName')}</TableCell>
+                <TableCell>{t('basicSalary')}</TableCell>
+                <TableCell>{t('totalDeductions')}</TableCell>
+                <TableCell>{t('additions')}</TableCell>
+                <TableCell>{t('netSalary')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

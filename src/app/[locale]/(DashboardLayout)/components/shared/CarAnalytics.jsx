@@ -17,8 +17,11 @@ import {
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import AnalysisCard from './DashboardAnalysisCard';
 import { formatNumber } from '../../../../../utils/numberUtils';
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
+
 
 const CarAnalytics = ({ carData }) => {
+  const t = useTranslations('default'); // Initialize translation function
   const [open, setOpen] = useState(false);
 
   const calculateMetrics = () => {
@@ -27,7 +30,7 @@ const CarAnalytics = ({ carData }) => {
     const totalShares = carData?.shares?.length || 0;
     const totalComments = carData?.comments?.length || 0;
 
-    const uniqueVisitors = new Set(carData?.visits?.map(visit => visit?.userId))?.size;
+    const uniqueVisitors = new Set(carData?.visits?.map((visit) => visit?.userId))?.size;
     const averageLikesPerVisit = totalVisits > 0 ? totalLikes / totalVisits : 0;
     const averageSharesPerVisit = totalVisits > 0 ? totalShares / totalVisits : 0;
     const averageCommentsPerVisit = totalVisits > 0 ? totalComments / totalVisits : 0;
@@ -57,10 +60,10 @@ const CarAnalytics = ({ carData }) => {
         alignItems="center"
         justifyContent="space-between"
         onClick={handleToggle}
-        cursor="pointer"
+        sx={{ cursor: "pointer" }}
       >
         <Typography variant="h6" gutterBottom>
-          Car Analytics on ASM E-Commerce
+          {t('carAnalytics.title')}
         </Typography>
         <IconButton>
           {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -70,49 +73,49 @@ const CarAnalytics = ({ carData }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Visits"
+              title={t('carAnalytics.totalVisits')}
               number={formatNumber(metrics?.totalVisits)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Likes"
+              title={t('carAnalytics.totalLikes')}
               number={formatNumber(metrics?.totalLikes)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Shares"
+              title={t('carAnalytics.totalShares')}
               number={formatNumber(metrics?.totalShares)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Total Comments"
+              title={t('carAnalytics.totalComments')}
               number={formatNumber(metrics?.totalComments)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Unique Visitors"
+              title={t('carAnalytics.uniqueVisitors')}
               number={formatNumber(metrics?.uniqueVisitors)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Average Likes Per Visit"
+              title={t('carAnalytics.averageLikesPerVisit')}
               number={metrics?.averageLikesPerVisit?.toFixed(2)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Average Shares Per Visit"
+              title={t('carAnalytics.averageSharesPerVisit')}
               number={metrics?.averageSharesPerVisit?.toFixed(2)}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AnalysisCard
-              title="Average Comments Per Visit"
+              title={t('carAnalytics.averageCommentsPerVisit')}
               number={metrics?.averageCommentsPerVisit?.toFixed(2)}
             />
           </Grid>
@@ -122,38 +125,40 @@ const CarAnalytics = ({ carData }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Type</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Details</TableCell>
+                <TableCell>{t('carAnalytics.type')}</TableCell>
+                <TableCell>{t('carAnalytics.date')}</TableCell>
+                <TableCell>{t('carAnalytics.details')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {carData?.visits?.map((visit) => (
                 <TableRow key={visit?._id}>
-                  <TableCell>Visit</TableCell>
+                  <TableCell>{t('carAnalytics.visit')}</TableCell>
                   <TableCell>{new Date(visit?.date)?.toLocaleDateString()}</TableCell>
-                  <TableCell>Visitor ID: {visit?.userId}</TableCell>
+                  <TableCell>{t('carAnalytics.visitorId')}: {visit?.userId}</TableCell>
                 </TableRow>
               ))}
               {carData?.likes?.map((like) => (
                 <TableRow key={like?._id}>
-                  <TableCell>Like</TableCell>
+                  <TableCell>{t('carAnalytics.like')}</TableCell>
                   <TableCell>{new Date(like?.date)?.toLocaleDateString()}</TableCell>
-                  <TableCell>User ID: {like?.userId}</TableCell>
+                  <TableCell>{t('carAnalytics.userId')}: {like?.userId}</TableCell>
                 </TableRow>
               ))}
               {carData?.shares?.map((share) => (
                 <TableRow key={share?._id}>
-                  <TableCell>Share</TableCell>
+                  <TableCell>{t('carAnalytics.share')}</TableCell>
                   <TableCell>{new Date(share?.date)?.toLocaleDateString()}</TableCell>
-                  <TableCell>User ID: {share?.userId}</TableCell>
+                  <TableCell>{t('carAnalytics.userId')}: {share?.userId}</TableCell>
                 </TableRow>
               ))}
               {carData?.comments?.map((comment) => (
                 <TableRow key={comment?._id}>
-                  <TableCell>Comment</TableCell>
+                  <TableCell>{t('carAnalytics.comment')}</TableCell>
                   <TableCell>{new Date(comment?.date)?.toLocaleDateString()}</TableCell>
-                  <TableCell>User ID: {comment?.userId} - {comment?.text}</TableCell>
+                  <TableCell>
+                    {t('carAnalytics.userComment', { userId: comment?.userId, text: comment?.text })}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

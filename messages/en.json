@@ -78,11 +78,206 @@
       "recentTransactions": "Recent Transactions",
       "topEmployees": "Top Employees"
     },
+    "employeeAttendance": {
+      "attendanceAndAbsence": "Attendance and Absence of Employees",
+      "overview": "Overview of employee attendance and absence",
+      "attendanceToday": "Attendance Today",
+      "exportToXlsx": "Export to XLSX",
+      "employeeName": "Employee Name",
+      "attendanceStatus": "Attendance Status",
+      "shift": "Shift",
+      "timeIn": "Time In",
+      "timeOut": "Time Out",
+      "assign": "Assign",
+      "attendanceSummary": "Attendance Summary",
+      "salary": "Salary",
+      "valuePerDay": "Value per Day",
+      "numberOfWorkingDays": "Number of Working Days",
+      "numberOfAbsentDays": "Number of Absent Days",
+      "valueOfAbsences": "Value of Absences",
+      "violations": "Violations",
+      "advances": "Advances",
+      "netSalary": "Net Salary",
+      "commission": "Commission",
+      "total": "Total",
+      "attendanceDetails": "Attendance Details",
+      "absencePeriod": "Absence Period",
+      "totalAbsences": "Total Absences",
+      "errorFetchingData": "Failed to fetch attendance data. Please try again later."
+    },
+    "employeeSalary": {
+      "employeeSalaries": "Employee Salaries",
+      "overview": "Overview of employee salaries, deductions, and net pay",
+      "salariesOverview": "Salaries Overview",
+      "employeeName": "Employee Name",
+      "basicSalary": "Basic Salary",
+      "totalDeductions": "Total Deductions",
+      "additions": "Additions",
+      "netSalary": "Net Salary",
+      "errorFetchingData": "Failed to fetch salary data. Please try again later."
+    }
+,    
+    "employees": {
+      "employees": "Employees",
+      "employeesManagement": "Employees Management",
+      "addNewEmployee": "Add New Employee",
+      "name": "Name",
+      "position": "Position",
+      "hireDate": "Hire Date",
+      "errorFetchingEmployees": "Failed to fetch employees. Please try again later."
+    }
+,    
+    "externalDebts": {
+      "customers": "Customers",
+      "customersManagement": "Customers Management",
+      "addNewCustomer": "Add New Customer",
+      "name": "Name",
+      "contactDetails": "Contact Details",
+      "debts": "Debts",
+      "errorFetchingCustomers": "Failed to fetch customers. Please try again later."
+    },
+    "externalCarMaintenance": {
+      "carMaintenanceExhibition": "Car Maintenance Exhibition",
+      "maintenanceExpenses": "Maintenance expenses for exhibition cars",
+      "externalCarsMaintenance": "External Cars Maintenance",
+      "addTask": "Add Task",
+      "carName": "Car Name",
+      "maintenanceValue": "Maintenance Value",
+      "description": "Description",
+      "date": "Date",
+      "color": "Color",
+      "model": "Model",
+      "chassisNumber": "Chassis Number",
+      "owner": "Owner",
+      "errorFetchingData": "Failed to fetch car maintenance data. Please try again later."
+    },
+    "income": {
+      "title": "Income",
+      "description": "Total Income and Car Details",
+      "from": "From",
+      "to": "To",
+      "fetchError": "Failed to fetch income data. Please try again later.",
+      "totalIncome": "Total Income",
+      "totalCars": "Number of Cars",
+      "tableHeaders": {
+        "incomeDetailsTable": "Income Details Table",
+        "carId": "Car ID",
+        "name": "Name",
+        "color": "Color",
+        "model": "Model",
+        "netProfit": "Net Profit",
+        "saleDate": "Sale Date"
+      }
+    },
+    "maintenance": {
+      "maintenance": "Maintenance",
+      "totalMaintenanceCost": "Total Maintenance Cost",
+      "numberOfTasks": "Number of Tasks",
+      "carID": "Car ID",
+      "taskDescription": "Task Description",
+      "taskDate": "Task Date",
+      "taskCost": "Task Cost",
+      "errorFetchingData": "Failed to fetch maintenance data. Please try again later."
+    },
+    "expensesExhibition": {
+      "title": "Expenses Exhibition",
+      "description": "Details of exhibition expenses",
+      "cardTitle": "Exhibition Expenses",
+      "fetchError": "Failed to fetch expenses data. Please try again later.",
+      "tableAriaLabel": "Expenses Table",
+      "tableHeaders": {
+        "day": "Day",
+        "month": "Month",
+        "date": "Date",
+        "type": "Type",
+        "description": "Description",
+        "value": "Value"
+      }
+    },
+    "invoices": {
+      "title": "Invoices",
+      "description": "List of all invoices",
+      "listTitle": "Invoice List",
+      "fetchError": "Failed to fetch invoices. Please try again later.",
+      "filters": {
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "minAmount": "Min Amount",
+        "maxAmount": "Max Amount",
+        "transactionId": "Transaction ID"
+      },
+      "clearFilters": "Clear Filters",
+      "tableAriaLabel": "Invoice Table",
+      "tableHeaders": {
+        "id": "ID",
+        "transactionId": "Transaction ID",
+        "customer": "Customer",
+        "invoiceDate": "Invoice Date",
+        "totalAmount": "Total Amount"
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "Transaction History",
+      "addNewTransaction": "Add New Transaction",
+      "type": "Type",
+      "of": "of",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "minAmount": "Minimum Amount",
+      "maxAmount": "Maximum Amount",
+      "carId": "Car ID",
+      "date": "Date",
+      "amount": "Amount",
+      "carNameChassis": "Car Name | Chassis Number",
+      "transactionDescription": "Description",
+      "failedToFetch": "Failed to fetch transaction data. Please try again later.",
+      "tableHeaders": {
+        "transactionsTable": "Transactions Table",
+        "type": "Type",
+        "date": "Date",
+        "amount": "Amount",
+        "car": "Car",
+        "description": "Description",
+        "id": "ID"
+      },
+      "labels": {
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "cancel": "Cancel"
+      }
+    },
     "cars": {
+      "modal": {
+        "deleteTitle": "Confirm Deletion",
+        "deleteDescription": "Are you sure you want to delete {car}?",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "sellTitle": "Sell {car} Confirmation",
+        "sellDescription": "Are you sure you want to sell {car}?",
+        "purchaser": "Purchaser",
+        "addNew": "Add New",
+        "sellingPrice": "Selling Price",
+        "value": "Value",
+        "capital": "Capital",
+        "maintenanceCosts": "Maintenance Costs",
+        "netProfit": "Net Profit",
+        "sales": "Sales",
+        "sourceOfSelling": "Source of Selling",
+        "sourceHelperText": "Select the source of selling (Only if Outsource)",
+        "sell": "Sell",
+        "addMaintenanceTitle": "Add Maintenance Task",
+        "taskDescription": "Task Description",
+        "taskDate": "Task Date",
+        "taskCost": "Task Cost",
+        "addTask": "Add Task"
+      },
       "title": "Cars",
       "description": "Cars Inventory",
       "addNewCar": "Add New Car",
       "name": "Name",
+      "brand": "Brand",
       "color": "Color",
       "model": "Model",
       "chassisNumber": "Chassis Number",
@@ -94,11 +289,20 @@
       "status": "Status",
       "seeInvoices": "See Invoices",
       "filter": "Filter",
-      "rowsPerPage": "Rows per page",
+      "rowsPerPage": "Rows per Page",
       "page": "Page",
-      "of": "Of",
-      "partner": "Partner"
+      "of": "of",
+      "partner": "Partner",
+      "seeCarMaintenanceTasks": "See Car Maintenance Tasks",
+      "price": "Price",
+      "partnership": "Partnership",
+      "forASM": "for ASM",
+      "paid": "Paid",
+      "sellingPrice": "Selling Price",
+      "maintenanceCosts": "Maintenance Costs",
+      "netProfit": "Net Profit"
     },
+
     "soldCars": {
       "title": "Sold Cars",
       "description": "Sold Cars Management",
@@ -108,6 +312,67 @@
       "purchaseDate": "Purchase Date",
       "purchasePrice": "Purchase Price",
       "error": "Failed to fetch sold cars. Please try again later."
+    },
+    "carAnalytics": {
+      "title": "Car Analytics on ASM E-Commerce",
+      "totalVisits": "Total Visits",
+      "totalLikes": "Total Likes",
+      "totalShares": "Total Shares",
+      "totalComments": "Total Comments",
+      "uniqueVisitors": "Unique Visitors",
+      "averageLikesPerVisit": "Average Likes Per Visit",
+      "averageSharesPerVisit": "Average Shares Per Visit",
+      "averageCommentsPerVisit": "Average Comments Per Visit",
+      "type": "Type",
+      "date": "Date",
+      "details": "Details",
+      "visit": "Visit",
+      "visitorId": "Visitor ID",
+      "like": "Like",
+      "userId": "User ID",
+      "share": "Share",
+      "comment": "Comment",
+      "userComment": "User ID: {{userId}} - {{text}}"
+    },
+    "maintenanceTasks": {
+      "title": "Maintenance Tasks",
+      "totalTasks": "Total Tasks",
+      "totalCosts": "Total Costs",
+      "highestCostTask": "Highest Cost Task",
+      "lowestCostTask": "Lowest Cost Task",
+      "description": "Description",
+      "date": "Date",
+      "cost": "Cost"
+    },
+    "carTransactionsList": {
+      "title": "Car Transactions",
+      "totalTransactions": "Total Transactions",
+      "totalAmount": "Total Amount",
+      "type": "Type",
+      "date": "Date",
+      "amount": "Amount",
+      "description": "Description"
+    },
+    "installmentsList": {
+      "title": "Car Installments",
+      "totalInstallments": "Total Installments",
+      "totalAmount": "Total Amount",
+      "date": "Date",
+      "amount": "Amount",
+      "description": "Description",
+      "paid": "Paid",
+      "yes": "Yes",
+      "no": "No"
+    },
+
+    "partnerList": {
+      "title": "Partners",
+      "name": "Name",
+      "type": "Type",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "percentage": "Percentage"
     },
     "customers": {
       "title": "Customers",
@@ -157,16 +422,16 @@
       }
     },
     "recoveriesPage": {
-    "title": "Recoveries",
-    "description": "Details of recoveries for different accounts and their amounts",
-    "table": {
-      "headers": {
-        "accountName": "Account Name",
-        "recoveryAmount": "Recovery Amount",
-        "description": "Description",
-        "date": "Date"
+      "title": "Recoveries",
+      "description": "Details of recoveries for different accounts and their amounts",
+      "table": {
+        "headers": {
+          "accountName": "Account Name",
+          "recoveryAmount": "Recovery Amount",
+          "description": "Description",
+          "date": "Date"
+        }
       }
     }
-  }
   }
 }

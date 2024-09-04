@@ -1,5 +1,6 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl'; // Import useTranslations hook
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import CreateMaintenanceTaskModal from "@/app/(DashboardLayout)/components/shared/CreateExternalCarMaintenanceTasks";
@@ -11,13 +12,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
-  Modal,
-  TextField,
+  Button
 } from "@mui/material";
 import Loading from "../../loading"; // Import the loading component
 
 const CarMaintenanceExhibitionPage = () => {
+  const t = useTranslations('default.externalCarMaintenance'); // Initialize translations
+
   const [maintenanceData, setMaintenanceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
@@ -37,7 +38,6 @@ const CarMaintenanceExhibitionPage = () => {
   const handleOpenModal = () => {
     setOpenModal(true);
   };
-
 
   useEffect(() => {
     fetchMaintenanceData();
@@ -62,30 +62,29 @@ const CarMaintenanceExhibitionPage = () => {
 
   return (
     <PageContainer
-      title="Car Maintenance Exhibition"
-      description="Maintenance expenses for exhibition cars"
+      title={t('carMaintenanceExhibition')}
+      description={t('maintenanceExpenses')}
     >
-      <DashboardCard title="External Cars Maintenance">
+      <DashboardCard title={t('externalCarsMaintenance')}>
         {loading ? (
           <Loading />
         ) : (
           <>
-          {/* Add Task button to open modal */}
-          <Button variant="contained" onClick={handleOpenModal}>
-              Add Task
+            <Button variant="contained" onClick={handleOpenModal}>
+              {t('addTask')}
             </Button>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="car maintenance table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Car Name</TableCell>
-                    <TableCell>Maintenance Value</TableCell>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Color</TableCell>
-                    <TableCell>Model</TableCell>
-                    <TableCell>Chassis Number</TableCell>
-                    <TableCell>Owner</TableCell>
+                    <TableCell>{t('carName')}</TableCell>
+                    <TableCell>{t('maintenanceValue')}</TableCell>
+                    <TableCell>{t('description')}</TableCell>
+                    <TableCell>{t('date')}</TableCell>
+                    <TableCell>{t('color')}</TableCell>
+                    <TableCell>{t('model')}</TableCell>
+                    <TableCell>{t('chassisNumber')}</TableCell>
+                    <TableCell>{t('owner')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -107,12 +106,16 @@ const CarMaintenanceExhibitionPage = () => {
             
             {/* Modal for adding new maintenance task */}
             <CreateMaintenanceTaskModal
-            open={openModal}
-            handleClose={() => {confirm("Are you sure you want to close?");setOpenModal(false)}}
-            fetchMaintenanceTasks={fetchMaintenanceData}
-            initialTaskData={newTask}
-            isEditing={false}
-          />
+              open={openModal}
+              handleClose={() => { 
+                if (confirm("Are you sure you want to close?")) {
+                  setOpenModal(false);
+                }
+              }}
+              fetchMaintenanceTasks={fetchMaintenanceData}
+              initialTaskData={newTask}
+              isEditing={false}
+            />
           </>
         )}
       </DashboardCard>

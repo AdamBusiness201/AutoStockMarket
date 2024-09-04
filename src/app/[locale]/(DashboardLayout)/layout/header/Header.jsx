@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
+import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Popover, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 import Profile from './Profile';
 import axios from 'axios';
@@ -14,7 +14,7 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const AppBarStyled = styled(AppBar)(({ theme}) => ({
+  const AppBarStyled = styled(AppBar)(({ theme }) => ({
     background: !isScrolled
       ? 'linear-gradient(223deg, #481268, #6a1b9a)' // Gradient with transparency on scroll
       : 'linear-gradient(90deg, #6a1b9a, #6a1b9a)', // Solid purple when not scrolled
@@ -25,7 +25,7 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
       minHeight: '50px',
     },
   }));
-  
+
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
     width: '100%',
     color: theme.palette.text.secondary,
@@ -63,17 +63,14 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
     };
   }, []);
 
-  // Function to handle opening the popover
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // Function to handle closing the popover
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
 
-  // Determine whether popover is open
   const open = Boolean(anchorEl);
 
   return (
@@ -92,6 +89,9 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
         >
           <IconMenu width="20" height="20" />
         </IconButton>
+
+        
+
         <Stack spacing={1} direction="row" alignItems="center">
           <SidebarOpener toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
@@ -112,10 +112,7 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
             </Badge>
           </IconButton>
         </Stack>
-        {/* Notification icon with badge */}
 
-
-        {/* Notifications Popover */}
         <Popover
           id="notifications-menu"
           open={open}
@@ -131,28 +128,40 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
           }}
           PaperProps={{
             sx: {
-              width: '300px', // Adjust width as needed
-              borderRadius: '8px', // Add border radius
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Add shadow
+              width: '300px',
+              borderRadius: '8px',
+              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             },
           }}
         >
           <Box sx={{ p: 1, px: 2 }}>
-            <List sx={{ overflowY: 'auto', maxHeight: '300px' }}> {/* Add overflow and max-height */}
-              {notifications?.notifications?.length > 0 ? (notifications?.notifications?.map((notification, index) => (
-                <ListItem key={index} disablePadding sx={{ borderBottom: '1px solid #f0f2f5' }}> {/* Add border bottom */}
-                  <ListItemText primary={notification.message} primaryTypographyProps={{ variant: 'body1' }} /> {/* Adjust typography */}
-                </ListItem>
-              ))) : (
-                <ListItem disablePadding sx={{ textAlign: "center" }}> {/* Add border bottom */}
-                  <ListItemText primary={"No Notifications"} primaryTypographyProps={{ variant: 'body1' }} /> {/* Adjust typography */}
+            <List sx={{ overflowY: 'auto', maxHeight: '300px' }}>
+              {notifications?.notifications?.length > 0 ? (
+                notifications.notifications.map((notification, index) => (
+                  <ListItem key={index} disablePadding sx={{ borderBottom: '1px solid #f0f2f5' }}>
+                    <ListItemText primary={notification.message} primaryTypographyProps={{ variant: 'body1' }} />
+                  </ListItem>
+                ))
+              ) : (
+                <ListItem disablePadding sx={{ textAlign: "center" }}>
+                  <ListItemText primary={"No Notifications"} primaryTypographyProps={{ variant: 'body1' }} />
                 </ListItem>
               )}
             </List>
           </Box>
         </Popover>
-
-        <Box flexGrow={1} />
+{/* Centered Logo and Title */}
+<Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {/* <Box
+            component="img"
+            src="/images/logos/logo-asm.png"
+            alt="Logo"
+            sx={{ height: '90px', marginRight: '8px' }} // Adjust height and margin as needed
+          /> */}
+          <Typography variant="h6" component="div" color="white">
+            Auto Stock Master
+          </Typography>
+        </Box>
         <Stack spacing={1} direction="row" alignItems="center">
           <Profile />
         </Stack>

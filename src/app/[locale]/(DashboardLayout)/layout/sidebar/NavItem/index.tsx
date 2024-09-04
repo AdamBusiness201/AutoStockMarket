@@ -51,10 +51,10 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
       },
       "&.Mui-selected": {
         color: "white",
-        backgroundColor: theme.palette.primary.main,
+        background: `linear-gradient(223deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`, // Gradient using theme colors,
         "&:hover": {
-          backgroundColor: theme.palette.primary.main,
-          color: "white",
+          background: `linear-gradient(223deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`, // Gradient using theme colors,
+        color: "white",
         },
       },
     },

@@ -1,5 +1,12 @@
 import React from "react";
-import { Card, CardContent, Typography, Stack, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  Box,
+  useTheme,
+} from "@mui/material";
 
 type Props = {
   title?: string;
@@ -24,6 +31,7 @@ const DashboardCard = ({
   headsubtitle,
   middlecontent,
 }: Props) => {
+  const theme = useTheme();
   return (
     <Card sx={{ padding: 0, my: 2 }} elevation={9} variant={undefined}>
       {cardheading ? (
@@ -37,17 +45,17 @@ const DashboardCard = ({
         <>
           {title ? (
             <Stack
-            direction="row"
-            spacing={2}
-            justifyContent="space-between"
-            alignItems="center"
-            mb={3}
-            sx={{
-              backgroundColor: "#6a1b9a", // Purple background
-              color: "white", // White text
-              padding: "16px", // Padding around the content
-            }}
-          >
+              direction="row"
+              spacing={2}
+              justifyContent="space-between"
+              alignItems="center"
+              mb={3}
+              sx={{
+                background: `linear-gradient(223deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`, // Gradient using theme colors,
+                color: "white", // White text
+                padding: "16px", // Padding around the content
+              }}
+            >
               <Box>
                 {title ? <Typography variant="h5">{title}</Typography> : ""}
 

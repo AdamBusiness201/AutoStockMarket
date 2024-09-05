@@ -70,7 +70,7 @@ const CarMaintenanceExhibitionPage = () => {
           <Loading />
         ) : (
           <>
-            <Button variant="contained" onClick={handleOpenModal}>
+            <Button variant="contained" onClick={handleOpenModal} sx={{marginBottom: 3}}>
               {t('addTask')}
             </Button>
             <TableContainer component={Paper}>
@@ -91,7 +91,7 @@ const CarMaintenanceExhibitionPage = () => {
                   {maintenanceData.map((task, index) => (
                     <TableRow key={index}>
                       <TableCell>{task?.externalCarDetails?.name}</TableCell>
-                      <TableCell>{task?.taskCost}</TableCell>
+                      <TableCell>{new Intl.NumberFormat().format(task.taskCost)}</TableCell>
                       <TableCell>{task?.taskDescription}</TableCell>
                       <TableCell>{task?.taskDate}</TableCell>
                       <TableCell>{task?.externalCarDetails?.color}</TableCell>

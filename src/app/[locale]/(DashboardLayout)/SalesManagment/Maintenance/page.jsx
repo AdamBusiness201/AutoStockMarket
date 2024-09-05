@@ -88,7 +88,7 @@ const MaintenancePage = () => {
                       <TableCell>{task?.car?._id}</TableCell>
                       <TableCell>{task.taskDescription}</TableCell>
                       <TableCell>{new Date(task.taskDate).toLocaleString()}</TableCell>
-                      <TableCell>{task.taskCost}</TableCell>
+                      <TableCell>{new Intl.NumberFormat().format(task.taskCost)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

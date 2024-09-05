@@ -109,7 +109,7 @@ const SoldCarsPage = () => {
                   <TableCell>{soldCar?.car?.name}</TableCell>
                   <TableCell>{soldCar?.purchaser?.name}</TableCell>
                   <TableCell>{new Date(soldCar.purchaseDate).toLocaleDateString()}</TableCell>
-                  <TableCell>${soldCar.purchasePrice}</TableCell>
+                  <TableCell>{new Intl.NumberFormat().format(soldCar.purchasePrice)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

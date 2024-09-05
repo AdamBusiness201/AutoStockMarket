@@ -25,8 +25,8 @@ const TransactionsPage = () => {
   const [perPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0); // State for total pages
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); 
-  const [modalOpen, setModalOpen] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const fetchTransactions = async () => {
     setLoading(true);
@@ -41,10 +41,10 @@ const TransactionsPage = () => {
         setTotalPages(data.totalPages); // Set total pages from response
         setError("");
       } else {
-        setError(t('transactions.fetchError')); 
+        setError(t('transactions.fetchError'));
       }
     } catch (error) {
-      setError(t('transactions.fetchError')); 
+      setError(t('transactions.fetchError'));
     } finally {
       setLoading(false);
     }
@@ -68,9 +68,9 @@ const TransactionsPage = () => {
   return (
     <PageContainer title={t('transactions.title')} description={t('transactions.description')}>
       <DashboardCard title={t('transactions.title')}>
-        <CreateTransactionModal 
-          open={modalOpen} 
-          fetchTransactions={fetchTransactions} 
+        <CreateTransactionModal
+          open={modalOpen}
+          fetchTransactions={fetchTransactions}
           handleClose={() => setModalOpen(false)} // Remove confirm dialog
         />
         <Box mb={2} display="flex" alignItems="center" justifyContent="space-between">
@@ -166,7 +166,10 @@ const TransactionsPage = () => {
                     <TableRow key={transaction._id}>
                       <TableCell>{transaction.type}</TableCell>
                       <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{transaction.amount}</TableCell>
+                      <TableCell>{new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'AED',
+                      }).format(transaction.amount)}</TableCell>
                       <TableCell>
                         {transaction.car ? `${transaction.car?.name} | ${transaction.car?.chassisNumber}` : "-"}
                       </TableCell>

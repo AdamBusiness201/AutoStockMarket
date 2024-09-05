@@ -151,7 +151,7 @@ const InvoicesPage = () => {
                   <TableCell>{invoice?.transaction?._id}</TableCell>
                   <TableCell>{invoice?.customer?.name}</TableCell>
                   <TableCell>{new Date(invoice.invoiceDate).toLocaleString()}</TableCell>
-                  <TableCell>{invoice.totalAmount}</TableCell>
+                  <TableCell>{new Intl.NumberFormat().format(invoice.totalAmount)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

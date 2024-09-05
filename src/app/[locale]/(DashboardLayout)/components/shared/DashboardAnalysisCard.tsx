@@ -7,6 +7,8 @@ type Props = {
 };
 
 const AnalysisCard = ({ title, number }: Props) => {
+  const formattedNumber = new Intl.NumberFormat('en-US').format(number); // Format number using locale 'en-US'
+
   return (
     <Card
       sx={{
@@ -21,7 +23,7 @@ const AnalysisCard = ({ title, number }: Props) => {
           {title}
         </Typography>
         <Typography variant="h4" color="primary">
-          {number}
+          {formattedNumber}
         </Typography>
       </CardContent>
     </Card>

@@ -58,7 +58,7 @@ const DailyReportsPage = () => {
     <PageContainer title="Daily Reports" description="Summary of daily transactions and cash flows">
       <DashboardCard title="Daily Reports">
         <Analytics today={true} />
-        <DashboardCard title="Daily Transactions">
+        <DashboardCard title="Daily Transactions" >
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="daily transactions table">
               <TableHead>

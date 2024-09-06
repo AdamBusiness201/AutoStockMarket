@@ -49,6 +49,7 @@ const RecentTransactions = ({ transactions, title }: any) => {
             "& .MuiTimelineConnector-root": {
               width: "1px",
               backgroundColor: "#efefef",
+              margin: "auto", // Center the connector line between the dots
             },
             [`& .${timelineOppositeContentClasses.root}`]: {
               flex: 0.5,

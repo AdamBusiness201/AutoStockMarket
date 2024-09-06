@@ -120,11 +120,11 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
           onClose={handlePopoverClose}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'right',
+            horizontal: 'start',
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'end',
           }}
           PaperProps={{
             sx: {

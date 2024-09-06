@@ -44,7 +44,6 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
       borderRadius: "8px",
       backgroundColor: level > 1 ? "transparent !important" : "inherit",
       color: theme.palette.text.secondary,
-      paddingLeft: "10px",
       "&:hover": {
         backgroundColor: theme.palette.primary.light,
         color: theme.palette.primary.main,
@@ -80,7 +79,7 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
           >
             {itemIcon}
           </ListItemIcon>
-          <ListItemText>
+          <ListItemText sx={{textAlign: "start"}}>
             <>{item.title}</>
           </ListItemText>
         </ListItemButton>

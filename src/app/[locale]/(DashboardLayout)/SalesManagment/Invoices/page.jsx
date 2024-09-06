@@ -82,7 +82,7 @@ const InvoicesPage = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            sx={{ marginRight: 2 }}
+            sx={{ marginInlineStart: 2 }}
           />
           <TextField
             name="endDate"
@@ -93,7 +93,7 @@ const InvoicesPage = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            sx={{ marginRight: 2 }}
+            sx={{ marginInlineStart: 2 }}
           />
           <TextField
             name="minAmount"
@@ -104,7 +104,7 @@ const InvoicesPage = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            sx={{ marginRight: 2 }}
+            sx={{ marginInlineStart: 2 }}
           />
           <TextField
             name="maxAmount"
@@ -115,16 +115,17 @@ const InvoicesPage = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            sx={{ marginRight: 2 }}
+            sx={{ marginInlineStart: 2 }}
           />
           <TextField
             name="transactionId"
             label={t("invoices.filters.transactionId")}
             value={filters.transactionId}
             onChange={handleFilterChange}
-            sx={{ marginRight: 2 }}
+            sx={{ marginInlineStart: 2 }}
           />
-          <Button variant="contained" onClick={handleClearFilters}>
+          <Button variant="contained" onClick={handleClearFilters}
+            sx={{ marginInlineStart: 2 }}>
             {t("invoices.clearFilters")}
           </Button>
         </Box>
@@ -141,11 +142,11 @@ const InvoicesPage = () => {
             </TableHead>
             <TableBody>
               {invoices.map((invoice) => (
-                <TableRow 
-                  key={invoice._id} 
-                  hover={true} 
-                  onClick={() => handleRowClick(invoice._id)} 
-                  style={{ cursor: 'pointer' }} 
+                <TableRow
+                  key={invoice._id}
+                  hover={true}
+                  onClick={() => handleRowClick(invoice._id)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <TableCell>{invoice._id}</TableCell>
                   <TableCell>{invoice?.transaction?._id}</TableCell>

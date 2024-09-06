@@ -90,7 +90,9 @@ const TransactionsPage = () => {
             size="small"
             value={filters.type}
             onChange={handleFilterChange}
-            style={{ marginRight: 10 }}
+            style={{ marginInlineStart: 10 }}
+            
+            InputLabelProps={{ shrink: true }}
           />
           <TextField
             name="startDate"
@@ -100,7 +102,7 @@ const TransactionsPage = () => {
             size="small"
             value={filters.startDate}
             onChange={handleFilterChange}
-            style={{ marginRight: 10 }}
+            style={{ marginInlineStart: 10 }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -111,7 +113,7 @@ const TransactionsPage = () => {
             size="small"
             value={filters.endDate}
             onChange={handleFilterChange}
-            style={{ marginRight: 10 }}
+            style={{ marginInlineStart: 10 }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -122,7 +124,7 @@ const TransactionsPage = () => {
             size="small"
             value={filters.minAmount}
             onChange={handleFilterChange}
-            style={{ marginRight: 10 }}
+            style={{ marginInlineStart: 10 }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -133,7 +135,7 @@ const TransactionsPage = () => {
             size="small"
             value={filters.maxAmount}
             onChange={handleFilterChange}
-            style={{ marginRight: 10 }}
+            style={{ marginInlineStart: 10 }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -143,6 +145,8 @@ const TransactionsPage = () => {
             size="small"
             value={filters.carId}
             onChange={handleFilterChange}
+            style={{ marginInlineStart: 10 }}
+            InputLabelProps={{ shrink: true }}
           />
         </Box>
         {loading ? (

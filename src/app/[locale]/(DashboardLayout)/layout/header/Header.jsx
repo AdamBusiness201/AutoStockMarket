@@ -90,9 +90,9 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
           <IconMenu width="20" height="20" />
         </IconButton>
 
-        
 
-        <Stack spacing={1} direction="row" alignItems="center">
+
+        <Stack direction="row" alignItems="center">
           <SidebarOpener toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
           <IconButton
@@ -104,7 +104,7 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
             onClick={handlePopoverOpen}
             sx={{
               background: "#8522c1",
-              marginX: 3,
+              marginX: 1,
             }}
           >
             <Badge badgeContent={notifications.count} color="primary">
@@ -150,8 +150,8 @@ const Header = ({ toggleMobileSidebar, toggleSidebar, isSidebarOpen }) => {
             </List>
           </Box>
         </Popover>
-{/* Centered Logo and Title */}
-<Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {/* Centered Logo and Title */}
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {/* <Box
             component="img"
             src="/images/logos/logo-asm.png"

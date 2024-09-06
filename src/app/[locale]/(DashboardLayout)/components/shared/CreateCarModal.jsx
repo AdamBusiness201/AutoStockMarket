@@ -23,6 +23,7 @@ import {
   Autocomplete,
   TextField
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import * as XLSX from "xlsx"; // Import xlsx library
@@ -84,7 +85,7 @@ const colors = [
 ];
 
 
-const CarColorSelect = ({ carData, handleInputChange }) => {
+const CarColorSelect = ({ t, carData, handleInputChange }) => {
   const [selectedColor, setSelectedColor] = useState(carData?.color || '');
 
   const handleColorChange = (event, newValue) => {
@@ -106,7 +107,7 @@ const CarColorSelect = ({ carData, handleInputChange }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Color"
+              label={t("Color")} 
               variant="outlined"
               fullWidth
             />
@@ -128,7 +129,7 @@ const CarColorSelect = ({ carData, handleInputChange }) => {
   );
 };
 
-const CarNameSelect = ({ carData, handleInputChange }) => {
+const CarNameSelect = ({ t, carData, handleInputChange }) => {
   const [selectedBrand, setSelectedBrand] = useState('');
   const [models, setModels] = useState([]);
 
@@ -141,6 +142,7 @@ const CarNameSelect = ({ carData, handleInputChange }) => {
     const brandData = carNamesData.find((brand) => brand.brand === newValue);
     setModels(brandData ? brandData.models : []);
     // Reset model selection when brand changes
+    handleInputChange({ target: { name: 'brand', value: newValue } });
     handleInputChange({ target: { name: 'name', value: '' } });
   };
 
@@ -158,7 +160,7 @@ const CarNameSelect = ({ carData, handleInputChange }) => {
           onChange={handleBrandChange}
           options={carBrands}
           renderInput={(params) => (
-            <TextField {...params} label="Car Brand" variant="outlined" fullWidth />
+            <TextField {...params} label={t("CarBrand")} variant="outlined" fullWidth />
           )}
         />
       </Grid>
@@ -171,7 +173,7 @@ const CarNameSelect = ({ carData, handleInputChange }) => {
             onChange={handleModelChange}
             options={models}
             renderInput={(params) => (
-              <TextField {...params} label="Car Model" variant="outlined" fullWidth />
+              <TextField {...params} label={t("Model")} variant="outlined" fullWidth />
             )}
           />
         </Grid>
@@ -180,18 +182,18 @@ const CarNameSelect = ({ carData, handleInputChange }) => {
   );
 };
 
-function getStepContent(step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
+function getStepContent(t, step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)
   switch (step) {
     case 0: // Car Details
       return (
         <Grid container spacing={2}>
-          <CarNameSelect carData={carData} handleInputChange={handleInputChange} />
-          <CarColorSelect carData={carData} handleInputChange={handleInputChange} />
+          <CarNameSelect t={t} carData={carData} handleInputChange={handleInputChange} />
+          <CarColorSelect t={t} carData={carData} handleInputChange={handleInputChange} />
           <Grid item xs={4}>
             <FormControl fullWidth>
-              <InputLabel id="model-label">Model</InputLabel>
+              <InputLabel id="model-label">{t('Model')}</InputLabel>
               <Select
                 labelId="model-label"
                 name="model"
@@ -210,7 +212,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Chassis Number"
+              label={t('ChassisNumber')}
               name="chassisNumber"
               value={carData?.chassisNumber}
               onChange={handleInputChange}
@@ -220,7 +222,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Engine Number"
+              label={t('EngineNumber')}
               name="engineNumber"
               value={carData?.engineNumber}
               onChange={handleInputChange}
@@ -230,7 +232,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Plate Number"
+              label={t('PlateNumber')}
               name="plateNumber"
               value={carData?.plateNumber}
               onChange={handleInputChange}
@@ -240,7 +242,7 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Odometer Number"
+              label={t('OdometerNumber')}
               name="odometerNumber"
               value={carData?.odometerNumber}
               onChange={handleInputChange}
@@ -539,6 +541,10 @@ function getStepContent(step, carData, partners, handleInputChange, handlePartne
               <TableBody>
                 {/* Render car data */}
                 <TableRow>
+                  <TableCell component="th" scope="row">Car Brand</TableCell>
+                  <TableCell>{carData?.brand}</TableCell>
+                </TableRow>
+                <TableRow>
                   <TableCell component="th" scope="row">Car Name</TableCell>
                   <TableCell>{carData?.name}</TableCell>
                 </TableRow>
@@ -672,7 +678,7 @@ const CreateCarModal = ({
   isEditing,
 }) => {
   const [idType, setIdType] = useState("ownerID");
-
+  const t = useTranslations('default.CarDetails');
   const handleIdTypeChange = (event) => {
     setIdType(event.target.value);
   };
@@ -1110,7 +1116,7 @@ const CreateCarModal = ({
           </Stepper>
           <div style={{ paddingTop: 20, paddingBottom: 20 }}>
             <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
-              {getStepContent(activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
+              {getStepContent(t, activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <input
@@ -1126,7 +1132,7 @@ const CreateCarModal = ({
                   {loading ? "Loading" : "Upload Excel"}
                 </Button>
               </label>
-              <Button variant="contained" color="primary" sx={{ marginLeft: 1 }} onClick={handleExportTemplate}>
+              <Button variant="contained" color="primary" sx={{ marginX: 1 }} onClick={handleExportTemplate}>
                 Download Template
               </Button>
               <Button
@@ -1134,14 +1140,14 @@ const CreateCarModal = ({
                 variant="outlined"
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                sx={{ marginLeft: 1 }}
+                sx={{ marginX: 1 }}
               >
                 Back
               </Button>
 
               <Box sx={{ flex: "1 1 auto" }} />
               {activeStep === 2 && (
-                <Button variant="outlined" onClick={addPartner} sx={{ marginRight: 2 }}>
+                <Button variant="outlined" onClick={addPartner} sx={{ marginX: 2 }}>
                   Add Partner
                 </Button>
               )}
@@ -1151,7 +1157,7 @@ const CreateCarModal = ({
               <Button
                 onClick={handleClose}
                 variant="outlined"
-                sx={{ marginLeft: 1, fontWeight: "bold" }}
+                sx={{ marginX: 1, fontWeight: "bold" }}
               >
                 Cancel
               </Button>

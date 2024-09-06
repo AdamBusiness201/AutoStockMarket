@@ -19,11 +19,7 @@ const SidebarOpener = ({ toggleSidebar, isSidebarOpen }) => {
         background: "#8522c1",
         borderRadius: "50%",
         color: "white",
-        '&:hover': {
-          background: "#8522c1"
-        }
       }}
-      disableRipple
     >
       {isSidebarOpen ? <Close /> : <MenuIcon />}
     </IconButton>

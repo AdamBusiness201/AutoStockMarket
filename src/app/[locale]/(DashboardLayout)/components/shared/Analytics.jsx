@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, TextField, MenuItem, Select, FormControl, InputLabel, Button } from '@mui/material';
+import { Grid, Box, TextField, MenuItem, Select, FormControl, InputLabel, Button, Row, Col } from '@mui/material';
 import axios from 'axios';
 import SalesOverview from '@/app/(DashboardLayout)/components/dashboard/SalesOverview';
 import YearlyBreakup from '@/app/(DashboardLayout)/components/dashboard/YearlyBreakup';
@@ -19,11 +19,8 @@ const Analytics = ({ locale, today = false, timeRange }) => {
   const [filter, setFilter] = useState('all'); // State for selected filter
   const [filteredData, setFilteredData] = useState({}); // State for filtered data
   const t = useTranslations('default.dashboard');
+  const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const formatNumber = (number) => {
-    return new Intl.NumberFormat(locale).format(number);
-  };
 
   const fetchData = async () => {
     try {
@@ -55,7 +52,10 @@ const Analytics = ({ locale, today = false, timeRange }) => {
   useEffect(() => {
     fetchData();
   }, [startDate, endDate, filter, timeRange]);
-
+  const formatNumber = (number) => {
+    if (number === undefined || number === null) return '-';
+    return new Intl.NumberFormat(locale).format(number);
+  };
   return (
     <Box>
       <ViewDataModal open={modalOpen} handleClose={() => { setModalOpen(false) }} locale={locale} />
@@ -80,6 +80,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
                   shrink: true,
                 }}
                 fullWidth
+
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -117,7 +118,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
         <Grid item xs={12} sm={6} md={8}>
           <AnalyticsDashboard
             title={t('totalCars')}
-            data={formatNumber(filteredData?.totalCars)}
+            data={filteredData?.totalCars}
             chartData={filteredData?.carValueChartData}
             chartType="line"
             icon={<IconCar width={24} />}
@@ -128,8 +129,8 @@ const Analytics = ({ locale, today = false, timeRange }) => {
         <Grid item xs={12} sm={6} md={4}>
           <AnalyticsDashboard
             title={t('totalSoldCars')}
-            data={formatNumber(filteredData?.totalSoldCars)}
-            chartData={{ labels: [t('totalCars'), t('totalSoldCars')], series: [filteredData?.totalCars, filteredData?.totalSoldCars].map(formatNumber) }}
+            data={filteredData?.totalSoldCars}
+            chartData={{ labels: [t('totalCars'), t('totalSoldCars')], series: [filteredData?.totalCars, filteredData?.totalSoldCars] }}
             chartType="pie"
             icon={<IconCar width={24} />}
             iconLink={"/en/CarsInventory/SoldCars"}
@@ -139,7 +140,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
         <Grid item xs={12} sm={12} md={12}>
           <AnalyticsDashboard
             title={t('totalTransactions')}
-            data={formatNumber(filteredData?.totalTransactions)}
+            data={filteredData?.totalTransactions}
             chartData={filteredData?.transactionAmountsChartData}
             chartType="line"
             icon={<IconCurrencyDollar width={24} />}
@@ -149,15 +150,123 @@ const Analytics = ({ locale, today = false, timeRange }) => {
         <Grid item xs={12} sm={6} md={4}>
           <AnalyticsDashboard
             title={t('totalReceived')}
-            data={formatNumber(filteredData?.totalReceived)}
-            chartData={{ labels: [t('totalReceived'), t('totalExpenses')], series: [filteredData?.totalReceived, filteredData?.totalExpenses].map(formatNumber) }}
+            data={filteredData?.totalReceived}
+            chartData={{ labels: [t('totalReceived'), t('totalExpenses')], series: [filteredData?.totalReceived, filteredData?.totalExpenses] }}
             chartType="pie"
             icon={<IconCurrencyDollar width={24} />}
             loading={isLoading}
           />
         </Grid>
-        {/* Continue applying formatNumber to the rest of the data */}
-        {/* The rest of your components go here... */}
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalExpenses')}
+            data={filteredData?.totalExpenses}
+            chartData={{ labels: [t('totalReceived'), t('totalExpenses')], series: [filteredData?.totalReceived, filteredData?.totalExpenses] }}
+            chartType="pie"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalCustomers')}
+            data={filteredData?.totalCustomers}
+            chartData={filteredData?.customerCountsChartData}
+            chartType="line"
+            icon={<IconMan width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={8}>
+          <AnalyticsDashboard
+            title={t('totalMaintenanceCosts')}
+            data={filteredData?.totalMaintenanceCosts}
+            chartData={filteredData?.maintenanceAmountsChartData}
+            chartType="line"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalCustomerDebt')}
+            data={filteredData?.totalCustomerDebt}
+            chartData={filteredData?.customerDebtAmountsChartData}
+            chartType="column"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalCarsPrices')}
+            data={filteredData?.totalSellingPrices}
+            chartData={{ labels: [t('carValues'), t('soldCarsPrices')], series: [filteredData?.carValuesAmount, filteredData?.totalSellingPrices] }}
+            chartType="pie"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalSellingPrices')}
+            data={filteredData?.carDetails?.sellingPrice}
+            chartData={filteredData?.sellingPriceBreakdownChartData}
+            chartType="pie"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalProfit')}
+            data={filteredData?.earnings}
+            chartData={filteredData?.profitAmountsChartData}
+            chartType="column"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalPartners')}
+            data={filteredData?.totalPartners}
+            chartData={filteredData?.partnerCountsChartData}
+            chartType="line"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <AnalyticsDashboard
+            title={t('totalPartnersPercentages')}
+            data={`${filteredData?.totalPartnerPercentage}%`}
+            chartData={filteredData?.partnerPercentageBreakdownChartData}
+            chartType="pie"
+            icon={<IconCurrencyDollar width={24} />}
+            loading={isLoading}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} md={6} lg={12}>
+          <YearlyBreakup />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        {!today && (
+          <>
+            <Grid item xs={12}>
+              <SalesOverview monthlyTransactions={filteredData?.monthlyTransactions || []} title={t('salesOverview')} />
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <RecentTransactions transactions={filteredData?.recentTransactions} title={t('recentTransactions')} />
+            </Grid>
+            <Grid item xs={12} md={8} lg={8}>
+              <TopEmployees title={t('topEmployees')} />
+            </Grid>
+          </>
+        )}
       </Grid>
     </Box>
   );

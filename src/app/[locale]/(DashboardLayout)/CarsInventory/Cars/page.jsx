@@ -120,7 +120,7 @@ const CarsPage = ({ params: { locale } }) => {
             alignItems="center"
             justifyContent={"space-between"}
           >
-            <Box pr={3}>
+            <Box p={3}>
               <IconButton
                 onClick={() => setModalOpen(true)}
                 aria-label={t('addNewCar')}

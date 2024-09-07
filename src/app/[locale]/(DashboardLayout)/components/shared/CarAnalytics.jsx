@@ -54,7 +54,7 @@ const CarAnalytics = ({ carData, isDashboard = false }) => {
   };
 
   return (
-    <Box>
+    <>
       {!isDashboard && (
         <Box
           display="flex"
@@ -122,56 +122,56 @@ const CarAnalytics = ({ carData, isDashboard = false }) => {
             />
           </Grid>
         </Grid>
-        {!isDashboard && (
-          <>
-            <Divider sx={{ my: 2 }} />
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{t('carAnalytics.type')}</TableCell>
-                    <TableCell>{t('carAnalytics.date')}</TableCell>
-                    <TableCell>{t('carAnalytics.details')}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {carData?.visits?.map((visit) => (
-                    <TableRow key={visit?._id}>
-                      <TableCell>{t('carAnalytics.visit')}</TableCell>
-                      <TableCell>{new Date(visit?.date)?.toLocaleDateString()}</TableCell>
-                      <TableCell>{t('carAnalytics.visitorId')}: {visit?.userId}</TableCell>
-                    </TableRow>
-                  ))}
-                  {carData?.likes?.map((like) => (
-                    <TableRow key={like?._id}>
-                      <TableCell>{t('carAnalytics.like')}</TableCell>
-                      <TableCell>{new Date(like?.date)?.toLocaleDateString()}</TableCell>
-                      <TableCell>{t('carAnalytics.userId')}: {like?.userId}</TableCell>
-                    </TableRow>
-                  ))}
-                  {carData?.shares?.map((share) => (
-                    <TableRow key={share?._id}>
-                      <TableCell>{t('carAnalytics.share')}</TableCell>
-                      <TableCell>{new Date(share?.date)?.toLocaleDateString()}</TableCell>
-                      <TableCell>{t('carAnalytics.userId')}: {share?.userId}</TableCell>
-                    </TableRow>
-                  ))}
-                  {carData?.comments?.map((comment) => (
-                    <TableRow key={comment?._id}>
-                      <TableCell>{t('carAnalytics.comment')}</TableCell>
-                      <TableCell>{new Date(comment?.date)?.toLocaleDateString()}</TableCell>
-                      <TableCell>
-                        {t('carAnalytics.userComment', { userId: comment?.userId, text: comment?.text })}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
+       {!isDashboard && (
+         <>
+         <Divider sx={{ my: 2 }} />
+         <TableContainer component={Paper}>
+           <Table>
+             <TableHead>
+               <TableRow>
+                 <TableCell>{t('carAnalytics.type')}</TableCell>
+                 <TableCell>{t('carAnalytics.date')}</TableCell>
+                 <TableCell>{t('carAnalytics.details')}</TableCell>
+               </TableRow>
+             </TableHead>
+             <TableBody>
+               {carData?.visits?.map((visit) => (
+                 <TableRow key={visit?._id}>
+                   <TableCell>{t('carAnalytics.visit')}</TableCell>
+                   <TableCell>{new Date(visit?.date)?.toLocaleDateString()}</TableCell>
+                   <TableCell>{t('carAnalytics.visitorId')}: {visit?.userId}</TableCell>
+                 </TableRow>
+               ))}
+               {carData?.likes?.map((like) => (
+                 <TableRow key={like?._id}>
+                   <TableCell>{t('carAnalytics.like')}</TableCell>
+                   <TableCell>{new Date(like?.date)?.toLocaleDateString()}</TableCell>
+                   <TableCell>{t('carAnalytics.userId')}: {like?.userId}</TableCell>
+                 </TableRow>
+               ))}
+               {carData?.shares?.map((share) => (
+                 <TableRow key={share?._id}>
+                   <TableCell>{t('carAnalytics.share')}</TableCell>
+                   <TableCell>{new Date(share?.date)?.toLocaleDateString()}</TableCell>
+                   <TableCell>{t('carAnalytics.userId')}: {share?.userId}</TableCell>
+                 </TableRow>
+               ))}
+               {carData?.comments?.map((comment) => (
+                 <TableRow key={comment?._id}>
+                   <TableCell>{t('carAnalytics.comment')}</TableCell>
+                   <TableCell>{new Date(comment?.date)?.toLocaleDateString()}</TableCell>
+                   <TableCell>
+                     {t('carAnalytics.userComment', { userId: comment?.userId, text: comment?.text })}
+                   </TableCell>
+                 </TableRow>
+               ))}
+             </TableBody>
+           </Table>
+         </TableContainer>
+         </>
+       )}
       </Collapse>
-    </Box>
+    </>
   );
 };
 

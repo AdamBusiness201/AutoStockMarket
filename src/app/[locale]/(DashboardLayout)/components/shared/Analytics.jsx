@@ -127,9 +127,9 @@ const Analytics = ({ locale, today = false, timeRange }) => {
           </FormControl>
         </Grid>
       </Grid>
-
+      <CarAnalytics isDashboard={true} />
       <Grid container spacing={2}>
-        <CarAnalytics isDashboard={true} />
+        
         {sourceOfSellingStats.map((stat, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <AnalysisCard

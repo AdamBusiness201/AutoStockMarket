@@ -385,6 +385,24 @@
     },
 
     "transactions": {
+      "transactionsModal": {
+        "transactiondetails": "تفاصيل المعاملة",
+        "review": "مراجعة",
+        "transactionType": "نوع المعاملة",
+        "income": "دخل",
+        "expense": "مصروف",
+        "date": "التاريخ",
+        "amount": "المبلغ",
+        "description": "الوصف",
+        "car": "السيارة",
+        "finish": "إنهاء",
+        "back": "رجوع",
+        "cancel": "إلغاء",
+        "errorFetchingCars": "خطأ في جلب خيارات السيارات:",
+        "errorCreatingTransaction": "خطأ في إنشاء المعاملة:",
+        "errorUpdatingTransaction": "خطأ في تحديث المعاملة:"
+      }
+      ,
       "title": "المعاملات",
       "description": "تاريخ المعاملات",
       "addNewTransaction": "إضافة معاملة جديدة",

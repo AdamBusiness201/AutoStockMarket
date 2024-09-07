@@ -312,6 +312,24 @@
       }
     },
     "transactions": {
+      "transactionsModal": {
+        "transactiondetails": "Transaction Details",
+        "review": "Review",
+        "transactionType": "Transaction Type",
+        "income": "Income",
+        "expense": "Expense",
+        "date": "Date",
+        "amount": "Amount",
+        "description": "Description",
+        "car": "Car",
+        "finish": "Finish",
+        "back": "Back",
+        "cancel": "Cancel",
+        "errorFetchingCars": "Error fetching car options:",
+        "errorCreatingTransaction": "Error creating transaction:",
+        "errorUpdatingTransaction": "Error updating transaction:"
+      }
+,      
       "title": "Transactions",
       "description": "Transaction History",
       "addNewTransaction": "Add New Transaction",

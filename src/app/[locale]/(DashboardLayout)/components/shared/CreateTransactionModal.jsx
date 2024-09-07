@@ -17,11 +17,11 @@ import {
   Paper,
   MenuItem,
   InputAdornment,
-  Autocomplete, // Import Autocomplete
-  Select,
+  Autocomplete,
 } from "@mui/material";
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
+import { useTranslations } from "next-intl"; // Import useTranslations hook
 
 const steps = ["Transaction Details", "Review"];
 
@@ -38,7 +38,7 @@ const modalStyle = {
   borderRadius: "16px",
 };
 
-function getStepContent(step, transactionData, handleInputChange, carOptions, car) {
+function getStepContent(step, transactionData, handleInputChange, carOptions, car, t) {
   switch (step) {
     case 0: // Transaction Details
       return (
@@ -47,19 +47,19 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
             <ClearableTextField
               fullWidth
               select
-              label="Transaction Type"
+              label={t("transactionType")}
               name="type"
               value={transactionData?.type}
               onChange={handleInputChange}
             >
-              <MenuItem value="Income">Income</MenuItem>
-              <MenuItem value="Expense">Expense</MenuItem>
+              <MenuItem value="Income">{t("income")}</MenuItem>
+              <MenuItem value="Expense">{t("expense")}</MenuItem>
             </ClearableTextField>
           </Grid>
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Date"
+              label={t("date")}
               type="date"
               name="date"
               value={transactionData?.date}
@@ -72,7 +72,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Amount"
+              label={t("amount")}
               name="amount"
               value={transactionData?.amount}
               onChange={handleInputChange}
@@ -81,7 +81,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Description"
+              label={t("description")}
               name="description"
               value={transactionData?.description}
               onChange={handleInputChange}
@@ -92,7 +92,7 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
               fullWidth
               options={carOptions}
               getOptionLabel={(option) => `${option.name} | ${option.chassisNumber}`} // Concatenating name and chassisNumber
-              renderInput={(params) => <ClearableTextField {...params} label="Car" />}
+              renderInput={(params) => <ClearableTextField {...params} label={t("car")} />}
               value={car} // Set the initial value of the Autocomplete
               onChange={(event, value) => handleInputChange({ target: { name: "car", value: value?._id } })}
             />
@@ -108,31 +108,31 @@ function getStepContent(step, transactionData, handleInputChange, carOptions, ca
                 {/* Render transaction data */}
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    Transaction Type
+                    {t("transactionType")}
                   </TableCell>
                   <TableCell>{transactionData?.type}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    Date
+                    {t("date")}
                   </TableCell>
                   <TableCell>{transactionData?.date}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    Amount
+                    {t("amount")}
                   </TableCell>
                   <TableCell>{transactionData?.amount}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    Description
+                    {t("description")}
                   </TableCell>
                   <TableCell>{transactionData?.description}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    Car
+                    {t("car")}
                   </TableCell>
                   <TableCell>{transactionData?.car?.name}</TableCell>
                 </TableRow>
@@ -153,8 +153,9 @@ const CreateTransactionModal = ({
   fetchTransactions,
   initialTransactionData,
   isEditing,
-  car
+  car,
 }) => {
+  const t = useTranslations('default.transactions.transactionsModal'); // Use useTranslations hook
   const [activeStep, setActiveStep] = useState(0);
   const [transactionData, setTransactionData] = useState(initialTransactionData);
   const [carOptions, setCarOptions] = useState([]);
@@ -173,7 +174,7 @@ const CreateTransactionModal = ({
       const response = await axios.get("/api/car");
       setCarOptions(response.data.cars);
     } catch (error) {
-      console.error("Error fetching car options:", error);
+      console.error(t("errorFetchingCars"), error); // Use translated error message
     }
   };
 
@@ -200,38 +201,40 @@ const CreateTransactionModal = ({
   };
 
   const sendTransactionToApi = async (data) => {
-    // Make a POST request to create a new transaction
-    const response = await axios.post("/api/transactions", data);
-    if (response.data.message) {
-      // Reset form and close modal if transaction creation is successful
-      handleReset();
-      handleClose();
-      fetchTransactions();
-    } else {
-      console.error("Error creating transaction:", response.data.error);
+    try {
+      const response = await axios.post("/api/transactions", data);
+      if (response.data.message) {
+        // Reset form and close modal if transaction creation is successful
+        handleReset();
+        handleClose();
+        fetchTransactions();
+      } else {
+        console.error(t("errorCreatingTransaction"), response.data.error); // Use translated error message
+      }
+    } catch (error) {
+      console.error(t("errorCreatingTransaction"), error); // Use translated error message
     }
   };
 
   const handleSubmit = async () => {
     try {
       if (isEditing) {
-        // Make a PUT request to update the transaction data
         const response = await axios.put(`/api/transactions/${transactionData?._id}`, transactionData);
         if (response.data.message) {
-          // Reset form and close modal if transaction update is successful
           handleReset();
           handleClose();
           fetchTransactions();
         } else {
-          console.error("Error updating transaction:", response.data.error);
+          console.error(t("errorUpdatingTransaction"), response.data.error); // Use translated error message
         }
       } else {
         await sendTransactionToApi(transactionData);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error(t("errorUpdatingTransaction"), error); // Use translated error message
     }
   };
+
   const preventClose = useCallback((e) => {
     e.preventDefault();
     e.returnValue = ""; // Chrome requires returnValue to be set
@@ -248,6 +251,7 @@ const CreateTransactionModal = ({
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [open, preventClose]);
+
   return (
     <Modal
       open={open}
@@ -259,13 +263,13 @@ const CreateTransactionModal = ({
         <Stepper activeStep={activeStep}>
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel>{t(label.toLowerCase().replace(" ", ""))}</StepLabel>
             </Step>
           ))}
         </Stepper>
         <div style={{ paddingTop: 20, paddingBottom: 20 }}>
           <Box sx={{ maxHeight: '300px', overflowY: 'auto' }}>
-            {getStepContent(activeStep, transactionData, handleInputChange, carOptions, selectedCar)}
+            {getStepContent(activeStep, transactionData, handleInputChange, carOptions, selectedCar, t)}
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -273,18 +277,18 @@ const CreateTransactionModal = ({
               disabled={activeStep === 0}
               onClick={handleBack}
             >
-              Back
+              {t("back")}
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              {activeStep === steps.length - 1 ? t("finish") : t("review")}
             </Button>
             <Button
               onClick={handleClose}
               variant="outlined"
-              sx={{ marginLeft: 1, fontWeight: "bold" }}
+              sx={{ marginInlineStart: 1, fontWeight: "bold" }}
             >
-              Cancel
+              {t("cancel")}
             </Button>
           </Box>
         </div>

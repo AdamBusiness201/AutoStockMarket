@@ -99,7 +99,7 @@ const TopEmployees = ({ title }) => {
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">${employee.totalSales.toLocaleString()}</Typography>
+                  <Typography variant="h6">{employee.totalSales.toLocaleString()}</Typography>
                 </TableCell>
               </TableRow>
             ))}

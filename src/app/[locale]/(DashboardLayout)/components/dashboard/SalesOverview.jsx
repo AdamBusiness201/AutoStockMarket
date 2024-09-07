@@ -124,7 +124,7 @@ const SalesOverview = ({ monthlyTransactions, title }) => {
     <DashboardCard
       title={title}
       action={
-        <Select labelId="month-dd" id="month-dd" value={month} size="small" onChange={handleChange}>
+        <Select sx={{color: "white" , borderColor: "white"}} labelId="month-dd" id="month-dd" value={month} size="small" onChange={handleChange}>
           {monthlyData.map((data, index) => (
             <MenuItem key={index} value={data._id.month.toString()}>
               {data.monthName}

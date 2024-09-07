@@ -267,7 +267,9 @@
       "name": "الاسم",
       "brand": "الماركة",
       "color": "اللون",
-      "model": "الموديل",
+      "modelName": "اسم الموديل",
+      
+      "modelYear": "سنة الموديل",
       "chassisNumber": "رقم الهيكل",
       "owner": "المالك",
       "purchaseDetails": "تفاصيل الشراء",

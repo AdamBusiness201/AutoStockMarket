@@ -374,7 +374,10 @@
       "name": "Name",
       "brand": "Brand",
       "color": "Color",
-      "model": "Model",
+      
+      "modelName": "Model Name",
+      
+      "modelYear": "Model Year",
       "chassisNumber": "Chassis Number",
       "owner": "Owner",
       "purchaseDetails": "Purchase Details",

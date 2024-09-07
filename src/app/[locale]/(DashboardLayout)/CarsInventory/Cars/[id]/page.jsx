@@ -487,6 +487,12 @@ const CarDetailsPage = ({ params }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>
+                        <strong>{t('brand')}:</strong>
+                      </TableCell>
+                      <TableCell>{car?.brand}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
                         <strong>{t('name')}:</strong>
                       </TableCell>
                       <TableCell>{car?.name}</TableCell>

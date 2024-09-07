@@ -217,9 +217,9 @@ const CarsPage = ({ params: { locale } }) => {
                 <TableHead>
                   <TableRow>
                     <TableCell>{t('brand')}</TableCell>
-                    <TableCell>{t('name')}</TableCell>
+                    <TableCell>{t('modelName')}</TableCell>
                     <TableCell>{t('color')}</TableCell>
-                    <TableCell>{t('model')}</TableCell>
+                    <TableCell>{t('modelYear')}</TableCell>
                     <TableCell>{t('chassisNumber')}</TableCell>
                     <TableCell>{t('owner')}</TableCell>
                     <TableCell>{t('purchaseDetails')}</TableCell>

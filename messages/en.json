@@ -236,7 +236,7 @@
     },
     "employees": {
       "employeeModal": {
-        "employeeDetails": "Employee Details",
+        "employeedetails": "Employee Details",
         "review": "Review",
         "employeeName": "Employee Name",
         "position": "Position",

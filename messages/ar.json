@@ -459,7 +459,7 @@
     },
     "employees": {
       "employeeModal": {
-        "employeeDetails": "تفاصيل الموظف",
+        "employeedetails": "تفاصيل الموظف",
         "review": "مراجعة",
         "employeeName": "اسم الموظف",
         "position": "الوظيفة",

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useTranslations } from 'next-intl';
 import {
   Button,
   Modal,
@@ -19,12 +18,17 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  InputAdornment,
+  IconButton,
+  ClearIcon,
+
 } from "@mui/material";
+import { useTranslations } from 'next-intl';
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 
-const steps = ["employeeDetails", "review"];
+const steps = ["Employee Details", "Review"];
 
 const modalStyle = {
   position: "absolute",
@@ -257,72 +261,145 @@ function getStepContent(step, employeeData, handleInputChange, admins, t) {
   }
 }
 
-export default function CreateEmployeeModal({ open, onClose, admins }) {
+const CreateEmployeeModal = ({ open, handleClose, fetchEmployees, initialEmployeeData, isEditing }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [employeeData, setEmployeeData] = useState({});
+  const [employeeData, setEmployeeData] = useState(initialEmployeeData);
+  const [admins, setAdmins] = useState([]);
   const t = useTranslations('default.employees.employeeModal');
+
+  useEffect(() => {
+    setEmployeeData(initialEmployeeData);
+    setActiveStep(0);
+    fetchAdmins();
+  }, [open, initialEmployeeData]);
+
+  const fetchAdmins = async () => {
+    try {
+      const response = await axios.get("/api/admin");
+      setAdmins(response.data.admins);
+    } catch (error) {
+      console.error("Error fetching admins:", error);
+    }
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+    setEmployeeData(initialEmployeeData);
+  };
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      // Handle form submission
-      // Here you would typically send a request to save employeeData
+      handleSubmit();
     } else {
-      setActiveStep((prev) => prev + 1);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prev) => prev - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleClose = () => {
-    onClose();
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'email' || name === 'phone' || name === 'address' || name === 'nationalID' || name === 'nationality') {
+      setEmployeeData({
+        ...employeeData,
+        contactInfo: {
+          ...employeeData?.contactInfo,
+          [name]: value,
+        },
+      });
+    } else {
+      setEmployeeData({ ...employeeData, [name]: value });
+    }
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setEmployeeData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleSubmit = async () => {
+    try {
+      if (isEditing) {
+        const response = await axios.put(`/api/employee/${employeeData?._id}`, employeeData);
+        if (response.data.message) {
+          handleReset();
+          handleClose();
+          fetchEmployees();
+        } else {
+          console.error("Error updating employee:", response.data.error);
+        }
+      } else {
+        const response = await axios.post("/api/employee", employeeData);
+        if (response.data.message) {
+          handleReset();
+          handleClose();
+          fetchEmployees();
+        } else {
+          console.error("Error creating employee:", response.data.error);
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  const preventClose = useCallback((e) => {
+    e.preventDefault();
+    e.returnValue = ""; // Chrome requires returnValue to be set
+  }, []);
 
+  useEffect(() => {
+    if (open) {
+      window.addEventListener("beforeunload", preventClose);
+    } else {
+      window.removeEventListener("beforeunload", preventClose);
+    }
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, [open, preventClose]);
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
       <Box sx={modalStyle}>
-        <Typography variant="h6" component="h2" gutterBottom>
-          {t(steps[activeStep])}
+      <Typography variant="h6" component="h2" gutterBottom>
+          {t(steps[activeStep].toLowerCase().replace(" ", ""))}
         </Typography>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel>{t(label)}</StepLabel>
+              <StepLabel>{t(label.toLowerCase().replace(" ", ""))}</StepLabel>
             </Step>
           ))}
         </Stepper>
-        <Box mt={2} sx={{maxHeight:"300px", overflowY:'auto'}}>
-          {getStepContent(activeStep, employeeData, handleInputChange, admins, t)}
-        </Box>
-        <Box mt={2} display="flex" justifyContent="flex-end">
+        <div style={{ marginTop: 10, paddingTop: 20, paddingBottom: 20, maxHeight: "300px", overflowY: 'auto' }}>
+          {getStepContent(activeStep, employeeData, handleInputChange, admins,t )}
+
+        </div>
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button
             color="inherit"
             disabled={activeStep === 0}
             onClick={handleBack}
           >
-            {t("back")}
+            {t('back')}
           </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
           <Button onClick={handleNext}>
-            {activeStep === steps.length - 1 ? t("finish") : t("next")}
+            {activeStep === steps.length - 1 ? t('finish') : t('next')}
           </Button>
           <Button
-            onClick={handleClose}
-            variant="outlined"
-            sx={{ marginLeft: 1, fontWeight: "bold" }}
-          >
-            {t("cancel")}
-          </Button>
+              onClick={handleClose}
+              variant="outlined"
+              sx={{ marginLeft: 1, fontWeight: "bold" }}
+            >
+              {t('cancel')}
+            </Button>
         </Box>
       </Box>
     </Modal>
   );
-}
+};
+
+export default CreateEmployeeModal;

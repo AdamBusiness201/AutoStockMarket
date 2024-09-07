@@ -155,14 +155,14 @@ const Menuitems = [
     href: "/CustomerManagement/Customers",
     translatedTitle: "ملف 1 - ديون المعرض",
   },
-  {
-    key: toCamelCase("Exhibition Debts"),
-    id: uniqueId(),
-    title: "Exhibition Debts",
-    icon: GiTakeMyMoney,
-    href: "/CustomerManagement/ExhibitionDebts",
-    translatedTitle: "ملف 1 - ديون المعرض",
-  },
+  // {
+  //   key: toCamelCase("Exhibition Debts"),
+  //   id: uniqueId(),
+  //   title: "Exhibition Debts",
+  //   icon: GiTakeMyMoney,
+  //   href: "/CustomerManagement/ExhibitionDebts",
+  //   translatedTitle: "ملف 1 - ديون المعرض",
+  // },
   {
     key: toCamelCase("Employee Management"),
     navlabel: true,

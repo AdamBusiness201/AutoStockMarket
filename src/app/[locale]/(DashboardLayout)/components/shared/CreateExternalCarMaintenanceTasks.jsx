@@ -21,10 +21,10 @@ import {
 } from "@mui/material";
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
+import { useTranslations } from 'next-intl';
 
 const steps = ["Task Details", "Review"];
 
-// Function to fetch customers from the API
 const fetchCustomers = async () => {
   try {
     const response = await axios.get("/api/customers");
@@ -37,7 +37,6 @@ const fetchCustomers = async () => {
   }
 };
 
-// Function to fetch existing tasks' chassis numbers
 const fetchChassisNumbers = async () => {
   try {
     const response = await axios.get("/api/maintenance_tasks/external/chassis");
@@ -55,12 +54,12 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%", // Adjusted width
-  maxWidth: "1500px", // Max width
+  width: "80%",
+  maxWidth: "1500px",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  borderRadius: "16px", // Rounded corners
+  borderRadius: "16px",
 };
 
 function getStepContent(
@@ -71,7 +70,8 @@ function getStepContent(
   handleTaskDescriptionChange,
   handleTaskDateChange,
   customers,
-  chassisNumbers
+  chassisNumbers,
+  t
 ) {
   switch (step) {
     case 0: // Task Details
@@ -80,7 +80,7 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Car Name"
+              label={t("taskDetails.carName")}
               name="externalCarDetails.name"
               value={taskData?.externalCarDetails?.name}
               onChange={handleInputChange}
@@ -89,7 +89,7 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Color"
+              label={t("taskDetails.color")}
               name="externalCarDetails.color"
               value={taskData?.externalCarDetails?.color}
               onChange={handleInputChange}
@@ -98,7 +98,7 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Model"
+              label={t("taskDetails.model")}
               name="externalCarDetails.model"
               value={taskData?.externalCarDetails?.model}
               onChange={handleInputChange}
@@ -107,14 +107,13 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Chassis Number"
+              label={t("taskDetails.chassisNumber")}
               name="externalCarDetails.chassisNumber"
               value={taskData?.externalCarDetails?.chassisNumber}
               onChange={handleInputChange}
-              // Autocomplete feature with suggestions from existing chassis numbers
               autoComplete="off"
               InputProps={{
-                list: "chassisNumbers", // ID of the datalist element
+                list: "chassisNumbers",
               }}
             />
             <datalist id="chassisNumbers">
@@ -125,7 +124,7 @@ function getStepContent(
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel>Owner</InputLabel>
+              <InputLabel>{t("taskDetails.owner")}</InputLabel>
               <Select
                 name="externalCarDetails.owner"
                 value={taskData?.externalCarDetails?.owner}
@@ -143,7 +142,7 @@ function getStepContent(
             <ClearableTextField
               fullWidth
               multiline
-              label="Task Description"
+              label={t("taskDetails.taskDescription")}
               name="taskDescription"
               value={taskData?.taskDescription}
               onChange={handleTaskDescriptionChange}
@@ -152,7 +151,7 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Task Cost"
+              label={t("taskDetails.taskCost")}
               name="taskCost"
               value={taskData?.taskCost}
               onChange={handleTaskCostChange}
@@ -161,7 +160,7 @@ function getStepContent(
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Task Date"
+              label={t("taskDetails.taskDate")}
               type="date"
               name="taskDate"
               value={taskData?.taskDate}
@@ -176,42 +175,40 @@ function getStepContent(
     case 1: // Review
       return (
         <div>
-          <Typography variant="h6">Review Task Details</Typography>
+          <Typography variant="h6">{t("review.title")}</Typography>
           <TableContainer component={Paper}>
-            <Table aria-label="review task details">
+            <Table aria-label={t("review.tableTitle")}>
               <TableBody>
                 <TableRow>
-                  <TableCell>Car Name</TableCell>
+                  <TableCell>{t("review.carName")}</TableCell>
                   <TableCell>{taskData?.externalCarDetails?.name}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Color</TableCell>
+                  <TableCell>{t("review.color")}</TableCell>
                   <TableCell>{taskData?.externalCarDetails?.color}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Model</TableCell>
+                  <TableCell>{t("review.model")}</TableCell>
                   <TableCell>{taskData?.externalCarDetails?.model}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Chassis Number</TableCell>
-                  <TableCell>
-                    {taskData?.externalCarDetails?.chassisNumber}
-                  </TableCell>
+                  <TableCell>{t("review.chassisNumber")}</TableCell>
+                  <TableCell>{taskData?.externalCarDetails?.chassisNumber}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Owner</TableCell>
+                  <TableCell>{t("review.owner")}</TableCell>
                   <TableCell>{taskData?.externalCarDetails?.owner}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Task Description</TableCell>
+                  <TableCell>{t("review.taskDescription")}</TableCell>
                   <TableCell>{taskData?.taskDescription}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Task Cost</TableCell>
+                  <TableCell>{t("review.taskCost")}</TableCell>
                   <TableCell>{taskData?.taskCost}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Task Date</TableCell>
+                  <TableCell>{t("review.taskDate")}</TableCell>
                   <TableCell>{taskData?.taskDate}</TableCell>
                 </TableRow>
               </TableBody>
@@ -236,6 +233,8 @@ const CreateMaintenanceTaskModal = ({
   const [taskData, setTaskData] = useState(initialTaskData);
   const [customers, setCustomers] = useState([]);
   const [chassisNumbers, setChassisNumbers] = useState([]);
+  const t = useTranslations('default.externalCarMaintenance.modal'); // Assuming 'modal' namespace for translations
+
   useEffect(() => {
     async function fetchData() {
       const fetchedCustomers = await fetchCustomers();
@@ -252,17 +251,6 @@ const CreateMaintenanceTaskModal = ({
     setActiveStep(0);
   }, [open, initialTaskData]);
 
-  useEffect(() => {
-    async function fetchChassis() {
-      const fetchedChassisNumbers = await fetchChassisNumbers();
-      setTaskData((prevData) => ({
-        ...prevData,
-        chassisNumbers: fetchedChassisNumbers,
-      }));
-    }
-    fetchChassis();
-  }, []);
-
   const handleReset = () => {
     setActiveStep(0);
     setTaskData(initialTaskData);
@@ -270,7 +258,7 @@ const CreateMaintenanceTaskModal = ({
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      handleSubmit(); // Call the handleSubmit function to submit the form data
+      handleSubmit();
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -283,12 +271,11 @@ const CreateMaintenanceTaskModal = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const [category, key] = name.split("."); // Assumes name is in the format "category.key"
+    const [category, key] = name.split(".");
 
     setTaskData((prevData) => ({
       ...prevData,
       [category]: {
-        // Safely spread prevData[category] if it exists or default to an empty object
         ...(prevData && prevData[category] ? prevData[category] : {}),
         [key]: value,
       },
@@ -322,13 +309,11 @@ const CreateMaintenanceTaskModal = ({
   const handleSubmit = async () => {
     try {
       if (isEditing) {
-        // Make a PUT request to update the task data
         const response = await axios.put(
           `/api/maintenance_tasks/external/${taskData?._id}`,
           taskData
         );
         if (response.data.message) {
-          // Reset form and close modal if task update is successful
           handleReset();
           handleClose();
           fetchMaintenanceTasks();
@@ -336,13 +321,11 @@ const CreateMaintenanceTaskModal = ({
           console.error("Error updating task:", response.data.error);
         }
       } else {
-        console.log(taskData)
         const response = await axios.post(
           "/api/maintenance_tasks/external",
           taskData
         );
         if (response.data.message) {
-          // Reset form and close modal if task creation is successful
           handleReset();
           handleClose();
           fetchMaintenanceTasks();
@@ -354,9 +337,10 @@ const CreateMaintenanceTaskModal = ({
       console.error("Error:", error);
     }
   };
+
   const preventClose = useCallback((e) => {
     e.preventDefault();
-    e.returnValue = ""; // Chrome requires returnValue to be set
+    e.returnValue = "";
   }, []);
 
   useEffect(() => {
@@ -370,6 +354,7 @@ const CreateMaintenanceTaskModal = ({
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [open, preventClose]);
+
   return (
     <Modal
       open={open}
@@ -381,7 +366,7 @@ const CreateMaintenanceTaskModal = ({
         <Stepper activeStep={activeStep}>
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel>{t(`steps.${label}`)}</StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -391,10 +376,11 @@ const CreateMaintenanceTaskModal = ({
             taskData,
             handleInputChange,
             handleTaskCostChange,
-            handleTaskDescriptionChange, // Correct position for description change
-            handleTaskDateChange, // Correct position for date change
+            handleTaskDescriptionChange,
+            handleTaskDateChange,
             customers,
-            chassisNumbers
+            chassisNumbers,
+            t
           )}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -402,18 +388,18 @@ const CreateMaintenanceTaskModal = ({
               disabled={activeStep === 0}
               onClick={handleBack}
             >
-              Back
+              {t("buttons.back")}
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              {activeStep === steps.length - 1 ? t("buttons.finish") : t("buttons.next")}
             </Button>
             <Button
               onClick={handleClose}
               variant="outlined"
               sx={{ marginLeft: 1, fontWeight: "bold" }}
             >
-              Cancel
+              {t("buttons.cancel")}
             </Button>
           </Box>
         </div>

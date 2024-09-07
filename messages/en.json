@@ -2,6 +2,7 @@
   "default": {
     "Dashboard": {
       "title": "Dashboard",
+      
       "description": "This is the Dashboard",
       "timeRanges": {
         "thisWeek": "This Week",
@@ -92,6 +93,10 @@
     },
     "dashboard": {
       "home": "Home",
+      "sourceOfSelling": {
+        "unknown": "Unknown",
+        "totalPrice": "Total Price:"
+      },
       "dashboard": "Dashboard",
       "carsInventory": "Cars Inventory",
       "cars": "Cars",
@@ -272,6 +277,35 @@
       "hireDate": "Hire Date",
       "errorFetchingEmployees": "Failed to fetch employees. Please try again later."
     },
+    "employee": {
+      "attendance": {
+        "employeeAttendance": "Employee Attendance",
+        "exportToXLSX": "Export to XLSX",
+        "date": "Date",
+        "attendanceStatus": "Attendance Status",
+        "shift": "Shift",
+        "location": "Location",
+        "notes": "Notes",
+        "noRecords": "No attendance records available"
+      },
+      "employeeDetails": "Employee Details",
+      "employeeDetailsDescription": "Details of the selected employee",
+      "edit": "Edit",
+      "delete": "Delete",
+      "print": "Print",
+      "info": "Info",
+      "confirmDeletionTitle": "Confirm Deletion",
+      "confirmDeletionDescription": "Are you sure you want to delete {name}?",
+      "cancel": "Cancel",
+      "deleteButton": "Delete",
+      "id": "ID",
+      "name": "Name",
+      "position": "Position",
+      "hireDate": "Hire Date",
+      "status": "Status",
+      "employeeDetailsTable": "Employee Details Table",
+      "confirmCloseEditModal": "Are you sure you want to close?"
+    },
     "externalDebts": {
       "customers": "Customers",
       "customersManagement": "Customers Management",
@@ -282,6 +316,40 @@
       "errorFetchingCustomers": "Failed to fetch customers. Please try again later."
     },
     "externalCarMaintenance": {
+      "modal": {
+        "steps": {
+          "Task Details": "Task Details",
+          "Review": "Review"
+        },
+        "taskDetails": {
+          "carName": "Car Name",
+          "color": "Color",
+          "model": "Model",
+          "chassisNumber": "Chassis Number",
+          "owner": "Owner",
+          "taskDescription": "Task Description",
+          "taskCost": "Task Cost",
+          "taskDate": "Task Date"
+        },
+        "review": {
+          "title": "Review Task Details",
+          "tableTitle": "review task details",
+          "carName": "Car Name",
+          "color": "Color",
+          "model": "Model",
+          "chassisNumber": "Chassis Number",
+          "owner": "Owner",
+          "taskDescription": "Task Description",
+          "taskCost": "Task Cost",
+          "taskDate": "Task Date"
+        },
+        "buttons": {
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "cancel": "Cancel"
+        }
+      },
       "carMaintenanceExhibition": "Car Maintenance Exhibition",
       "maintenanceExpenses": "Maintenance expenses for exhibition cars",
       "externalCarsMaintenance": "External Cars Maintenance",
@@ -298,20 +366,20 @@
     },
     "income": {
       "title": "Income",
-      "description": "Total Income and Car Details",
+      "description": "Total income and car details",
       "from": "From",
       "to": "To",
       "fetchError": "Failed to fetch income data. Please try again later.",
       "totalIncome": "Total Income",
-      "totalCars": "Number of Cars",
+      "totalTransactions": "Total Transactions",
       "tableHeaders": {
         "incomeDetailsTable": "Income Details Table",
         "carId": "Car ID",
-        "name": "Name",
-        "color": "Color",
-        "model": "Model",
-        "netProfit": "Net Profit",
-        "saleDate": "Sale Date"
+        "customerName": "Customer Name",
+        "carModel": "Car Model",
+        "carColor": "Car Color",
+        "amount": "Amount",
+        "date": "Date"
       }
     },
     "maintenance": {
@@ -488,6 +556,7 @@
       "title": "Sold Cars",
       "description": "Sold Cars Management",
       "search": "Search",
+      "brand": "Brand",
       "carName": "Car Name",
       "purchaserName": "Purchaser Name",
       "purchaseDate": "Purchase Date",
@@ -535,6 +604,22 @@
       "description": "Description"
     },
     "installmentsList": {
+      "installmentModal": {
+        "installmentDetails": "Installment Details",
+        "review": "Review",
+        "installmentDate": "Installment Date",
+        "amount": "Amount",
+        "description": "Description",
+        "paid": "Paid",
+        "yes": "Yes",
+        "no": "No",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "cancel": "Cancel",
+        "errorMessage": "An error occurred.",
+        "successMessage": "Operation successful."
+      },
       "title": "Car Installments",
       "totalInstallments": "Total Installments",
       "totalAmount": "Total Amount",

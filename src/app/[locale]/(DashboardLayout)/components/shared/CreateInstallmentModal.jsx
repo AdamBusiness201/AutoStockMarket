@@ -12,19 +12,18 @@ import {
   TableContainer,
   Table,
   TableBody,
-  TableHead,
   TableRow,
   Paper,
-  MenuItem,
-  Switch,
   FormControlLabel,
+  Switch,
 } from "@mui/material";
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslations } from 'next-intl';
 
-const steps = ["Installment Details", "Review"];
+const steps = ["installmentDetails", "review"];
 
 const modalStyle = {
   position: "absolute",
@@ -39,7 +38,7 @@ const modalStyle = {
   borderRadius: "16px",
 };
 
-function getStepContent(step, installmentData, handleInputChange) {
+function getStepContent(step, installmentData, handleInputChange, t) {
   switch (step) {
     case 0: // Installment Details
       return (
@@ -47,7 +46,7 @@ function getStepContent(step, installmentData, handleInputChange) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Installment Date"
+              label={t("installmentDate")}
               type="date"
               name="installmentDate"
               value={installmentData?.installmentDate}
@@ -60,7 +59,7 @@ function getStepContent(step, installmentData, handleInputChange) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Amount"
+              label={t("amount")}
               name="amount"
               value={installmentData?.amount}
               onChange={handleInputChange}
@@ -69,7 +68,7 @@ function getStepContent(step, installmentData, handleInputChange) {
           <Grid item xs={10}>
             <ClearableTextField
               fullWidth
-              label="Description"
+              label={t("description")}
               name="description"
               value={installmentData?.description}
               onChange={handleInputChange}
@@ -83,7 +82,7 @@ function getStepContent(step, installmentData, handleInputChange) {
                   value: e.target.checked,
                 },
               })} />}
-              label="Paid"
+              label={t("paid")}
             />
           </Grid>
         </Grid>
@@ -94,26 +93,25 @@ function getStepContent(step, installmentData, handleInputChange) {
           <Table aria-label="installment details">
             <TableBody>
               <TableRow>
-                <TableCell component="th" scope="row">Installment Date</TableCell>
+                <TableCell component="th" scope="row">{t("installmentDate")}</TableCell>
                 <TableCell>{installmentData?.installmentDate}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell component="th" scope="row">Amount</TableCell>
+                <TableCell component="th" scope="row">{t("amount")}</TableCell>
                 <TableCell>{installmentData?.amount}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell component="th" scope="row">Description</TableCell>
+                <TableCell component="th" scope="row">{t("description")}</TableCell>
                 <TableCell>{installmentData?.description}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell component="th" scope="row">Paid</TableCell>
-                <TableCell>{installmentData?.paid ? "Yes" : "No"}</TableCell>
+                <TableCell component="th" scope="row">{t("paid")}</TableCell>
+                <TableCell>{installmentData?.paid ? t("yes") : t("no")}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
       );
-
     default:
       return "Unknown step";
   }
@@ -124,6 +122,7 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
   const [installmentData, setInstallmentData] = useState(initialInstallmentData || {});
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const t = useTranslations('default.installmentsList.installmentModal');
 
   useEffect(() => {
     setInstallmentData(initialInstallmentData);
@@ -204,6 +203,7 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
       });
     }
   };
+
   const preventClose = useCallback((e) => {
     e.preventDefault();
     e.returnValue = ""; // Chrome requires returnValue to be set
@@ -220,6 +220,7 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [open, preventClose]);
+
   return (
     <>
       <ToastContainer
@@ -235,7 +236,6 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
         theme="colored"
         transition="Flip"
       />
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -246,13 +246,13 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
           <Stepper activeStep={activeStep}>
             {steps.map((label) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel>{t(label)}</StepLabel>
               </Step>
             ))}
           </Stepper>
           <div style={{ paddingTop: 20, paddingBottom: 20 }}>
             <Box sx={{ maxHeight: '300px', overflowY: 'auto' }}>
-              {getStepContent(activeStep, installmentData, handleInputChange)}
+              {getStepContent(activeStep, installmentData, handleInputChange, t)}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
@@ -260,35 +260,35 @@ const CreateInstallmentModal = ({ open, handleClose, fetchInstallments, initialI
                 disabled={activeStep === 0}
                 onClick={handleBack}
               >
-                Back
+                {t("back")}
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                {activeStep === steps.length - 1 ? t("finish") : t("next")}
               </Button>
               <Button
-              onClick={handleClose}
-              variant="outlined"
-              sx={{ marginLeft: 1, fontWeight: "bold" }}
-            >
-              Cancel
-            </Button>
+                onClick={handleClose}
+                variant="outlined"
+                sx={{ marginLeft: 1, fontWeight: "bold" }}
+              >
+                {t("cancel")}
+              </Button>
             </Box>
           </div>
           {errorMessage && (
             <Box sx={{ color: 'error.main', mt: 2 }}>
-              <Typography variant="body1">{errorMessage}</Typography>
+              <Typography variant="body1">{t("errorMessage")}</Typography>
             </Box>
           )}
           {successMessage && (
             <Box sx={{ color: 'success.main', mt: 2 }}>
-              <Typography variant="body1">{successMessage}</Typography>
+              <Typography variant="body1">{t("successMessage")}</Typography>
             </Box>
           )}
         </Box>
-      </Modal></>
+      </Modal>
+    </>
   );
 };
-
 
 export default CreateInstallmentModal;

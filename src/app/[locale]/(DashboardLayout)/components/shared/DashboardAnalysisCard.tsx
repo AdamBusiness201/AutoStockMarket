@@ -4,9 +4,10 @@ import { Card, CardContent, Typography } from "@mui/material";
 type Props = {
   title: string;
   number: number;
+  description?: string; // Make description optional
 };
 
-const AnalysisCard = ({ title, number }: Props) => {
+const AnalysisCard = ({ title, number, description }: Props) => {
   const formattedNumber = new Intl.NumberFormat('en-US').format(number); // Format number using locale 'en-US'
 
   return (
@@ -25,6 +26,11 @@ const AnalysisCard = ({ title, number }: Props) => {
         <Typography variant="h4" color="primary">
           {formattedNumber}
         </Typography>
+        {description && (
+          <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
+            {description}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

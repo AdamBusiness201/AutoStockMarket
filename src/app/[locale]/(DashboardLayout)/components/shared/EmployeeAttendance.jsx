@@ -14,10 +14,12 @@ import {
 } from "@mui/material";
 import Loading from "../../loading";
 import * as XLSX from "xlsx";
+import { useTranslations } from 'next-intl'; // Assuming next-intl is used for translation
 
 const EmployeeAttendance = ({ employeeId }) => {
   const [attendances, setAttendances] = useState([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations('default.employee.attendance'); // Assuming 'EmployeeAttendance' is the namespace
 
   // Fetch employee attendance records
   useEffect(() => {
@@ -40,7 +42,7 @@ const EmployeeAttendance = ({ employeeId }) => {
   // Function to export data to XLSX
   const exportToXLSX = () => {
     const headers = [
-      { date: "Date", attendanceStatus: "Attendance Status", shift: "Shift", location: "Location", notes: "Notes" },
+      { date: t('date'), attendanceStatus: t('attendanceStatus'), shift: t('shift'), location: t('location'), notes: t('notes') },
     ];
 
     const data = attendances.length > 0 ? attendances : headers;
@@ -50,7 +52,7 @@ const EmployeeAttendance = ({ employeeId }) => {
     });
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Attendance");
+    XLSX.utils.book_append_sheet(workbook, worksheet, t('employeeAttendance'));
     XLSX.writeFile(workbook, "EmployeeAttendance.xlsx");
   };
 
@@ -62,10 +64,10 @@ const EmployeeAttendance = ({ employeeId }) => {
         <>
           <Box display="flex" justifyContent="space-between" marginBottom={5}>
             <Typography variant="h6" gutterBottom>
-              Employee Attendance
+              {t('employeeAttendance')}
             </Typography>
             <Button variant="contained" color="primary" onClick={exportToXLSX}>
-              Export to XLSX
+              {t('exportToXLSX')}
             </Button>
           </Box>
 
@@ -73,11 +75,11 @@ const EmployeeAttendance = ({ employeeId }) => {
             <Table aria-label="employee attendance table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Attendance Status</TableCell>
-                  <TableCell>Shift</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Notes</TableCell>
+                  <TableCell>{t('date')}</TableCell>
+                  <TableCell>{t('attendanceStatus')}</TableCell>
+                  <TableCell>{t('shift')}</TableCell>
+                  <TableCell>{t('location')}</TableCell>
+                  <TableCell>{t('notes')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -94,7 +96,7 @@ const EmployeeAttendance = ({ employeeId }) => {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} align="center">
-                      No attendance records available
+                      {t('noRecords')}
                     </TableCell>
                   </TableRow>
                 )}

@@ -9,6 +9,7 @@ import EmployeeAttendance from "@/app/(DashboardLayout)/components/shared/Employ
 import BonusRecords from "@/app/(DashboardLayout)/components/shared/EmployeeBonus";
 import SalesRecords from "../../../components/shared/EmployeeSales";
 import Loading from "@/app/loading";
+import { useTranslations } from 'next-intl';
 import {
   Table,
   TableBody,
@@ -17,7 +18,6 @@ import {
   Paper,
   Typography,
   Box,
-  CircularProgress,
   Button,
   IconButton,
   Tooltip,
@@ -39,6 +39,7 @@ const EmployeeDetailsPage = ({ params }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
   const { id } = params;
+  const t = useTranslations('default.employee');
 
   // Fetch employee details
   const fetchEmployeeDetails = async () => {
@@ -61,8 +62,9 @@ const EmployeeDetailsPage = ({ params }) => {
   };
 
   const handleCloseEditModal = () => {
-    confirm("Are you sure you want to close?");
-    setEditModalOpen(false);
+    if (window.confirm(t('confirmCloseEditModal'))) {
+      setEditModalOpen(false);
+    }
   };
 
   const handlePrintEmployee = () => {
@@ -82,8 +84,8 @@ const EmployeeDetailsPage = ({ params }) => {
 
   return (
     <PageContainer
-      title={`Employee Details | ${employee?.name}`}
-      description="Details of the selected employee"
+      title={`${t('employeeDetails')} | ${employee?.name}`}
+      description={t('employeeDetailsDescription')}
     >
       <DashboardCard>
         <>
@@ -98,11 +100,11 @@ const EmployeeDetailsPage = ({ params }) => {
                 marginBottom={3}
               >
                 <Typography variant="h5" gutterBottom>
-                  Employee Details - {employee.name}
+                  {t('employeeDetails')} - {employee.name}
                 </Typography>
                 <Box>
                   <Tooltip
-                    title={`Edit ${employee?.name}`}
+                    title={`${t('edit')} ${employee?.name}`}
                     arrow
                     TransitionComponent={Fade}
                     TransitionProps={{ timeout: 600 }}
@@ -116,7 +118,7 @@ const EmployeeDetailsPage = ({ params }) => {
                     </IconButton>
                   </Tooltip>
                   <Tooltip
-                    title={`Delete ${employee?.name}`}
+                    title={`${t('delete')} ${employee?.name}`}
                     arrow
                     TransitionComponent={Fade}
                     TransitionProps={{ timeout: 600 }}
@@ -130,7 +132,7 @@ const EmployeeDetailsPage = ({ params }) => {
                     </IconButton>
                   </Tooltip>
                   <Tooltip
-                    title={`Print ${employee?.name} Info`}
+                    title={`${t('print')} ${employee?.name} ${t('info')}`}
                     arrow
                     TransitionComponent={Fade}
                     TransitionProps={{ timeout: 600 }}
@@ -146,35 +148,35 @@ const EmployeeDetailsPage = ({ params }) => {
                 </Box>
               </Box>
               <TableContainer component={Paper}>
-                <Table aria-label="employee details table">
+                <Table aria-label={t('employeeDetailsTable')}>
                   <TableBody>
                     <TableRow>
                       <TableCell>
-                        <strong>ID:</strong>
+                        <strong>{t('id')}:</strong>
                       </TableCell>
                       <TableCell>{employee._id}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Name:</strong>
+                        <strong>{t('name')}:</strong>
                       </TableCell>
                       <TableCell>{employee.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Position:</strong>
+                        <strong>{t('position')}:</strong>
                       </TableCell>
                       <TableCell>{employee.position}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Hire Date:</strong>
+                        <strong>{t('hireDate')}:</strong>
                       </TableCell>
                       <TableCell>{employee.hireDate}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>Status:</strong>
+                        <strong>{t('status')}:</strong>
                       </TableCell>
                       <TableCell>{employee.status} - {employee.statusReason}</TableCell>
                     </TableRow>
@@ -226,7 +228,7 @@ const EmployeeDetailsPage = ({ params }) => {
             component="h2"
             gutterBottom
           >
-            Confirm Deletion
+            {t('confirmDeletionTitle')}
           </Typography>
           <Typography
             id="delete-employee-confirmation-description"
@@ -234,7 +236,7 @@ const EmployeeDetailsPage = ({ params }) => {
             component="div"
             gutterBottom
           >
-            Are you sure you want to delete {employee?.name}?
+            {t('confirmDeletionDescription', { name: employee?.name })}
           </Typography>
           <Box textAlign="right">
             <Button
@@ -243,14 +245,14 @@ const EmployeeDetailsPage = ({ params }) => {
               variant="outlined"
               style={{ marginRight: 10 }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               onClick={handleDeleteEmployee}
               color="error"
               variant="outlined"
             >
-              Delete
+              {t('deleteButton')}
             </Button>
           </Box>
         </Box>

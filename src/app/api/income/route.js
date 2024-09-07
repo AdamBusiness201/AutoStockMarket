@@ -1,33 +1,41 @@
 import connectDB from "../../../lib/db";
-import CarDetails from "../../../models/CarDetails";
+import Transaction from "../../../models/Transaction";
 import { NextResponse } from "next/server";
 
-// GET: Get the total income from all sold cars along with individual car details
-export async function GET(req, res) {
+export async function GET(req) {
   await connectDB();
-  try {
-    // Find all CarDetails with non-zero values
-    const carDetails = await CarDetails.find({
-      $or: [
-        { value: { $ne: 0 } },
-        { sellingPrice: { $ne: 0 } },
-        { capital: { $ne: 0 } },
-        { maintenanceCosts: { $ne: 0 } }
-      ]
-    }).sort({ createdAt: -1 }).populate('car'); // Populate the 'car' field with actual car details
 
-    // Calculate total income
-    let totalIncome = 0;
-    for (const detail of carDetails) {
-      totalIncome += detail.netProfit;
+  const { searchParams } = new URL(req.url);
+  const fromDate = searchParams.get("fromDate");
+  const toDate = searchParams.get("toDate");
+
+  try {
+    const query = { type: "income" }; // Ensure only 'income' transactions are retrieved
+
+    if (fromDate) {
+      query.date = { $gte: new Date(fromDate) };
     }
 
-    // Additional income details as per your requirement
+    if (toDate) {
+      query.date = {
+        ...query.date,
+        $lte: new Date(toDate),
+      };
+    }
+
+    // Find all income transactions with populated 'car' and 'customer' fields
+    const transactions = await Transaction.find(query)
+      .populate('car')
+      .populate('partners') // Populate customer field
+      .sort({ date: -1 });
+
+    // Calculate total income
+    const totalIncome = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
     const incomeDetails = {
       totalIncome,
-      totalCars: carDetails.length,
-      soldCarsDetails: carDetails
-      // Add more details here if needed
+      totalTransactions: transactions.length,
+      soldCarsDetails: transactions
     };
 
     return NextResponse.json({ incomeDetails });

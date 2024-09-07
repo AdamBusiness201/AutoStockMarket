@@ -114,7 +114,7 @@ const EmployeesPage = () => {
               size="small"
               value={filters.name}
               onChange={handleFilterChange}
-              style={{ marginRight: 10 }}
+              style={{ marginInlineEnd: 10 }}
             />
             <TextField
               name="position"

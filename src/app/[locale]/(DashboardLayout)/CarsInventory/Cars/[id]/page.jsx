@@ -405,20 +405,23 @@ const CarDetailsPage = ({ params }) => {
                       <SellOutlined />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip
-                    title={`Sell ${car?.name}`}
-                    arrow
-                    TransitionComponent={Fade}
-                    TransitionProps={{ timeout: 600 }}
-                  >
-                    <IconButton
-                      color="primary"
-                      onClick={() => setConfirmationOpen(true)}
-                      style={{ marginRight: 10 }}
+                  {car?.currentLocation !== "Sold" && (
+                    <Tooltip
+                      title={`Sell ${car?.name}`}
+                      arrow
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
                     >
-                      <AddBusinessOutlined />
-                    </IconButton>
-                  </Tooltip>
+                      <IconButton
+                        color="primary"
+                        onClick={() => setConfirmationOpen(true)}
+                        style={{ marginRight: 10 }}
+                      >
+                        <AddBusinessOutlined />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
                   <Tooltip
                     title={`Edit ${car?.name}`}
                     arrow

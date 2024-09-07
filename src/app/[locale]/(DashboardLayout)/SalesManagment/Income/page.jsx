@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useTranslations } from 'next-intl'; // Import useTranslations hook
+import axios from "axios"; // Import Axios
+import { useTranslations } from 'next-intl';
 
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
@@ -12,7 +13,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box,
   Grid,
   TextField,
 } from "@mui/material";
@@ -20,23 +20,27 @@ import Loading from "../../loading"; // Import the loading component
 import AnalysisCard from "../../components/shared/DashboardAnalysisCard";
 
 const IncomePage = () => {
-  const t = useTranslations('default'); // Initialize the translation hook
+  const t = useTranslations('default');
   const [incomeDetails, setIncomeDetails] = useState(null);
   const [filteredIncomeDetails, setFilteredIncomeDetails] = useState(null);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
   useEffect(() => {
     const fetchIncomeDetails = async () => {
-      setLoading(true); // Set loading state to true when fetching starts
+      setLoading(true);
       try {
-        const response = await fetch("/api/income");
-        if (response.ok) {
-          const data = await response.json();
-          setIncomeDetails(data.incomeDetails);
-          setFilteredIncomeDetails(data.incomeDetails);
+        const response = await axios.get("/api/income", {
+          params: {
+            fromDate,
+            toDate
+          }
+        });
+        if (response.data) {
+          setIncomeDetails(response.data.incomeDetails);
+          setFilteredIncomeDetails(response.data.incomeDetails);
           setError("");
         } else {
           console.error(t("income.fetchError"));
@@ -46,27 +50,12 @@ const IncomePage = () => {
         console.error(t("income.fetchError"), error);
         setError(t("income.fetchError"));
       } finally {
-        setLoading(false); // Set loading state to false when fetching ends
+        setLoading(false);
       }
     };
 
     fetchIncomeDetails();
-  }, []);
-
-  useEffect(() => {
-    if (incomeDetails) {
-      const filteredDetails = incomeDetails.soldCarsDetails.filter((carDetail) => {
-        const saleDate = new Date(carDetail.saleDate);
-        const from = fromDate ? new Date(fromDate) : new Date("1970-01-01");
-        const to = toDate ? new Date(toDate) : new Date();
-        return saleDate >= from && saleDate <= to;
-      });
-      setFilteredIncomeDetails({
-        ...incomeDetails,
-        soldCarsDetails: filteredDetails,
-      });
-    }
-  }, [fromDate, toDate, incomeDetails]);
+  }, [fromDate, toDate, t]);
 
   return (
     <PageContainer title={t("income.title")} description={t("income.description")}>
@@ -109,8 +98,8 @@ const IncomePage = () => {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <AnalysisCard
-                  title={t("income.totalCars")}
-                  number={filteredIncomeDetails.totalCars}
+                  title={t("income.totalTransactions")}
+                  number={filteredIncomeDetails.totalTransactions}
                 />
               </Grid>
             </Grid>
@@ -120,22 +109,28 @@ const IncomePage = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>{t("income.tableHeaders.carId")}</TableCell>
-                    <TableCell>{t("income.tableHeaders.name")}</TableCell>
-                    <TableCell>{t("income.tableHeaders.color")}</TableCell>
-                    <TableCell>{t("income.tableHeaders.model")}</TableCell>
-                    <TableCell>{t("income.tableHeaders.netProfit")}</TableCell>
-                    <TableCell>{t("income.tableHeaders.saleDate")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.carColor")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.carModel")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.amount")}</TableCell>
+                    <TableCell>{t("income.tableHeaders.date")}</TableCell>
+                    <TableCell>{t("income.description")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredIncomeDetails.soldCarsDetails.map((carDetail) => (
-                    <TableRow key={carDetail._id}>
-                      <TableCell>{carDetail.car._id}</TableCell>
-                      <TableCell>{carDetail.car.name}</TableCell>
-                      <TableCell>{carDetail.car.color}</TableCell>
-                      <TableCell>{carDetail.car.model}</TableCell>
-                      <TableCell>{carDetail.netProfit}</TableCell>
-                      <TableCell>{new Date(carDetail.saleDate).toLocaleDateString()}</TableCell>
+                  {filteredIncomeDetails.soldCarsDetails.map((transaction) => (
+                    <TableRow key={transaction._id}>
+                      <TableCell>{transaction?.car?.chassisNumber}</TableCell>
+                      <TableCell>{transaction?.car?.color}</TableCell>
+                      <TableCell>{transaction?.car?.model}</TableCell>
+                      <TableCell>
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'AED', // Replace with your currency code
+                        }).format(transaction.amount)}
+                      </TableCell>
+
+                      <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+                      <TableCell>{transaction.description}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

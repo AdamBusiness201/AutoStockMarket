@@ -11,9 +11,11 @@ import moment from 'moment';
 import { useTranslations } from 'next-intl';
 import ViewDataModal from './ViewData'; // Import the modal
 import { useRouter } from 'next/navigation';
+import AnalysisCard from './DashboardAnalysisCard';
 
 const Analytics = ({ locale, today = false, timeRange }) => {
   const [analytics, setAnalytics] = useState({});
+  const [sourceOfSellingStats, setSourceOfSellingStats] = useState([]); // New state for source of selling stats
   const [isLoading, setIsLoading] = useState(true);
   const [startDate, setStartDate] = useState(today ? moment(new Date()).format('YYYY-MM-DD') : null);
   const [endDate, setEndDate] = useState(null);
@@ -26,6 +28,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
 
   const fetchData = async () => {
     try {
+      // Fetch main analytics data
       const url = `/api/analytics?timeRange=${timeRange}`;
       const queryParams = {};
 
@@ -41,9 +44,15 @@ const Analytics = ({ locale, today = false, timeRange }) => {
         queryParams.category = filter;
       }
 
-      const response = await axios.get(url, { params: queryParams });
-      setAnalytics(response.data);
-      setFilteredData(response.data); // Initialize filtered data
+      const [mainAnalyticsResponse, soldCarsResponse] = await Promise.all([
+        axios.get(url, { params: queryParams }),
+        axios.get('/api/analytics/sold-cars'), // Fetch data from the new endpoint
+      ]);
+
+      setAnalytics(mainAnalyticsResponse.data);
+      setFilteredData(mainAnalyticsResponse.data); // Initialize filtered data
+      setSourceOfSellingStats(soldCarsResponse.data.sourceOfSellingStats); // Set source of selling stats
+
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
     } finally {
@@ -54,10 +63,12 @@ const Analytics = ({ locale, today = false, timeRange }) => {
   useEffect(() => {
     fetchData();
   }, [startDate, endDate, filter, timeRange]);
+
   const formatNumber = (number) => {
     if (number === undefined || number === null) return '-';
     return new Intl.NumberFormat(locale).format(number);
   };
+
   return (
     <Box>
       <ViewDataModal open={modalOpen} handleClose={() => { setModalOpen(false) }} locale={locale} />
@@ -117,6 +128,15 @@ const Analytics = ({ locale, today = false, timeRange }) => {
       </Grid>
 
       <Grid container spacing={2}>
+        {sourceOfSellingStats.map((stat, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <AnalysisCard
+              title={stat._id || t('sourceOfSelling.unknown')} // Use translation key for "unknown" or fallback to 'Unknown'
+              number={stat.totalCars}
+              description={`${t('sourceOfSelling.totalPrice')} ${formatNumber(stat.totalPrice)}`} // Add a description for total price
+            />
+          </Grid>
+        ))}
         <Grid item xs={12} sm={6} md={8}>
           <AnalyticsDashboard
             title={t('totalCars')}

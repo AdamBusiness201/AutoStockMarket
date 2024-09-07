@@ -3,6 +3,7 @@
     "Dashboard": {
       "title": "لوحة القيادة",
       "description": "هذه هي لوحة القيادة",
+      
       "timeRanges": {
         "thisWeek": "هذا الأسبوع",
         "lastWeek": "الأسبوع الماضي",
@@ -22,10 +23,9 @@
         "finish": "إنهاء",
         "next": "التالي",
         "cancel": "إلغاء"
-      }
-      
-, 
-"errors": {
+      },
+
+      "errors": {
         "totalPercentageError": "إجمالي النسبة المئوية يتجاوز 100%",
         "carDetailsError": "جميع الحقول مطلوبة في تفاصيل السيارة.",
         "ownershipError": "جميع الحقول مطلوبة في الملكية."
@@ -59,10 +59,10 @@
       "Phone": "رقم الهاتف",
       "Percentage": "النسبة",
       "cardetails": "بيانات السيارة",
-  "ownership": "الملكية",
-  "partnership": "الشراكة",
-  "finance": "المالية",
-  "review": "مراجعة",
+      "ownership": "الملكية",
+      "partnership": "الشراكة",
+      "finance": "المالية",
+      "review": "مراجعة",
       "AmountInWords": "المبلغ بالحروف"
     },
 
@@ -148,6 +148,10 @@
       "transactions": "المعاملات"
     },
     "dashboard": {
+      "sourceOfSelling": {
+        "unknown": "غير معروف",
+        "totalPrice": "إجمالي الارباح:"
+      },
       "home": "الصفحة الرئيسية",
       "dashboard": "لوحة القيادة",
       "carsInventory": "جرد السيارات",
@@ -240,6 +244,23 @@
     },
 
     "installmentsList": {
+      "installmentModal": {
+        "installmentDetails": "تفاصيل القسط",
+        "review": "مراجعة",
+        "installmentDate": "تاريخ القسط",
+        "amount": "المبلغ",
+        "description": "الوصف",
+        "paid": "مدفوع",
+        "yes": "نعم",
+        "no": "لا",
+        "back": "رجوع",
+        "next": "التالي",
+        "finish": "إنهاء",
+        "cancel": "إلغاء",
+        "errorMessage": "حدث خطأ.",
+        "successMessage": "العملية ناجحة."
+      },
+
       "title": "أقساط السيارة",
       "totalInstallments": "إجمالي الأقساط",
       "totalAmount": "إجمالي المبلغ",
@@ -299,8 +320,7 @@
         "selectMultipleFiles": "يمكنك تحديد ملفات متعددة.",
         "cancel": "إلغاء",
         "add": "إضافة"
-      }
-,      
+      },
       "title": "السيارات",
       "description": "مخزون السيارات",
       "addNewCar": "إضافة سيارة جديدة",
@@ -336,7 +356,8 @@
       "title": "السيارات المباعة",
       "description": "إدارة السيارات المباعة",
       "search": "بحث",
-      "carName": "اسم السيارة",
+      "brand": "ماركة السيارة",
+      "carName": "موديل السيارة",
       "purchaserName": "اسم المشتري",
       "purchaseDate": "تاريخ الشراء",
       "purchasePrice": "سعر الشراء",
@@ -424,8 +445,7 @@
         "errorFetchingCars": "خطأ في جلب خيارات السيارات:",
         "errorCreatingTransaction": "خطأ في إنشاء المعاملة:",
         "errorUpdatingTransaction": "خطأ في تحديث المعاملة:"
-      }
-      ,
+      },
       "title": "المعاملات",
       "description": "تاريخ المعاملات",
       "addNewTransaction": "إضافة معاملة جديدة",
@@ -486,9 +506,8 @@
         "totalPercentageError": "إجمالي النسبة المئوية يتجاوز 100%",
         "carDetailsError": "جميع الحقول مطلوبة في تفاصيل السيارة.",
         "ownershipError": "جميع الحقول مطلوبة في الملكية."
-      }
-      
-,      
+      },
+
       "employees": "الموظفون",
       "employeesManagement": "إدارة الموظفين",
       "addNewEmployee": "إضافة موظف جديد",
@@ -546,8 +565,70 @@
       "debts": "الديون",
       "errorFetchingCustomers": "فشل في جلب العملاء. يرجى المحاولة مرة أخرى لاحقاً."
     },
-
+    "employee": {
+      "attendance": {
+        "employeeAttendance": "حضور الموظف",
+        "exportToXLSX": "تصدير إلى XLSX",
+        "date": "التاريخ",
+        "attendanceStatus": "حالة الحضور",
+        "shift": "الوردية",
+        "location": "الموقع",
+        "notes": "ملاحظات",
+        "noRecords": "لا توجد سجلات حضور متاحة"
+      },
+      "employeeDetails": "تفاصيل الموظف",
+      "employeeDetailsDescription": "تفاصيل الموظف المختار",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "print": "طباعة",
+      "info": "معلومات",
+      "confirmDeletionTitle": "تأكيد الحذف",
+      "confirmDeletionDescription": "هل أنت متأكد أنك تريد حذف {name}؟",
+      "cancel": "إلغاء",
+      "deleteButton": "حذف",
+      "id": "الرقم التعريفي",
+      "name": "الاسم",
+      "position": "الوظيفة",
+      "hireDate": "تاريخ التوظيف",
+      "status": "الحالة",
+      "employeeDetailsTable": "جدول تفاصيل الموظف",
+      "confirmCloseEditModal": "هل أنت متأكد أنك تريد إغلاق؟"
+    },
     "externalCarMaintenance": {
+      "modal": {
+        "steps": {
+          "Task Details": "تفاصيل المهمة",
+          "Review": "مراجعة"
+        },
+        "taskDetails": {
+          "carName": "اسم السيارة",
+          "color": "اللون",
+          "model": "الموديل",
+          "chassisNumber": "رقم الشاسيه",
+          "owner": "المالك",
+          "taskDescription": "وصف المهمة",
+          "taskCost": "تكلفة المهمة",
+          "taskDate": "تاريخ المهمة"
+        },
+        "review": {
+          "title": "مراجعة تفاصيل المهمة",
+          "tableTitle": "مراجعة تفاصيل المهمة",
+          "carName": "اسم السيارة",
+          "color": "اللون",
+          "model": "الموديل",
+          "chassisNumber": "رقم الشاسيه",
+          "owner": "المالك",
+          "taskDescription": "وصف المهمة",
+          "taskCost": "تكلفة المهمة",
+          "taskDate": "تاريخ المهمة"
+        },
+        "buttons": {
+          "back": "رجوع",
+          "next": "التالي",
+          "finish": "إنهاء",
+          "cancel": "إلغاء"
+        }
+      },
       "carMaintenanceExhibition": "عرض صيانة السيارة",
       "maintenanceExpenses": "نفقات الصيانة للسيارات المعروضة",
       "externalCarsMaintenance": "صيانة السيارات الخارجية",
@@ -616,15 +697,15 @@
       "to": "إلى",
       "fetchError": "فشل في جلب بيانات الدخل. يرجى المحاولة مرة أخرى لاحقًا.",
       "totalIncome": "إجمالي الدخل",
-      "totalCars": "عدد السيارات",
+      "totalTransactions": "إجمالي المعاملات",
       "tableHeaders": {
         "incomeDetailsTable": "جدول تفاصيل الدخل",
         "carId": "رقم السيارة",
-        "name": "الاسم",
-        "color": "اللون",
-        "model": "الموديل",
-        "netProfit": "صافي الربح",
-        "saleDate": "تاريخ البيع"
+        "customerName": "اسم العميل",
+        "carModel": "موديل السيارة",
+        "carColor": "لون السيارة",
+        "amount": "المبلغ",
+        "date": "التاريخ"
       }
     },
     "recoveriesPage": {

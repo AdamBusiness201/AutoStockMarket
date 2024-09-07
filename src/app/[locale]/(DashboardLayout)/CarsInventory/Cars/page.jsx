@@ -208,7 +208,7 @@ const CarsPage = ({ params: { locale } }) => {
             </Box>
 
           </Box>
-          {loading ? (<Loading />) :
+          {!loading ? (<Loading />) :
             (<TableContainer
               component={Paper}
               sx={{ maxWidth: "100%", overflowX: "auto" }}

@@ -19,6 +19,7 @@ export async function POST(req, res) {
   try {
     const carData = await req.json();
     const {
+      brand,
       name,
       color,
       model,
@@ -65,6 +66,7 @@ export async function POST(req, res) {
       await customer.save({ session });
     }
     const car = new Car({
+      brand,
       name,
       color,
       model,

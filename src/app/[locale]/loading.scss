@@ -9,3 +9,38 @@
 .pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+.road {
+  background: #333; // Dark color for the road
+  border-top: 5px dashed #fff; // White dashed lines to represent lane markings
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%; // Extend beyond the viewport width for smooth scrolling
+  height: 100px; // Height of the road
+  z-index: 1; // Ensure the road is below the car
+  animation: moveRoad 3s linear infinite; // Animate the road
+}
+
+.car-image {
+  animation: moveCar 3s linear infinite; // Animate the road
+  position: relative;
+  z-index: 2; // Ensure the car is above the road
+}
+
+@keyframes moveCar {
+  100% {
+    transform: translateX(-200%); // Start off-screen on the left
+  }
+  0% {
+    transform: translateX(200%); // Move off-screen to the right
+  }
+}
+
+@keyframes moveRoad {
+  100% {
+    transform: translateX(0); // Start at the initial position
+  }
+  0% {
+    transform: translateX(-50%); // Move left to simulate scrolling
+  }
+}

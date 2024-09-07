@@ -374,9 +374,9 @@
       "name": "Name",
       "brand": "Brand",
       "color": "Color",
-      
+
       "modelName": "Model Name",
-      
+
       "modelYear": "Model Year",
       "chassisNumber": "Chassis Number",
       "owner": "Owner",
@@ -473,6 +473,23 @@
       "percentage": "Percentage"
     },
     "customers": {
+      "modal": {
+        "steps": ["Customer Details", "Review"],
+        "labels": {
+          "customerName": "Customer Name",
+          "email": "Email",
+          "nationality": "Nationality",
+          "phone": "Phone",
+          "nationalID": "National ID",
+          "uploadedCustomers": "Uploaded Customers",
+          "uploadExcel": "Upload Excel",
+          "downloadTemplate": "Download Template",
+          "finish": "Finish",
+          "next": "Next",
+          "back": "Back",
+          "cancel": "Cancel"
+        }
+      },
       "title": "Customers",
       "description": "Customers Management",
       "addNewCustomer": "Add New Customer",

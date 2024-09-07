@@ -694,6 +694,9 @@ const CarDetailsPage = ({ params }) => {
                                 </React.Fragment>
                               ),
                             }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                           />
                         )}
                         onChange={(event, value) => handlePurchaserChange(value)}

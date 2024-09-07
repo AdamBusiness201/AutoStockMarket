@@ -19,6 +19,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 
+import { useTranslations } from 'next-intl';
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -38,7 +39,7 @@ const modalStyle = {
   borderRadius: "16px",
 };
 
-function getStepContent(step, customerData, handleInputChange, nationalities, uploadedCustomers) {
+function getStepContent(step, customerData, handleInputChange, nationalities, uploadedCustomers, t) {
   switch (step) {
     case 0:
       return (
@@ -46,7 +47,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Customer Name"
+              label={t('modal.labels.customerName')}
               name="name"
               value={customerData?.name}
               onChange={handleInputChange}
@@ -55,7 +56,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Email"
+              label={t('modal.labels.email')}
               name="email"
               value={customerData?.contactDetails?.email}
               onChange={handleInputChange}
@@ -77,7 +78,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
                 </MenuItem>
               )}
               renderInput={(params) => (
-                <ClearableTextField {...params} label="Nationality" variant="outlined" />
+                <ClearableTextField {...params} label={t('modal.labels.nationality')} variant="outlined" />
               )}
               value={
                 nationalities.find(
@@ -99,7 +100,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Phone"
+              label={t('modal.labels.phone')}
               name="phone"
               value={customerData?.contactDetails?.phone}
               onChange={handleInputChange}
@@ -109,7 +110,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
           <Grid item xs={12}>
             <ClearableTextField
               fullWidth
-              label="National ID"
+              label={t('modal.labels.nationalID')}
               name="nationalID"
               value={customerData?.nationalID}
               onChange={handleInputChange}
@@ -122,7 +123,7 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
         <div>
           {uploadedCustomers.length > 0 ? (
             <TableContainer component={Paper}>
-              <Table aria-label="uploaded customers">
+              <Table aria-label={t('modal.labels.uploadedCustomers')}>
                 <TableBody>
                   {uploadedCustomers.map((customer, index) => (
                     <TableRow key={index}>
@@ -142,31 +143,31 @@ function getStepContent(step, customerData, handleInputChange, nationalities, up
                 <TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Customer Name
+                      {t('modal.labels.customerName')}
                     </TableCell>
                     <TableCell>{customerData?.name}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Email
+                      {t('modal.labels.email')}
                     </TableCell>
                     <TableCell>{customerData?.contactDetails?.email}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Phone
+                      {t('modal.labels.phone')}
                     </TableCell>
                     <TableCell>{customerData?.contactDetails?.phone}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Nationality
+                      {t('modal.labels.nationality')}
                     </TableCell>
                     <TableCell>{customerData?.contactDetails?.nationality}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      National ID
+                      {t('modal.labels.nationalID')}
                     </TableCell>
                     <TableCell>{customerData?.nationalID}</TableCell>
                   </TableRow>
@@ -193,6 +194,7 @@ const CreateCustomerModal = ({
   const [nationalities, setNationalities] = useState([]);
   const [uploadedCustomers, setUploadedCustomers] = useState([]);
 
+  const t = useTranslations('default.customers');
   useEffect(() => {
     setCustomerData(initialCustomerData);
     setUploadedCustomers([]);
@@ -326,6 +328,7 @@ const CreateCustomerModal = ({
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [open, preventClose]);
+  const steps = [t('modal.steps.0'), t('modal.steps.1')];
   return (
     <Modal
       open={open}
@@ -342,7 +345,7 @@ const CreateCustomerModal = ({
           ))}
         </Stepper>
         <div style={{ paddingTop: 20, paddingBottom: 20 }}>
-          {getStepContent(activeStep, customerData, handleInputChange, nationalities, uploadedCustomers)}
+          {getStepContent(activeStep, customerData, handleInputChange, nationalities, uploadedCustomers, t)}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box>
               <Button variant="contained" component="label">

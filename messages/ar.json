@@ -268,7 +268,7 @@
       "brand": "الماركة",
       "color": "اللون",
       "modelName": "اسم الموديل",
-      
+
       "modelYear": "سنة الموديل",
       "chassisNumber": "رقم الهيكل",
       "owner": "المالك",
@@ -303,6 +303,23 @@
       "error": "فشل في جلب السيارات المباعة. يرجى المحاولة مرة أخرى لاحقًا."
     },
     "customers": {
+      "modal": {
+        "steps": ["تفاصيل العميل", "مراجعة"],
+        "labels": {
+          "customerName": "اسم العميل",
+          "email": "البريد الإلكتروني",
+          "nationality": "الجنسية",
+          "phone": "رقم الهاتف",
+          "nationalID": "الرقم الوطني",
+          "uploadedCustomers": "العملاء المحملين",
+          "uploadExcel": "تحميل إكسل",
+          "downloadTemplate": "تحميل النموذج",
+          "finish": "إنهاء",
+          "next": "التالي",
+          "back": "السابق",
+          "cancel": "إلغاء"
+        }
+      },
       "title": "العملاء",
       "description": "إدارة العملاء",
       "addNewCustomer": "إضافة عميل جديد",

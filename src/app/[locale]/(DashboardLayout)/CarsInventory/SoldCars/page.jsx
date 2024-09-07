@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { useTranslations } from 'next-intl';
 
-const SoldCarsPage = () => {
+const SoldCarsPage = ({ params: { locale } }) => {
   const router = useRouter();
   const [soldCars, setSoldCars] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,7 +52,7 @@ const SoldCarsPage = () => {
   }, [searchQuery, currentPage]);
 
   const handleRowClick = (id) => {
-    router.push(`/en/CarsInventory/Cars/${id}`);
+    router.push(`/${locale}/CarsInventory/Cars/${id}`);
   };
 
   const handleSearchChange = (e) => {

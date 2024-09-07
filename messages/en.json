@@ -368,6 +368,22 @@
         "taskCost": "Task Cost",
         "addTask": "Add Task"
       },
+      "carAdditionModal": {
+        "confirmAddition": "Confirm Addition",
+        "carDetails": "Car Details",
+        "carName": "Car Name",
+        "carModel": "Car Model",
+        "carDescription": "Car Description",
+        "additionalDetails": "Additional Details",
+        "condition": "Condition",
+        "features": "Features",
+        "price": "Price",
+        "photos": "Photos",
+        "uploadPhotos": "Upload Photos",
+        "selectMultipleFiles": "You can select multiple files.",
+        "cancel": "Cancel",
+        "add": "Add"
+      },
       "title": "Cars",
       "description": "Cars Inventory",
       "addNewCar": "Add New Car",

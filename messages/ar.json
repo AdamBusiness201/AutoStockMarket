@@ -261,6 +261,23 @@
         "taskCost": "تكلفة المهمة",
         "addTask": "إضافة المهمة"
       },
+      "carAdditionModal": {
+        "confirmAddition": "تأكيد الإضافة",
+        "carDetails": "تفاصيل السيارة",
+        "carName": "اسم السيارة",
+        "carModel": "طراز السيارة",
+        "carDescription": "وصف السيارة",
+        "additionalDetails": "تفاصيل إضافية",
+        "condition": "الحالة",
+        "features": "المميزات",
+        "price": "السعر",
+        "photos": "الصور",
+        "uploadPhotos": "تحميل الصور",
+        "selectMultipleFiles": "يمكنك تحديد ملفات متعددة.",
+        "cancel": "إلغاء",
+        "add": "إضافة"
+      }
+,      
       "title": "السيارات",
       "description": "مخزون السيارات",
       "addNewCar": "إضافة سيارة جديدة",

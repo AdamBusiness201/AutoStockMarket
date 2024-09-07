@@ -13,6 +13,23 @@
       "dashboardTitle": "لوحة القيادة لـ "
     },
     "CarDetails": {
+      "buttons": {
+        "loading": "جاري التحميل",
+        "uploadExcel": "رفع ملف Excel",
+        "downloadTemplate": "تنزيل النموذج",
+        "back": "رجوع",
+        "addPartner": "إضافة شريك",
+        "finish": "إنهاء",
+        "next": "التالي",
+        "cancel": "إلغاء"
+      }
+      
+, 
+"errors": {
+        "totalPercentageError": "إجمالي النسبة المئوية يتجاوز 100%",
+        "carDetailsError": "جميع الحقول مطلوبة في تفاصيل السيارة.",
+        "ownershipError": "جميع الحقول مطلوبة في الملكية."
+      },
       "CarBrand": "ماركة السيارة",
       "CarName": "اسم السيارة",
       "Color": "اللون",
@@ -40,7 +57,13 @@
       "Type": "النوع",
       "Email": "البريد الإلكتروني",
       "Phone": "رقم الهاتف",
-      "Percentage": "النسبة"
+      "Percentage": "النسبة",
+      "cardetails": "بيانات السيارة",
+  "ownership": "الملكية",
+  "partnership": "الشراكة",
+  "finance": "المالية",
+  "review": "مراجعة",
+      "AmountInWords": "المبلغ بالحروف"
     },
 
     "ViewDataModal": {

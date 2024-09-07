@@ -13,6 +13,21 @@
       "dashboardTitle": "Dashboard of "
     },
     "CarDetails": {
+      "buttons": {
+        "loading": "Loading",
+        "uploadExcel": "Upload Excel",
+        "downloadTemplate": "Download Template",
+        "back": "Back",
+        "addPartner": "Add Partner",
+        "finish": "Finish",
+        "next": "Next",
+        "cancel": "Cancel"
+      },
+      "errors": {
+        "totalPercentageError": "Total percentage exceeds 100!",
+        "carDetailsError": "All fields are required in Car Details",
+        "ownershipError": "All fields are required in Ownership."
+      },
       "CarBrand": "Car Brand",
       "CarName": "Car Name",
       "Color": "Color",
@@ -40,7 +55,13 @@
       "Type": "Type",
       "Email": "Email",
       "Phone": "Phone",
-      "Percentage": "Percentage"
+      "cardetails": "Car Details",
+      "ownership": "Ownership",
+      "partnership": "Partnership",
+      "finance": "Finance",
+      "review": "Review",
+      "Percentage": "Percentage",
+      "AmountInWords": "Amount In Words"
     },
     "sidebar": {
       "allEmployees": "All Employees",
@@ -328,8 +349,7 @@
         "errorFetchingCars": "Error fetching car options:",
         "errorCreatingTransaction": "Error creating transaction:",
         "errorUpdatingTransaction": "Error updating transaction:"
-      }
-,      
+      },
       "title": "Transactions",
       "description": "Transaction History",
       "addNewTransaction": "Add New Transaction",

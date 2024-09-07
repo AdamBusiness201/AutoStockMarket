@@ -479,7 +479,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
             <ClearableTextField
               fullWidth
               select
-              label="Payment Method"
+              label={t('PaymentMethod')}
               name="paymentMethod"
               value={financeData.paymentMethod}
               onChange={handleFinanceInputChange}
@@ -491,7 +491,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Paid Cash/Cheque Number"
+              label={t('PaidCashOrChequeNumber')}
               name="paidCashOrChequeNumber"
               value={financeData.paidCashOrChequeNumber}
               onChange={handleFinanceInputChange}
@@ -500,7 +500,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Bank"
+              label={t('Bank')}
               name="bank"
               value={financeData.bank}
               onChange={handleFinanceInputChange}
@@ -511,7 +511,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
               <Grid item xs={4}>
                 <ClearableTextField
                   fullWidth
-                  label="First Installment"
+                  label={t('First Installment')}
                   type="number"
                   name="firstInstallment"
                   value={financeData.firstInstallment}
@@ -521,7 +521,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
               <Grid item xs={4}>
                 <ClearableTextField
                   fullWidth
-                  label="Remaining Amount"
+                  label={t('Remaining Amount')}
                   name="remainingAmount"
                   value={financeData.remainingAmount}
                   onChange={handleFinanceInputChange}
@@ -824,7 +824,7 @@ const CreateCarModal = ({
       setErrorMessage(""); // Clear error message if total percentage is valid
     } else {
       // Optionally, you can display an error message or handle the exceeding case here
-      setErrorMessage("Total percentage exceeds 100!");
+      setErrorMessage(t('errors.totalPercentageError'));
       // You can choose to set an error state here if needed
     }
   };
@@ -1014,11 +1014,11 @@ const CreateCarModal = ({
     switch (step) {
       case 0:
         isValid = carData?.name && carData?.color && carData?.model && carData?.chassisNumber;
-        if (!isValid) errorMsg = "All fields are required in Car Details.";
+        if (!isValid) errorMsg = t('errors.carDetailsError');
         break;
       case 1:
         isValid = carData?.owner && carData?.purchaseDetails && carData?.maintenance && carData?.currentLocation;
-        if (!isValid) errorMsg = "All fields are required in Ownership.";
+        if (!isValid) errorMsg = t('errors.ownershipError');
         break;
       default:
         isValid = true;
@@ -1115,7 +1115,7 @@ const CreateCarModal = ({
           <Stepper activeStep={activeStep}>
             {steps.map((label) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel>{t(label.toLowerCase().replace(" ", ""))}</StepLabel>
               </Step>
             ))}
           </Stepper>
@@ -1124,54 +1124,55 @@ const CreateCarModal = ({
               {getStepContent(t, activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <input
-                accept=".xlsx,.xls"
-                style={{ display: "none" }}
-                id="contained-button-file"
-                multiple={false}
-                type="file"
-                onChange={handleFileUpload}
-              />
-              <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span">
-                  {loading ? "Loading" : "Upload Excel"}
-                </Button>
-              </label>
-              <Button variant="contained" color="primary" sx={{ marginX: 1 }} onClick={handleExportTemplate}>
-                Download Template
-              </Button>
-              <Button
-                color="inherit"
-                variant="outlined"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ marginX: 1 }}
-              >
-                Back
-              </Button>
+  <input
+    accept=".xlsx,.xls"
+    style={{ display: "none" }}
+    id="contained-button-file"
+    multiple={false}
+    type="file"
+    onChange={handleFileUpload}
+  />
+  <label htmlFor="contained-button-file">
+    <Button variant="contained" component="span">
+      {loading ? t('buttons.loading') : t('buttons.uploadExcel')}
+    </Button>
+  </label>
+  <Button variant="contained" color="primary" sx={{ marginX: 1 }} onClick={handleExportTemplate}>
+    {t('buttons.downloadTemplate')}
+  </Button>
+  <Button
+    color="inherit"
+    variant="outlined"
+    disabled={activeStep === 0}
+    onClick={handleBack}
+    sx={{ marginX: 1 }}
+  >
+    {t('buttons.back')}
+  </Button>
 
-              <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep === 2 && (
-                <Button variant="outlined" onClick={addPartner} sx={{ marginX: 2 }}>
-                  Add Partner
-                </Button>
-              )}
-              <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
-                {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
-              </Button>
-              <Button
-                onClick={() => {
-                  handleClose();
-                  setCarData(initialCarData);
-                  setFinanceData(initialFinanceData);
-                  setPartners(initialPartnersData);
-                }}
-                variant="outlined"
-                sx={{ marginX: 1, fontWeight: "bold" }}
-              >
-                Cancel
-              </Button>
-            </Box>
+  <Box sx={{ flex: "1 1 auto" }} />
+  {activeStep === 2 && (
+    <Button variant="outlined" onClick={addPartner} sx={{ marginX: 2 }}>
+      {t('buttons.addPartner')}
+    </Button>
+  )}
+  <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
+    {activeStep === steps.length - 1 ? t('buttons.finish') : errorMessage ? `${t('buttons.next')} - ${errorMessage}` : t('buttons.next')}
+  </Button>
+  <Button
+    onClick={() => {
+      handleClose();
+      setCarData(initialCarData);
+      setFinanceData(initialFinanceData);
+      setPartners(initialPartnersData);
+    }}
+    variant="outlined"
+    sx={{ marginX: 1, fontWeight: "bold" }}
+  >
+    {t('buttons.cancel')}
+  </Button>
+</Box>
+
           </div>
         </Box>
       </Modal>

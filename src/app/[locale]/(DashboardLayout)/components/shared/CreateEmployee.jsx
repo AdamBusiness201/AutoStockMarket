@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslations } from 'next-intl';
 import {
   Button,
   Modal,
@@ -18,16 +19,12 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Select,
-  InputAdornment,
-  IconButton,
-  ClearIcon,
-
+  Select
 } from "@mui/material";
 import ClearableTextField from "./ClearableTextField";
 import axios from "axios";
 
-const steps = ["Employee Details", "Review"];
+const steps = ["employeeDetails", "review"];
 
 const modalStyle = {
   position: "absolute",
@@ -42,8 +39,7 @@ const modalStyle = {
   borderRadius: "16px",
 };
 
-function getStepContent(step, employeeData, handleInputChange, admins) {
-  console.log(admins);
+function getStepContent(step, employeeData, handleInputChange, admins, t) {
   switch (step) {
     case 0: // Employee Details
       return (
@@ -51,7 +47,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Employee Name"
+              label={t("employeeName")}
               name="name"
               value={employeeData?.name}
               onChange={handleInputChange}
@@ -60,7 +56,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Position"
+              label={t("position")}
               name="position"
               value={employeeData?.position}
               onChange={handleInputChange}
@@ -69,7 +65,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Salary"
+              label={t("salary")}
               name="salary"
               type="number"
               value={employeeData?.salary}
@@ -79,17 +75,20 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Hire Date"
+              label={t("hireDate")}
               name="hireDate"
               type="date"
               value={employeeData?.hireDate}
               onChange={handleInputChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </Grid>
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Benefits"
+              label={t("benefits")}
               name="benefits"
               value={employeeData?.benefits}
               onChange={handleInputChange}
@@ -98,7 +97,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Email"
+              label={t("email")}
               name="email"
               type="email"
               value={employeeData?.contactInfo?.email}
@@ -108,7 +107,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Phone"
+              label={t("phone")}
               name="phone"
               value={employeeData?.contactInfo?.phone}
               onChange={handleInputChange}
@@ -117,7 +116,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Address"
+              label={t("address")}
               name="address"
               value={employeeData?.contactInfo?.address}
               onChange={handleInputChange}
@@ -126,7 +125,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="National ID"
+              label={t("nationalID")}
               name="nationalID"
               value={employeeData?.contactInfo?.nationalID}
               onChange={handleInputChange}
@@ -135,7 +134,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              label="Nationality"
+              label={t("nationality")}
               name="nationality"
               value={employeeData?.contactInfo?.nationality}
               onChange={handleInputChange}
@@ -143,7 +142,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="status-select">Status</InputLabel>
+              <InputLabel htmlFor="status-select">{t("status")}</InputLabel>
               <Select
                 fullWidth
                 labelId="status-select"
@@ -152,17 +151,17 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
                 value={employeeData?.status}
                 onChange={handleInputChange}
               >
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="inactive">Inactive</MenuItem>
-                <MenuItem value="hold">Hold</MenuItem>
-                <MenuItem value="trainee">Trainee</MenuItem>
+                <MenuItem value="active">{t("active")}</MenuItem>
+                <MenuItem value="inactive">{t("inactive")}</MenuItem>
+                <MenuItem value="hold">{t("hold")}</MenuItem>
+                <MenuItem value="trainee">{t("trainee")}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={6}>
             <ClearableTextField
               fullWidth
-              label="Status Reason"
+              label={t("statusReason")}
               name="statusReason"
               value={employeeData?.statusReason}
               onChange={handleInputChange}
@@ -170,7 +169,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="admin-select">Admin</InputLabel>
+              <InputLabel htmlFor="admin-select">{t("admin")}</InputLabel>
               <Select
                 fullWidth
                 labelId="admin-select"
@@ -180,7 +179,7 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
                 onChange={handleInputChange}
               >
                 <MenuItem value="">
-                  <em>None</em>
+                  <em>{t("none")}</em>
                 </MenuItem>
                 {admins?.map((admin) => (
                   <MenuItem key={admin._id} value={admin._id}>
@@ -194,208 +193,136 @@ function getStepContent(step, employeeData, handleInputChange, admins) {
       );
     case 1: // Review
       return (
-        <div>
-          <TableContainer component={Paper}>
-            <Table aria-label="employee details">
-              <TableBody>
-                <TableRow>
-                  <TableCell component="th" scope="row">Employee Name</TableCell>
-                  <TableCell>{employeeData?.name}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Position</TableCell>
-                  <TableCell>{employeeData?.position}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Salary</TableCell>
-                  <TableCell>{employeeData?.salary}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Hire Date</TableCell>
-                  <TableCell>{employeeData?.hireDate}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Benefits</TableCell>
-                  <TableCell>{employeeData?.benefits}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Email</TableCell>
-                  <TableCell>{employeeData?.contactInfo?.email}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Phone</TableCell>
-                  <TableCell>{employeeData?.contactInfo?.phone}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Address</TableCell>
-                  <TableCell>{employeeData?.contactInfo?.address}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">National ID</TableCell>
-                  <TableCell>{employeeData?.contactInfo?.nationalID}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Nationality</TableCell>
-                  <TableCell>{employeeData?.contactInfo?.nationality}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Status</TableCell>
-                  <TableCell>{employeeData?.status}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Status Reason</TableCell>
-                  <TableCell>{employeeData?.statusReason}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">Admin</TableCell>
-                  <TableCell>{employeeData?.admin}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+        <TableContainer component={Paper}>
+          <Table aria-label="employee details">
+            <TableBody>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("employeeName")}</TableCell>
+                <TableCell>{employeeData?.name}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("position")}</TableCell>
+                <TableCell>{employeeData?.position}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("salary")}</TableCell>
+                <TableCell>{employeeData?.salary}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("hireDate")}</TableCell>
+                <TableCell>{employeeData?.hireDate}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("benefits")}</TableCell>
+                <TableCell>{employeeData?.benefits}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("email")}</TableCell>
+                <TableCell>{employeeData?.contactInfo?.email}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("phone")}</TableCell>
+                <TableCell>{employeeData?.contactInfo?.phone}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("address")}</TableCell>
+                <TableCell>{employeeData?.contactInfo?.address}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("nationalID")}</TableCell>
+                <TableCell>{employeeData?.contactInfo?.nationalID}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("nationality")}</TableCell>
+                <TableCell>{employeeData?.contactInfo?.nationality}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("status")}</TableCell>
+                <TableCell>{employeeData?.status}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("statusReason")}</TableCell>
+                <TableCell>{employeeData?.statusReason}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">{t("admin")}</TableCell>
+                <TableCell>{employeeData?.admin}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       );
-
     default:
       return "Unknown step";
   }
 }
 
-const CreateEmployeeModal = ({ open, handleClose, fetchEmployees, initialEmployeeData, isEditing }) => {
+export default function CreateEmployeeModal({ open, onClose, admins }) {
   const [activeStep, setActiveStep] = useState(0);
-  const [employeeData, setEmployeeData] = useState(initialEmployeeData);
-  const [admins, setAdmins] = useState([]);
-
-  useEffect(() => {
-    setEmployeeData(initialEmployeeData);
-    setActiveStep(0);
-    fetchAdmins();
-  }, [open, initialEmployeeData]);
-
-  const fetchAdmins = async () => {
-    try {
-      const response = await axios.get("/api/admin");
-      setAdmins(response.data.admins);
-    } catch (error) {
-      console.error("Error fetching admins:", error);
-    }
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setEmployeeData(initialEmployeeData);
-  };
+  const [employeeData, setEmployeeData] = useState({});
+  const t = useTranslations('default.employees.employeeModal');
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      handleSubmit();
+      // Handle form submission
+      // Here you would typically send a request to save employeeData
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prev) => prev - 1);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'email' || name === 'phone' || name === 'address' || name === 'nationalID' || name === 'nationality') {
-      setEmployeeData({
-        ...employeeData,
-        contactInfo: {
-          ...employeeData?.contactInfo,
-          [name]: value,
-        },
-      });
-    } else {
-      setEmployeeData({ ...employeeData, [name]: value });
-    }
+  const handleClose = () => {
+    onClose();
   };
 
-  const handleSubmit = async () => {
-    try {
-      if (isEditing) {
-        const response = await axios.put(`/api/employee/${employeeData?._id}`, employeeData);
-        if (response.data.message) {
-          handleReset();
-          handleClose();
-          fetchEmployees();
-        } else {
-          console.error("Error updating employee:", response.data.error);
-        }
-      } else {
-        const response = await axios.post("/api/employee", employeeData);
-        if (response.data.message) {
-          handleReset();
-          handleClose();
-          fetchEmployees();
-        } else {
-          console.error("Error creating employee:", response.data.error);
-        }
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEmployeeData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  const preventClose = useCallback((e) => {
-    e.preventDefault();
-    e.returnValue = ""; // Chrome requires returnValue to be set
-  }, []);
 
-  useEffect(() => {
-    if (open) {
-      window.addEventListener("beforeunload", preventClose);
-    } else {
-      window.removeEventListener("beforeunload", preventClose);
-    }
-
-    return () => {
-      window.removeEventListener("beforeunload", preventClose);
-    };
-  }, [open, preventClose]);
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open={open} onClose={handleClose}>
       <Box sx={modalStyle}>
+        <Typography variant="h6" component="h2" gutterBottom>
+          {t(steps[activeStep])}
+        </Typography>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel>{t(label)}</StepLabel>
             </Step>
           ))}
         </Stepper>
-        <div style={{ marginTop: 10, paddingTop: 20, paddingBottom: 20, maxHeight: "300px", overflowY: 'auto' }}>
-          {getStepContent(activeStep, employeeData, handleInputChange, admins)}
-
-        </div>
-        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Box mt={2} sx={{maxHeight:"300px", overflowY:'auto'}}>
+          {getStepContent(activeStep, employeeData, handleInputChange, admins, t)}
+        </Box>
+        <Box mt={2} display="flex" justifyContent="flex-end">
           <Button
             color="inherit"
             disabled={activeStep === 0}
             onClick={handleBack}
           >
-            Back
+            {t("back")}
           </Button>
-          <Box sx={{ flex: "1 1 auto" }} />
           <Button onClick={handleNext}>
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+            {activeStep === steps.length - 1 ? t("finish") : t("next")}
           </Button>
           <Button
-              onClick={handleClose}
-              variant="outlined"
-              sx={{ marginLeft: 1, fontWeight: "bold" }}
-            >
-              Cancel
-            </Button>
+            onClick={handleClose}
+            variant="outlined"
+            sx={{ marginLeft: 1, fontWeight: "bold" }}
+          >
+            {t("cancel")}
+          </Button>
         </Box>
       </Box>
     </Modal>
   );
-};
-
-export default CreateEmployeeModal;
+}

@@ -458,6 +458,37 @@
       }
     },
     "employees": {
+      "employeeModal": {
+        "employeeDetails": "تفاصيل الموظف",
+        "review": "مراجعة",
+        "employeeName": "اسم الموظف",
+        "position": "الوظيفة",
+        "salary": "الراتب",
+        "hireDate": "تاريخ التوظيف",
+        "benefits": "الفوائد",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "address": "العنوان",
+        "nationalID": "الرقم الوطني",
+        "nationality": "الجنسية",
+        "status": "الحالة",
+        "statusReason": "سبب الحالة",
+        "admin": "المسؤول",
+        "none": "لا شيء",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "hold": "معلق",
+        "trainee": "متدرب",
+        "cancel": "إلغاء",
+        "back": "عودة",
+        "next": "التالي",
+        "finish": "إنهاء",
+        "totalPercentageError": "إجمالي النسبة المئوية يتجاوز 100%",
+        "carDetailsError": "جميع الحقول مطلوبة في تفاصيل السيارة.",
+        "ownershipError": "جميع الحقول مطلوبة في الملكية."
+      }
+      
+,      
       "employees": "الموظفون",
       "employeesManagement": "إدارة الموظفين",
       "addNewEmployee": "إضافة موظف جديد",

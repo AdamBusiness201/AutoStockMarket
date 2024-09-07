@@ -349,7 +349,7 @@ const CreateCustomerModal = ({
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box>
               <Button variant="contained" component="label">
-                Upload Excel
+                {t('modal.labels.uploadExcel')}
                 <input
                   type="file"
                   hidden
@@ -359,25 +359,25 @@ const CreateCustomerModal = ({
               </Button>
               <Button
                 variant="outlined"
-                sx={{ ml: 1 }}
+                sx={{ marginInlineStart: 1 }}
                 onClick={handleTemplateDownload}
               >
-                Download Template
+                {t('modal.labels.downloadTemplate')}
               </Button>
             </Box>
-            <Button sx={{ ml: 1 }} color="inherit" disabled={activeStep === 0} onClick={handleBack}>
-              Back
+            <Button sx={{ marginInlineStart: 1 }} color="inherit" disabled={activeStep === 0} onClick={handleBack}>
+            {t('modal.labels.back')}
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              {activeStep === steps.length - 1 ? t('modal.labels.finish') : t('modal.labels.next')}
             </Button>
             <Button
               onClick={handleClose}
               variant="outlined"
-              sx={{ marginLeft: 1, fontWeight: "bold" }}
+              sx={{ marginInlineStart: 1, fontWeight: "bold" }}
             >
-              Cancel
+              {t('modal.labels.cancel')}
             </Button>
           </Box>
         </div>

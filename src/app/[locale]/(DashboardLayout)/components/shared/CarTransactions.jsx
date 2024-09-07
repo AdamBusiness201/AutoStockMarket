@@ -106,9 +106,9 @@ const CarTransactionsList = ({ transactions }) => {
                 <TableRow key={transaction._id}>
                   <TableCell>{transaction.type}</TableCell>
                   <TableCell>
-                    {new Date(transaction.date).toLocaleDateString()}
+                    {new Date(transaction?.date).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+                  <TableCell>${transaction?.amount?.toFixed(2)}</TableCell>
                   <TableCell>{transaction.description}</TableCell>
                 </TableRow>
               ))}

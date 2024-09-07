@@ -258,7 +258,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Owner"
+              label={t('Owner')}
               name="owner"
               value={carData?.owner}
               onChange={handleInputChange}
@@ -276,8 +276,8 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
                 label="ID Type"
                 onChange={handleIdTypeChange}
               >
-                <MenuItem value="ownerID">Owner National Identification Number</MenuItem>
-                <MenuItem value="ownerDrivingLicense">Driving License</MenuItem>
+                <MenuItem value="ownerID">{t('OwnerID')}</MenuItem>
+                <MenuItem value="ownerDrivingLicense">{t('DrivingLicense')}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -286,7 +286,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
             <Grid item xs={4}>
               <ClearableTextField
                 fullWidth
-                label="Owner National Identification Number"
+                label={t('OwnerID')}
                 name="ownerID"
                 value={carData?.ownerID}
                 onChange={handleInputChange}
@@ -297,7 +297,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
             <Grid item xs={4}>
               <ClearableTextField
                 fullWidth
-                label="Driving License"
+                label={t('DrivingLicense')}
                 name="ownerDrivingLicense"
                 value={carData?.ownerDrivingLicense}
                 onChange={handleInputChange}
@@ -309,7 +309,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Maintenance"
+              label={t('Maintenance')}
               name="maintenance"
               value={carData?.maintenance}
               onChange={handleInputChange}
@@ -319,7 +319,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Current Location"
+              label={t('CurrentLocation')}
               name="currentLocation"
               value={carData?.currentLocation}
               onChange={handleInputChange}
@@ -329,7 +329,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={12}>
             <ClearableTextField
               fullWidth
-              label="Purchase Details"
+              label={t('PurchaseDetails')}
               name="purchaseDetails"
               value={carData?.purchaseDetails}
               onChange={handleInputChange}
@@ -344,14 +344,14 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           {partners.length > 0 ? (partners.map((partner, index) => (
             <Grid item xs={12} key={index}>
               <Typography variant="subtitle1">
-                {index === 0 ? "First" : index === 1 ? "Second" : index === 2 ? "Third" : `${index + 1}th`} Partner
+                {t('Partner')} #{index + 1}
               </Typography>
 
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <ClearableTextField
                     fullWidth
-                    label="Partner Name"
+                    label={t('Name')}
                     name={`partners.name`}
                     value={partner.name}
                     onChange={(e) => handlePartnerInputChange(e, index)}
@@ -361,7 +361,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
                   <ClearableTextField
                     fullWidth
                     select
-                    label="Partner Type"
+                    label={t('Type')}
                     name={`partner.type`}
                     value={partner.type}
                     onChange={(e) => handlePartnerInputChange(e, index)}
@@ -376,7 +376,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
                 <Grid item xs={6}>
                   <ClearableTextField
                     fullWidth
-                    label="Partner Email"
+                    label={t('Email')}
                     name={`partner.email`}
                     value={partner.email}
                     onChange={(e) => handlePartnerInputChange(e, index)}
@@ -385,7 +385,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
                 <Grid item xs={6}>
                   <ClearableTextField
                     fullWidth
-                    label="Partner Phone"
+                    label={t('Phone')}
                     name={`partner.phone`}
                     value={partner.phone}
                     onChange={(e) => handlePartnerInputChange(e, index)}
@@ -395,7 +395,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
                   <ClearableTextField
                     fullWidth
                     type="number"
-                    label="Partnership Percentage"
+                    label={t('Percentage')}
                     name={`partner.percentage`}
                     value={partner.percentage}
                     onChange={(e) => handlePartnerInputChange(e, index)}
@@ -426,7 +426,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Entry Date"
+              label={t('EntryDate')}
               type="date"
               name="entryDate"
               value={carData?.entryDate}
@@ -439,7 +439,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Price"
+              label={t('Price')}
               type="number"
               name="price"
               value={financeData.price}
@@ -449,7 +449,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={4}>
             <ClearableTextField
               fullWidth
-              label="Currency"
+              label={t('Currency')}
               name="currency"
               value={financeData.currency}
               onChange={handleFinanceInputChange}
@@ -466,7 +466,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
           <Grid item xs={12}>
             <ClearableTextField
               fullWidth
-              label="Amount in Words"
+              label={t('AmountInWords')}
               name="amountInWords"
               value={financeData.amountInWords}
               onChange={handleFinanceInputChange}

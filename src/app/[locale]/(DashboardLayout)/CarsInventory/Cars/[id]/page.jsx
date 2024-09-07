@@ -493,7 +493,7 @@ const CarDetailsPage = ({ params }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('name')}:</strong>
+                        <strong>{t('modelName')}:</strong>
                       </TableCell>
                       <TableCell>{car?.name}</TableCell>
                     </TableRow>
@@ -505,7 +505,7 @@ const CarDetailsPage = ({ params }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('model')}:</strong>
+                        <strong>{t('modelYear')}:</strong>
                       </TableCell>
                       <TableCell>{car?.model}</TableCell>
                     </TableRow>
@@ -642,45 +642,61 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    bgcolor: 'background.paper',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "background.paper",
                     boxShadow: 24,
                     p: 4,
                     borderRadius: 5,
                     width: 1200,
                   }}
                 >
-                  <Typography id="sell-car-modal-title" variant="h6" component="h2" gutterBottom>
-                    {t('modal.sellTitle', { car: car?.name })}
+                  <Typography
+                    id="sell-car-modal-title"
+                    variant="h6"
+                    component="h2"
+                    gutterBottom
+                  >
+                    Sell {car?.name} Confirmation
                   </Typography>
-                  <Typography id="sell-car-modal-description" variant="body1" component="div" gutterBottom>
-                    {t('modal.sellDescription', { car: car?.name })}
+                  <Typography
+                    id="sell-car-modal-description"
+                    variant="body1"
+                    component="div"
+                    gutterBottom
+                  >
+                    Are you sure you want to sell {car?.name}?
                   </Typography>
 
                   <Grid container spacing={2}>
+                    {" "}
+                    {/* Set spacing between Grid items */}
                     <Grid item xs={4}>
+                      {" "}
+                      {/* Each input takes up half of the space */}
                       <Autocomplete
                         options={customers}
-                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails}`}
+                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails}`} // Combine name and phone number
+                        getOptionSelected={(option, value) => option._id === value._id}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label={t('modal.purchaser')}
+                            label="Purchaser"
                             name="purchaser"
                             fullWidth
                             margin="normal"
                             InputProps={{
                               ...params.InputProps,
                               endAdornment: (
-                                <>
+                                <React.Fragment>
                                   {params.InputProps.endAdornment}
                                   <Button onClick={() => setCustomerModalOpen(true)}>
-                                    {t('modal.addNew')}
-                                  </Button>
-                                </>
+                                    Add New
+                                  </Button>{" "}
+                                  {/* Button to open dialog for adding new customer */}
+                                </React.Fragment>
                               ),
                             }}
                           />
@@ -688,15 +704,117 @@ const CarDetailsPage = ({ params }) => {
                         onChange={(event, value) => handlePurchaserChange(value)}
                       />
                     </Grid>
-                    {/* ...other form fields */}
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Selling Price"
+                        name="sellingPrice"
+                        value={carDetails.sellingPrice}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Value"
+                        name="value"
+                        value={carDetails.value}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Capital"
+                        name="capital"
+                        value={carDetails.capital}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Maintenance Costs"
+                        name="maintenanceCosts"
+                        value={maintenanceCosts}
+                        fullWidth
+                        margin="normal"
+                        disabled // Set disabled to true to make it disabled but still visible
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Net Profit"
+                        name="netProfit"
+                        value={carDetails.netProfit}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                        disabled
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      {/* Each input takes up half of the space */}
+                      <Autocomplete
+                        options={employees}
+                        getOptionLabel={(option) =>
+                          `${option.name} - ${option?.contactInfo?.phone}`
+                        }
+                        getOptionSelected={(option, value) =>
+                          option._id === value._id
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Sales"
+                            name="sales"
+                            margin="normal"
+                          />
+                        )}
+                        onChange={(event, value) =>
+                          handleSalesMemberChange(value)
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      {/* Autocomplete for source of selling */}
+                      <Autocomplete
+                        options={sellingSources}
+                        getOptionLabel={(option) => option}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Source of Selling"
+                            name="sourceOfSelling"
+                            margin="normal"
+                            helperText="Select the source of selling (Only if Outsource)"
+                          />
+                        )}
+                        onChange={(event, value) => handleSourceChange(value)}
+                      />
+                    </Grid>
                   </Grid>
 
                   <Box textAlign="right">
-                    <Button onClick={() => setIsSellModalOpen(false)} color="primary" variant="outlined" style={{ marginRight: '10px' }}>
-                      {t('modal.cancel')}
+                    <Button
+                      onClick={() => {
+                        setIsSellModalOpen(false);
+                        setCarDetails(initialCarDetails);
+                      }}
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginRight: "10px" }}
+                    >
+                      Cancel
                     </Button>
-                    <Button onClick={handleSellCar} color="success" variant="outlined">
-                      {t('modal.sell')}
+                    <Button
+                      onClick={handleSellCar}
+                      color="success"
+                      variant="outlined"
+                    >
+                      Sell
                     </Button>
                   </Box>
                 </Box>

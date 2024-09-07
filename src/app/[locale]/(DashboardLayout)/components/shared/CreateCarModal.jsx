@@ -107,7 +107,7 @@ const CarColorSelect = ({ t, carData, handleInputChange }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label={t("Color")} 
+              label={t("Color")}
               variant="outlined"
               fullWidth
             />
@@ -1089,7 +1089,12 @@ const CreateCarModal = ({
 
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose();
+          setCarData(initialCarData);
+          setFinanceData(initialFinanceData);
+          setPartners(initialPartnersData);
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -1155,7 +1160,12 @@ const CreateCarModal = ({
                 {activeStep === steps.length - 1 ? "Finish" : errorMessage ? `Next - ${errorMessage}` : "Next"}
               </Button>
               <Button
-                onClick={handleClose}
+                onClick={() => {
+                  handleClose();
+                  setCarData(initialCarData);
+                  setFinanceData(initialFinanceData);
+                  setPartners(initialPartnersData);
+                }}
                 variant="outlined"
                 sx={{ marginX: 1, fontWeight: "bold" }}
               >

@@ -5,6 +5,7 @@ import PageContainer from '@/app/(DashboardLayout)/components/container/PageCont
 import Analytics from '@/app/(DashboardLayout)/components/shared/Analytics';
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import { useTranslations } from 'next-intl';
+import CreateCarModal from '../components/shared/CreateCarModal';
 
 const timeRanges = [
   { label: 'thisWeek', value: 'thisWeek' },

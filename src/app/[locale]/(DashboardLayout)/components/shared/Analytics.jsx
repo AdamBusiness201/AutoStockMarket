@@ -61,7 +61,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
       <ViewDataModal open={modalOpen} handleClose={() => { setModalOpen(false) }} locale={locale} />
       <Grid container spacing={2} sx={{ marginBottom: 2 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-          <Button variant="contained" color="primary" onClick={() => console.log(t('addNewCar'))}>
+          <Button variant="contained" color="primary" onClick={() => router.push(`/${locale}/CarsInventory/Cars?CreateCar=true`)}>
             {t('addNewCar')}
           </Button>
           <Button variant="outlined" onClick={() => { setModalOpen(true) }}>

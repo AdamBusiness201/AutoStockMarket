@@ -12,6 +12,7 @@ import { useTranslations } from 'next-intl';
 import ViewDataModal from './ViewData'; // Import the modal
 import { useRouter } from 'next/navigation';
 import AnalysisCard from './DashboardAnalysisCard';
+import CarAnalytics from "./CarAnalytics";
 
 const Analytics = ({ locale, today = false, timeRange }) => {
   const [analytics, setAnalytics] = useState({});
@@ -128,6 +129,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
       </Grid>
 
       <Grid container spacing={2}>
+        <CarAnalytics isDashboard={true} />
         {sourceOfSellingStats.map((stat, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <AnalysisCard

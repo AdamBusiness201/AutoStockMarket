@@ -10,6 +10,7 @@ import { IconCurrencyDollar, IconCar, IconMan } from "@tabler/icons-react";
 import moment from 'moment';
 import { useTranslations } from 'next-intl';
 import ViewDataModal from './ViewData'; // Import the modal
+import { useRouter } from 'next/navigation';
 
 const Analytics = ({ locale, today = false, timeRange }) => {
   const [analytics, setAnalytics] = useState({});
@@ -21,6 +22,7 @@ const Analytics = ({ locale, today = false, timeRange }) => {
   const t = useTranslations('default.dashboard');
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
 
   const fetchData = async () => {
     try {

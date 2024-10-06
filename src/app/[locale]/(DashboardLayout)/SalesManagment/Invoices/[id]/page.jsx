@@ -50,6 +50,7 @@ const InvoicePage = ({ params }) => {
           throw new Error("Failed to fetch invoice");
         }
         const data = await response.json();
+        console.log(data)
         setInvoice(data.invoice);
         console.log(data.invoice);
         setEditableTransactionAmount(data.invoice.transaction.amount.toFixed(2));
@@ -179,7 +180,7 @@ const InvoicePage = ({ params }) => {
                       { label1: 'Chassis No.', value1: invoice?.transaction.car.chassisNumber, arabicLabel1: 'رقم الشاصية او القاعدة', label2: 'Color', value2: invoice?.transaction.car.color, arabicLabel2: 'اللون' },
                       { label1: 'Model', value1: invoice?.transaction.car.model, arabicLabel1: 'سنة الصنع/الموديل', label2: 'Remaining Amount', value2: invoice?.transaction?.remainingAmount, arabicLabel2: 'المبلغ المتبقي' },
                       { label1: 'Payment Method', value1: invoice?.transaction?.paymentMethod, arabicLabel1: 'طريقة الدفع', label2: 'Currency', value2: invoice?.transaction?.currency, arabicLabel2: 'العملة' },
-                      { label1: 'Amount in Words', value1: invoice?.transaction?.amountInWords, arabicLabel1: 'المبلغ بالكلمات', label2: 'Customer Contact Details', value2: invoice?.customer.contactDetails, arabicLabel2: 'تفاصيل اتصال العميل' },
+                      { label1: 'Amount in Words', value1: invoice?.transaction?.amountInWords, arabicLabel1: 'المبلغ بالكلمات', label2: 'Customer Contact Details', value2: invoice?.customerType === "Partner" ? invoice?.customer?.contactDetails : invoice?.customer?.contactDetails?.phone, arabicLabel2: 'تفاصيل اتصال العميل' },
                       { label1: 'Invoice Date', value1: new Date(invoice.invoiceDate).toLocaleDateString(), arabicLabel1: 'تاريخ الفاتورة', label2: 'Total Amount', value2: `${invoice?.transaction?.currency}${editableTotalAmount}`, arabicLabel2: 'المبلغ الإجمالي' },
                     ].map((row, index) => (
                       <React.Fragment key={index}>

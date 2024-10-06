@@ -15,8 +15,11 @@ import {
   TextField,
   Box,
   Pagination,
+  IconButton,
 } from "@mui/material";
 import { useTranslations } from 'next-intl';
+
+import { IconFileInvoice } from "@tabler/icons-react";
 
 const SoldCarsPage = ({ params: { locale } }) => {
   const router = useRouter();
@@ -92,7 +95,7 @@ const SoldCarsPage = ({ params: { locale } }) => {
           <Table aria-label="sold cars table">
             <TableHead>
               <TableRow>
-              <TableCell>{t('brand')}</TableCell>
+                <TableCell>{t('brand')}</TableCell>
                 <TableCell>{t('carName')}</TableCell>
                 <TableCell>{t('purchaserName')}</TableCell>
                 <TableCell>{t('purchaseDate')}</TableCell>
@@ -103,15 +106,24 @@ const SoldCarsPage = ({ params: { locale } }) => {
               {soldCars?.map((soldCar) => (
                 <TableRow
                   key={soldCar._id}
-                  onClick={() => handleRowClick(soldCar.car._id)}
+                  
                   style={{ cursor: "pointer" }}
                   hover={true}
                 >
-                  <TableCell>{soldCar?.car?.brand}</TableCell>
+                  <TableCell onClick={() => handleRowClick(soldCar.car._id)}>{soldCar?.car?.brand}</TableCell>
                   <TableCell>{soldCar?.car?.name}</TableCell>
                   <TableCell>{soldCar?.purchaser?.name}</TableCell>
                   <TableCell>{new Date(soldCar.purchaseDate).toLocaleDateString()}</TableCell>
                   <TableCell>{new Intl.NumberFormat().format(soldCar.purchasePrice)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <IconButton
+                      onClick={() => router.push(`/en/SalesManagment/Invoices/Car/${soldCar?.car._id}`)}
+                      aria-label={t('seeInvoices')}
+                      color="primary"
+                    >
+                      <IconFileInvoice />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

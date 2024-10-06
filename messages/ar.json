@@ -154,7 +154,10 @@
       },
       "home": "الصفحة الرئيسية",
       "dashboard": "لوحة القيادة",
+      
+      "totalCustomerDebt": "الديون للعملاء",
       "carsInventory": "جرد السيارات",
+      "e_showroom": "المتجر الالكتروني",
       "cars": "السيارات",
       "soldCars": "السيارات المباعة",
       "salesManagement": "إدارة المبيعات",

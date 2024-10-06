@@ -97,8 +97,10 @@
         "unknown": "Unknown",
         "totalPrice": "Total Price:"
       },
+      "totalCustomerDebt": "Total Customers Debt",
       "dashboard": "Dashboard",
       "carsInventory": "Cars Inventory",
+      "e_showroom": "E - Show Room",
       "cars": "Cars",
       "soldCars": "Sold Cars",
       "salesManagement": "Sales Management",

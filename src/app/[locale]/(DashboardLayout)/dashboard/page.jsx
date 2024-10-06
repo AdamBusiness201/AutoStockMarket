@@ -16,7 +16,7 @@ const timeRanges = [
 ];
 
 const Dashboard = ({ params }) => {
-  const [selectedRange, setSelectedRange] = useState('thisWeek'); // Default time range
+  const [selectedRange, setSelectedRange] = useState('lifetime'); // Default time range
   const t = useTranslations('default.Dashboard');
 
   const handleTabChange = (event, newValue) => {

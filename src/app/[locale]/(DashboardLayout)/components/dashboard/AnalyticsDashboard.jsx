@@ -70,8 +70,8 @@ const AnalyticsDashboard = ({ title, data, chartData, chartType, icon, iconLink,
           </Box>
         ) : (
           <>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Box component="a" href={iconLink}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
+              <Box component="a" href={iconLink} sx={{ marginInlineEnd: 2 }}>
                 {icon}
               </Box>
               <Box>
@@ -80,7 +80,8 @@ const AnalyticsDashboard = ({ title, data, chartData, chartType, icon, iconLink,
                 </Typography>
                 <Typography variant="h4">{formatNumber(data)}</Typography>
               </Box>
-            </Stack>
+            </Box>
+
             {chartType && (
               <Chart
                 options={chartOptions}

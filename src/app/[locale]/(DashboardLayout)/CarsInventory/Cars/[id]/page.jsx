@@ -136,7 +136,7 @@ const CarDetailsPage = ({ params }) => {
     fetchMaintenanceTasks();
     fetchCarDetails();
   }, [id]);
-
+  const [loadingSell, setLoadingSell] = useState(false);
   const handleSellCar = async () => {
     const updatedCarDetails = {
       ...carDetails,
@@ -146,6 +146,7 @@ const CarDetailsPage = ({ params }) => {
     };
 
     try {
+      setLoadingSell(true); // Start loading
       const response = await axios.post(
         `/api/car/${id}/sell-car`,
         updatedCarDetails
@@ -155,8 +156,11 @@ const CarDetailsPage = ({ params }) => {
       setCarDetails(initialCarDetails);
     } catch (error) {
       console.error("Error selling car:", error);
+    } finally {
+      setLoadingSell(false); // End loading
     }
   };
+
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -193,10 +197,13 @@ const CarDetailsPage = ({ params }) => {
   useEffect(() => {
     if (carDetails.value > 0) {
       const totalTransactionsAmount = transactions.reduce((acc, transaction) => {
-        return transaction.type === "expense" && acc + transaction.amount;
+        if(transaction.type === "expense"){
+          return  acc + transaction.amount;
+        }
+        
 
       }, 0);
-      console.log(totalTransactionsAmount);
+      console.log(transactions);
       // Parse input values to floats, defaulting to 0 if parsing fails
       const parsedValue = parseFloat(carDetails.value) || 0;
       const parsedSellingPrice = parseFloat(carDetails.sellingPrice) || 0;
@@ -815,7 +822,7 @@ const CarDetailsPage = ({ params }) => {
                       color="success"
                       variant="outlined"
                     >
-                      {t('modal.sell')}
+                      {loadingSell ? "Loading..." : t('modal.sell')}
                     </Button>
                   </Box>
                 </Box>

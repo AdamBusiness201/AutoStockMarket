@@ -180,7 +180,7 @@ const InvoicePage = ({ params }) => {
                       { label1: 'Model', value1: invoice?.transaction.car.model, arabicLabel1: 'سنة الصنع/الموديل', label2: 'Remaining Amount', value2: invoice?.transaction?.remainingAmount, arabicLabel2: 'المبلغ المتبقي' },
                       { label1: 'Payment Method', value1: invoice?.transaction?.paymentMethod, arabicLabel1: 'طريقة الدفع', label2: 'Currency', value2: invoice?.transaction?.currency, arabicLabel2: 'العملة' },
                       { label1: 'Amount in Words', value1: invoice?.transaction?.amountInWords, arabicLabel1: 'المبلغ بالكلمات', label2: 'Customer Contact Details', value2: invoice?.customer.contactDetails, arabicLabel2: 'تفاصيل اتصال العميل' },
-                      { label1: 'Invoice Date', value1: new Date(invoice.invoiceDate).toLocaleDateString(), arabicLabel1: 'تاريخ الفاتورة', label2: 'Total Amount', value2: `$${editableTotalAmount}`, arabicLabel2: 'المبلغ الإجمالي' },
+                      { label1: 'Invoice Date', value1: new Date(invoice.invoiceDate).toLocaleDateString(), arabicLabel1: 'تاريخ الفاتورة', label2: 'Total Amount', value2: `${invoice?.transaction?.currency}${editableTotalAmount}`, arabicLabel2: 'المبلغ الإجمالي' },
                     ].map((row, index) => (
                       <React.Fragment key={index}>
                         <TableRow>

@@ -194,6 +194,7 @@ const CarDetailsPage = ({ params }) => {
     if (carDetails.value > 0) {
       const totalTransactionsAmount = transactions.reduce((acc, transaction) => {
         return transaction.type === "expense" && acc + transaction.amount;
+
       }, 0);
       console.log(totalTransactionsAmount);
       // Parse input values to floats, defaulting to 0 if parsing fails
@@ -204,7 +205,7 @@ const CarDetailsPage = ({ params }) => {
 
       // Calculate net profit using only the current input value
       const netProfit =
-        parsedSellingPrice - (totalTransactionsAmount);
+        parsedSellingPrice - (parsedValue) - parsedMaintenanceCosts;
 
       // Log calculation process
       console.log("--- Calculation Process ---");
@@ -677,7 +678,7 @@ const CarDetailsPage = ({ params }) => {
                     <Grid item xs={4}>
                       <Autocomplete
                         options={customers}
-                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails}`}
+                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails?.phone}`}
                         getOptionSelected={(option, value) => option._id === value._id}
                         renderInput={(params) => (
                           <TextField

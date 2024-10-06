@@ -392,22 +392,8 @@ const CarDetailsPage = ({ params }) => {
                       <MoneyOffOutlined />
                     </IconButton>
                   </Tooltip>
+                  
                   <Tooltip
-                    title={`Sell ${car?.name}`}
-                    arrow
-                    TransitionComponent={Fade}
-                    TransitionProps={{ timeout: 600 }}
-                  >
-                    <IconButton
-                      color="primary"
-                      onClick={() => setIsSellModalOpen(true)}
-                      style={{ marginRight: 10 }}
-                    >
-                      <SellOutlined />
-                    </IconButton>
-                  </Tooltip>
-                  {car?.currentLocation !== "Sold" && (
-                    <Tooltip
                       title={`Sell ${car?.name}`}
                       arrow
                       TransitionComponent={Fade}
@@ -421,6 +407,21 @@ const CarDetailsPage = ({ params }) => {
                         <AddBusinessOutlined />
                       </IconButton>
                     </Tooltip>
+                  {car?.currentLocation !== "Sold" && (
+                    <Tooltip
+                    title={`Sell ${car?.name}`}
+                    arrow
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                  >
+                    <IconButton
+                      color="primary"
+                      onClick={() => setIsSellModalOpen(true)}
+                      style={{ marginRight: 10 }}
+                    >
+                      <SellOutlined />
+                    </IconButton>
+                  </Tooltip>
                   )}
 
                   <Tooltip

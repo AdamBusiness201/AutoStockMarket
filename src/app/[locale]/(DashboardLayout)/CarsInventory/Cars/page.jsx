@@ -256,7 +256,7 @@ const CarsPage = ({ params: { locale } }) => {
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
                         <IconButton
-                          onClick={() => router.push(`/en/SalesManagment/Invoices/Car/${car._id}`)}
+                          onClick={() => router.push(`/${locale}/SalesManagment/Invoices/Car/${car._id}`)}
                           aria-label={t('seeInvoices')}
                           color="primary"
                         >

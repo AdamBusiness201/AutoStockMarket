@@ -129,7 +129,7 @@ const InvoicePage = ({ params }) => {
                   </Typography>
                 </div>
                 <Image
-                  src="/images/logos/asm_logo.png"
+                  src="/images/logos/Picture1.png"
                   alt="Company Logo"
                   width={300}
                   height={150}

@@ -243,17 +243,13 @@ const InvoiceDetails = ({ invoice, editableTotalAmount, editableTransactionAmoun
                 شروط البيع | Conditions of Deal
               </Typography>
               <Typography variant="body2" paragraph sx={{ direction: 'rtl', textAlign: 'start' }}>
-                - لابد من دفع الرصيد المستحق في خلال ........... <br />
-                - و عند عدول المشتري عن شراء المركبة لا يلزم على البائع رد أي مبالغ دفعها المشتري. <br />
-                - المركبات المباعة لا ترد و لا تستبدل. <br />
-                - يجب على المشتري فحص المركبة بدقة حيث لا يجوز له التقدم بأي شكوى بعد البيع و الشركة غير مسؤولة عن أي مشكلة بعد عملية البيع.
-              </Typography>
-              <Typography variant="body2" paragraph>
-                - Balance will be paid within………… <br />
-                - In case of Failure, Advanced amount will be non-refundable. <br />
-                - Vehicles Sold will not be Refundable or exchangeable. <br />
-                - The customer must check the vehicle thoroughly as the company will not take any responsibility for any problem or complaint after the deal.
-              </Typography>
+  - يعتبر البائع مسؤولًا عن سلامة الجير والماكينة والديل والهيدروليك عند البيع شرط سلامة الشاصي والهيكل من أي دعم أو تصليح وسلامة جميع الأشياء الإلكترونية وشرط أداء المركبة باردة أول التشغيل أو بعد التشغيل. <br />
+  - الصايعة الخارجية تكون تحت مسؤولية طرفي العقد من الناحية المالية والقانونية.
+</Typography>
+<Typography variant="body2" paragraph>
+  - The seller is responsible for the safety of the gearbox, engine, differential, and hydraulics at the time of sale, provided the chassis and body are free of any damage or repairs, and all electronic components are functional. The vehicle must perform properly both when cold-started and after running. <br />
+  - External issues are the financial and legal responsibility of both parties to the contract.
+</Typography>
             </TableCell>
           </TableRow>
           <TableRow>

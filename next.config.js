@@ -1,4 +1,5 @@
 const withNextIntl = require("next-intl/plugin")();
+
 const nextConfig = withNextIntl({
   webpack(config) {
     config.experiments = { ...config.experiments, topLevelAwait: true };
@@ -10,7 +11,7 @@ const nextConfig = withNextIntl({
   async headers() {
     return [
       {
-        // matching all API routes
+        // Matching all API routes
         source: "/api/:path*",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
@@ -25,6 +26,22 @@ const nextConfig = withNextIntl({
               "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
           },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: "/:locale", // Match the dynamic locale
+        has: [
+          {
+            type: "header",
+            key: "accept-language",
+            value: "(.*)", // Matches requests with any accept-language header
+          },
+        ],
+        destination: "/:locale/dashboard", // Redirect to /dashboard
+        permanent: false, // Use a temporary redirect (302)
       },
     ];
   },

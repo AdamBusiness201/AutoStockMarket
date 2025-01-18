@@ -2,7 +2,7 @@
   "default": {
     "Dashboard": {
       "title": "Dashboard",
-      
+
       "description": "This is the Dashboard",
       "timeRanges": {
         "thisWeek": "This Week",
@@ -67,6 +67,7 @@
     "sidebar": {
       "allEmployees": "All Employees",
       "cars": "Cars",
+
       "carsInventory": "Cars Inventory",
       "customerManagement": "Customer Management",
       "customers": "Customers",
@@ -529,7 +530,7 @@
       "color": "Color",
 
       "modelName": "Model Name",
-
+"remainingProfitForOwner": "Remaining Profit for Owner",
       "modelYear": "Model Year",
       "chassisNumber": "Chassis Number",
       "owner": "Owner",
@@ -544,6 +545,8 @@
       "page": "Page",
       "of": "of",
       "partner": "Partner",
+      "note": "Note",
+      "partnersTakeHalf": "50% of this amount is shared with partners",
       "seeCarMaintenanceTasks": "See Car Maintenance Tasks",
       "price": "Price",
       "partnership": "Partnership",
@@ -551,7 +554,11 @@
       "paid": "Paid",
       "sellingPrice": "Selling Price",
       "maintenanceCosts": "Maintenance Costs",
-      "netProfit": "Net Profit"
+      "netProfit": "Net Profit",
+      "netProfitVisualization": "Net Profit Visualization",
+      "ownerShare": "Owner's Share",
+      "partnersShare": "Partners' Share",
+      "partners": "Partners"
     },
 
     "soldCars": {

@@ -24,9 +24,13 @@ import {
   Modal,
   TextField,
   CircularProgress,
+  LinearProgress,
   Grid,
+  Card,
+  CardContent,
+  List, ListItem, ListItemText
 } from "@mui/material";
-import CreateTransactionModal from "../../../components/shared/CreateTransactionModal"
+import CreateTransactionModal from "../../../components/shared/CreateTransactionModal";
 import CreateInstallmentModal from "../../../components/shared/CreateInstallmentModal";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
@@ -40,16 +44,15 @@ import {
   EditOutlined,
   DeleteOutline,
   MoneyOffOutlined,
-  AddBusinessOutlined
+  AddBusinessOutlined,
 } from "@mui/icons-material";
 import CreateCarModal from "../../../components/shared/CreateCarModal";
 import MaintenanceTasksList from "../../../components/shared/CarMaintenanceTasks";
 import InstallmentsList from "../../../components/shared/CarInstallments";
 import PartnersList from "../../../components/shared/CarPartners";
-import CarTransactionsList from "../../../components/shared/CarTransactions"
+import CarTransactionsList from "../../../components/shared/CarTransactions";
 import Loading from "../../../loading";
-import { useTranslations } from 'next-intl'; // Import useTranslations hook
-
+import { useTranslations } from "next-intl"; // Import useTranslations hook
 
 const initialCarDetails = {
   value: "",
@@ -82,8 +85,7 @@ const CarDetailsPage = ({ params }) => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const router = useRouter();
   const { id } = params;
-  const t = useTranslations('default.cars'); // Initialize useTranslations hook with namespace 'cars'
-
+  const t = useTranslations("default.cars"); // Initialize useTranslations hook with namespace 'cars'
 
   const fetchCarDetails = async () => {
     try {
@@ -161,7 +163,6 @@ const CarDetailsPage = ({ params }) => {
     }
   };
 
-
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -196,13 +197,14 @@ const CarDetailsPage = ({ params }) => {
   }, 0);
   useEffect(() => {
     if (carDetails.value > 0) {
-      const totalTransactionsAmount = transactions.reduce((acc, transaction) => {
-        if(transaction.type === "expense"){
-          return  acc + transaction.amount;
-        }
-        
-
-      }, 0);
+      const totalTransactionsAmount = transactions.reduce(
+        (acc, transaction) => {
+          if (transaction.type === "expense") {
+            return acc + transaction.amount;
+          }
+        },
+        0
+      );
       console.log(transactions);
       // Parse input values to floats, defaulting to 0 if parsing fails
       const parsedValue = parseFloat(carDetails.value) || 0;
@@ -211,9 +213,9 @@ const CarDetailsPage = ({ params }) => {
         parseFloat(carDetails.maintenanceCosts) || 0;
 
       // Calculate net profit using only the current input value
-      const netProfit =
-        parsedSellingPrice - (parsedValue) - parsedMaintenanceCosts;
-
+      var netProfit = parsedSellingPrice - parsedValue - parsedMaintenanceCosts;
+      // const hasPartners = !!partnersList;
+      // netProfit = hasPartners ? netProfit * 0.5 : netProfit;
       // Log calculation process
       console.log("--- Calculation Process ---");
       console.log("Selling Price:", parsedSellingPrice);
@@ -244,6 +246,7 @@ const CarDetailsPage = ({ params }) => {
     carDetails.sellingPrice,
     carDetails.maintenanceCosts,
     isSellModalOpen,
+    partnersList,
   ]);
 
   const handleMaintenanceInputChange = (e) => {
@@ -330,6 +333,7 @@ const CarDetailsPage = ({ params }) => {
   const handleConfirmAdd = () => {
     setConfirmationOpen(false);
   };
+  const [revenue, setRevenue] = useState(carDetails.netProfit);
   return (
     <PageContainer
       title={`Car Details | ${car?.name} | ${car?.model}`}
@@ -341,8 +345,18 @@ const CarDetailsPage = ({ params }) => {
         car={car} // Pass the current car data
         handleConfirmAdd={handleConfirmAdd}
       />
-      <CreateTransactionModal open={transactionModalOpen} car={car} fetchTransactions={fetchTransactions} handleClose={() => setTransactionModalOpen(false)} />
-      <CreateInstallmentModal open={installmentModalOpen} car={car} fetchInstallments={fetchInstallments} handleClose={() => setInstallmentModalOpen(false)} />
+      <CreateTransactionModal
+        open={transactionModalOpen}
+        car={car}
+        fetchTransactions={fetchTransactions}
+        handleClose={() => setTransactionModalOpen(false)}
+      />
+      <CreateInstallmentModal
+        open={installmentModalOpen}
+        car={car}
+        fetchInstallments={fetchInstallments}
+        handleClose={() => setInstallmentModalOpen(false)}
+      />
       <DashboardCard>
         <>
           {loading ? (
@@ -353,7 +367,10 @@ const CarDetailsPage = ({ params }) => {
             <Box>
               <CreateCustomerModal // Render CreateCustomerModal component
                 open={customerModalOpen}
-                handleClose={() => { confirm("Are you sure you want to close?"); setCustomerModalOpen(false) }}
+                handleClose={() => {
+                  confirm("Are you sure you want to close?");
+                  setCustomerModalOpen(false);
+                }}
                 fetchCustomers={() => {
                   fetchCustomers();
                   setSelectedPurchaser(customers[0]._id);
@@ -399,23 +416,8 @@ const CarDetailsPage = ({ params }) => {
                       <MoneyOffOutlined />
                     </IconButton>
                   </Tooltip>
-                  
+
                   <Tooltip
-                      title={`Sell ${car?.name}`}
-                      arrow
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                    >
-                      <IconButton
-                        color="primary"
-                        onClick={() => setConfirmationOpen(true)}
-                        style={{ marginRight: 10 }}
-                      >
-                        <AddBusinessOutlined />
-                      </IconButton>
-                    </Tooltip>
-                  {car?.currentLocation !== "Sold" && (
-                    <Tooltip
                     title={`Sell ${car?.name}`}
                     arrow
                     TransitionComponent={Fade}
@@ -423,12 +425,29 @@ const CarDetailsPage = ({ params }) => {
                   >
                     <IconButton
                       color="primary"
-                      onClick={() => setIsSellModalOpen(true)}
+                      onClick={() => setConfirmationOpen(true)}
                       style={{ marginRight: 10 }}
                     >
-                      <SellOutlined />
+                      <AddBusinessOutlined />
                     </IconButton>
                   </Tooltip>
+                  {car?.currentLocation !== "Sold" && (
+                    <Tooltip
+                      title={`Sell ${car?.name}`}
+                      arrow
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                    >
+                      <IconButton
+                        color="primary"
+                        onClick={() => {
+                          setIsSellModalOpen(true);
+                        }}
+                        style={{ marginRight: 10 }}
+                      >
+                        <SellOutlined />
+                      </IconButton>
+                    </Tooltip>
                   )}
 
                   <Tooltip
@@ -499,49 +518,49 @@ const CarDetailsPage = ({ params }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('brand')}:</strong>
+                        <strong>{t("brand")}:</strong>
                       </TableCell>
                       <TableCell>{car?.brand}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('modelName')}:</strong>
+                        <strong>{t("modelName")}:</strong>
                       </TableCell>
                       <TableCell>{car?.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('color')}:</strong>
+                        <strong>{t("color")}:</strong>
                       </TableCell>
                       <TableCell>{car?.color}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('modelYear')}:</strong>
+                        <strong>{t("modelYear")}:</strong>
                       </TableCell>
                       <TableCell>{car?.model}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('chassisNumber')}:</strong>
+                        <strong>{t("chassisNumber")}:</strong>
                       </TableCell>
                       <TableCell>{car?.chassisNumber}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('owner')}:</strong>
+                        <strong>{t("owner")}:</strong>
                       </TableCell>
                       <TableCell>{car?.owner?.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('purchaseDetails')}:</strong>
+                        <strong>{t("purchaseDetails")}:</strong>
                       </TableCell>
                       <TableCell>{car?.purchaseDetails}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('maintenance')}:</strong>
+                        <strong>{t("maintenance")}:</strong>
                       </TableCell>
                       <TableCell
                         style={{
@@ -555,28 +574,39 @@ const CarDetailsPage = ({ params }) => {
                           })
                         }
                       >
-                        {t('seeCarMaintenanceTasks')}
+                        {t("seeCarMaintenanceTasks")}
                       </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('price')}:</strong>
+                        <strong>{t("price")}:</strong>
                       </TableCell>
                       <TableCell>
                         <strong>
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.value)}
-                          ({sumPercentages}% {t('partnership')},{" "}
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(
-                            carDetails.value - (sumPercentages / 100) * carDetails.value
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "AED",
+                          }).format(carDetails.value)}
+                          ({sumPercentages}% {t("partnership")},{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "AED",
+                          }).format(
+                            carDetails.value -
+                              (sumPercentages / 100) * carDetails.value
                           )}{" "}
-                          {t('forASM')}) ({t('paid')}{" "}
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(totalInstallmentsAmount)})
+                          {t("forASM")}) ({t("paid")}{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "AED",
+                          }).format(totalInstallmentsAmount)}
+                          )
                         </strong>
                       </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <strong>{t('currentLocation')}:</strong>
+                        <strong>{t("currentLocation")}:</strong>
                       </TableCell>
                       <TableCell>{car?.currentLocation}</TableCell>
                     </TableRow>
@@ -585,21 +615,36 @@ const CarDetailsPage = ({ params }) => {
                       <>
                         <TableRow>
                           <TableCell>
-                            <strong>{t('sellingPrice')}:</strong>
+                            <strong>{t("sellingPrice")}:</strong>
                           </TableCell>
-                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.sellingPrice)}</TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "AED",
+                            }).format(carDetails.sellingPrice)}
+                          </TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell>
-                            <strong>{t('maintenanceCosts')}:</strong>
+                            <strong>{t("maintenanceCosts")}:</strong>
                           </TableCell>
-                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.maintenanceCosts)}</TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "AED",
+                            }).format(carDetails.maintenanceCosts)}
+                          </TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell>
-                            <strong>{t('netProfit')}:</strong>
+                            <strong>{t("netProfit")}:</strong>
                           </TableCell>
-                          <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AED' }).format(carDetails.netProfit)}</TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "AED",
+                            }).format(carDetails.netProfit)}
+                          </TableCell>
                         </TableRow>
                       </>
                     )}
@@ -615,29 +660,48 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
                     width: 400,
-                    bgcolor: 'background.paper',
+                    bgcolor: "background.paper",
                     boxShadow: 24,
                     p: 4,
                     borderRadius: 5,
                   }}
                 >
-                  <Typography id="delete-car-confirmation-title" variant="h6" component="h2" gutterBottom>
-                    {t('modal.deleteTitle')}
+                  <Typography
+                    id="delete-car-confirmation-title"
+                    variant="h6"
+                    component="h2"
+                    gutterBottom
+                  >
+                    {t("modal.deleteTitle")}
                   </Typography>
-                  <Typography id="delete-car-confirmation-description" variant="body1" component="div" gutterBottom>
-                    {t('modal.deleteDescription', { car: car?.name })}
+                  <Typography
+                    id="delete-car-confirmation-description"
+                    variant="body1"
+                    component="div"
+                    gutterBottom
+                  >
+                    {t("modal.deleteDescription", { car: car?.name })}
                   </Typography>
                   <Box textAlign="right">
-                    <Button onClick={() => setDeleteConfirmationOpen(false)} color="primary" variant="outlined" style={{ marginRight: 10 }}>
-                      {t('modal.cancel')}
+                    <Button
+                      onClick={() => setDeleteConfirmationOpen(false)}
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginRight: 10 }}
+                    >
+                      {t("modal.cancel")}
                     </Button>
-                    <Button onClick={handleDeleteCar} color="error" variant="outlined">
-                      {t('modal.delete')}
+                    <Button
+                      onClick={handleDeleteCar}
+                      color="error"
+                      variant="outlined"
+                    >
+                      {t("modal.delete")}
                     </Button>
                   </Box>
                 </Box>
@@ -671,7 +735,7 @@ const CarDetailsPage = ({ params }) => {
                     component="h2"
                     gutterBottom
                   >
-                    {t('title', { carName: car?.name })}
+                    {t("title", { carName: car?.name })}
                   </Typography>
                   <Typography
                     id="sell-car-modal-description"
@@ -679,19 +743,23 @@ const CarDetailsPage = ({ params }) => {
                     component="div"
                     gutterBottom
                   >
-                    {t('description', { carName: car?.name })}
+                    {t("description", { carName: car?.name })}
                   </Typography>
 
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Autocomplete
                         options={customers}
-                        getOptionLabel={(option) => `${option?.name} - ${option?.contactDetails?.phone}`}
-                        getOptionSelected={(option, value) => option._id === value._id}
+                        getOptionLabel={(option) =>
+                          `${option?.name} - ${option?.contactDetails?.phone}`
+                        }
+                        getOptionSelected={(option, value) =>
+                          option._id === value._id
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label={t('modal.purchaser')}
+                            label={t("modal.purchaser")}
                             name="purchaser"
                             fullWidth
                             margin="normal"
@@ -700,8 +768,10 @@ const CarDetailsPage = ({ params }) => {
                               endAdornment: (
                                 <React.Fragment>
                                   {params.InputProps.endAdornment}
-                                  <Button onClick={() => setCustomerModalOpen(true)}>
-                                    {t('modal.addNew')}
+                                  <Button
+                                    onClick={() => setCustomerModalOpen(true)}
+                                  >
+                                    {t("modal.addNew")}
                                   </Button>
                                 </React.Fragment>
                               ),
@@ -711,12 +781,15 @@ const CarDetailsPage = ({ params }) => {
                             }}
                           />
                         )}
-                        onChange={(event, value) => handlePurchaserChange(value)}
+                        onChange={(event, value) =>
+                          handlePurchaserChange(value)
+                        }
                       />
                     </Grid>
+
                     <Grid item xs={4}>
                       <TextField
-                        label={t('sellingPrice')}
+                        label={t("sellingPrice")}
                         name="sellingPrice"
                         value={carDetails.sellingPrice}
                         onChange={handleInputChange}
@@ -724,9 +797,10 @@ const CarDetailsPage = ({ params }) => {
                         margin="normal"
                       />
                     </Grid>
+
                     <Grid item xs={4}>
                       <TextField
-                        label={t('modal.value')}
+                        label={t("modal.value")}
                         name="value"
                         value={carDetails.value}
                         onChange={handleInputChange}
@@ -734,9 +808,10 @@ const CarDetailsPage = ({ params }) => {
                         margin="normal"
                       />
                     </Grid>
+
                     <Grid item xs={4}>
                       <TextField
-                        label={t('modal.capital')}
+                        label={t("modal.capital")}
                         name="capital"
                         value={carDetails.capital}
                         onChange={handleInputChange}
@@ -744,9 +819,10 @@ const CarDetailsPage = ({ params }) => {
                         margin="normal"
                       />
                     </Grid>
+
                     <Grid item xs={4}>
                       <TextField
-                        label={t('maintenanceCosts')}
+                        label={t("maintenanceCosts")}
                         name="maintenanceCosts"
                         value={maintenanceCosts}
                         fullWidth
@@ -754,17 +830,23 @@ const CarDetailsPage = ({ params }) => {
                         disabled
                       />
                     </Grid>
+
                     <Grid item xs={4}>
                       <TextField
-                        label={t('netProfit')}
+                        label={t("netProfit")}
                         name="netProfit"
                         value={carDetails.netProfit}
                         onChange={handleInputChange}
                         fullWidth
                         margin="normal"
                         disabled
+                        helperText={t(
+                          "partnersTakeHalf",
+                          "50% of this amount is shared with partners"
+                        )}
                       />
                     </Grid>
+
                     <Grid item xs={6}>
                       <Autocomplete
                         options={employees}
@@ -777,7 +859,7 @@ const CarDetailsPage = ({ params }) => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label={t('modal.sales')}
+                            label={t("modal.sales")}
                             name="sales"
                             margin="normal"
                           />
@@ -787,6 +869,7 @@ const CarDetailsPage = ({ params }) => {
                         }
                       />
                     </Grid>
+
                     <Grid item xs={6}>
                       <Autocomplete
                         options={sellingSources}
@@ -794,15 +877,91 @@ const CarDetailsPage = ({ params }) => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label={t('modal.sourceOfSelling')}
+                            label={t("modal.sourceOfSelling")}
                             name="sourceOfSelling"
                             margin="normal"
-                            helperText={t('modal.sourceHelperText')}
+                            helperText={t("modal.sourceHelperText")}
                           />
                         )}
                         onChange={(event, value) => handleSourceChange(value)}
                       />
                     </Grid>
+                    {partnersList && (
+  <Grid item xs={12}>
+    <Typography variant="h6" gutterBottom>
+      {t("netProfit")}
+    </Typography>
+
+    <Grid container spacing={1} alignItems="center">
+      {/* Owner Share */}
+      <Grid item xs={12} md={12}>
+        <Typography variant="body1" color="textPrimary">
+          <strong>{t("ownerShare")}:</strong>
+          {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(
+            carDetails.netProfit - partnersList.reduce((total, partner) => {
+              return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
+            }, 0)
+          )}
+        </Typography>
+      </Grid>
+
+      {/* Partners Share */}
+      <Grid item xs={12} md={12}>
+        <Typography variant="body1" color="textPrimary">
+          <strong>{t("partnersShare")}:</strong>
+          {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(
+            partnersList.reduce((total, partner) => {
+              return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
+            }, 0)
+          )}
+        </Typography>
+      </Grid>
+    </Grid>
+
+    {/* Display Individual Partner Shares */}
+    <List>
+      {partnersList.map((partner) => {
+        const partnerShare =
+          (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
+
+        return (
+          <ListItem key={partner._id}>
+            <ListItemText
+              primary={<strong>{partner.name}:</strong>}
+              secondary={
+                <>
+                  <Typography variant="body2" color="textSecondary">
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "AED",
+                    }).format(partnerShare)}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {partner.name} - {partner.partnershipPercentage}%
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+        );
+      })}
+    </List>
+
+    {/* Remaining profit for owner */}
+    <Typography variant="body1" style={{ marginTop: 20 }}>
+      <strong>{t("remainingProfitForOwner")}:</strong>{" "}
+      {new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "AED",
+      }).format(
+        carDetails.netProfit - partnersList.reduce((total, partner) => {
+          return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
+        }, 0)
+      )}
+    </Typography>
+  </Grid>
+)}
+
                   </Grid>
 
                   <Box textAlign="end">
@@ -815,14 +974,14 @@ const CarDetailsPage = ({ params }) => {
                       variant="outlined"
                       style={{ marginInlineEnd: "10px" }}
                     >
-                      {t('modal.cancel')}
+                      {t("modal.cancel")}
                     </Button>
                     <Button
                       onClick={handleSellCar}
                       color="success"
                       variant="outlined"
                     >
-                      {loadingSell ? "Loading..." : t('modal.sell')}
+                      {loadingSell ? "Loading..." : t("modal.sell")}
                     </Button>
                   </Box>
                 </Box>
@@ -836,22 +995,27 @@ const CarDetailsPage = ({ params }) => {
               >
                 <Box
                   sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
                     width: 400,
-                    bgcolor: 'background.paper',
+                    bgcolor: "background.paper",
                     boxShadow: 24,
                     p: 4,
                     borderRadius: 5,
                   }}
                 >
-                  <Typography id="add-maintenance-task-modal-title" variant="h6" component="h2" gutterBottom>
-                    {t('modal.addMaintenanceTitle')}
+                  <Typography
+                    id="add-maintenance-task-modal-title"
+                    variant="h6"
+                    component="h2"
+                    gutterBottom
+                  >
+                    {t("modal.addMaintenanceTitle")}
                   </Typography>
                   <TextField
-                    label={t('modal.taskDescription')}
+                    label={t("modal.taskDescription")}
                     name="taskDescription"
                     value={maintenanceTask.taskDescription}
                     onChange={handleMaintenanceInputChange}
@@ -859,7 +1023,7 @@ const CarDetailsPage = ({ params }) => {
                     margin="normal"
                   />
                   <TextField
-                    label={t('modal.taskDate')}
+                    label={t("modal.taskDate")}
                     name="taskDate"
                     type="date"
                     value={maintenanceTask.taskDate}
@@ -871,7 +1035,7 @@ const CarDetailsPage = ({ params }) => {
                     }}
                   />
                   <TextField
-                    label={t('modal.taskCost')}
+                    label={t("modal.taskCost")}
                     name="taskCost"
                     type="number"
                     value={maintenanceTask.taskCost}
@@ -880,11 +1044,20 @@ const CarDetailsPage = ({ params }) => {
                     margin="normal"
                   />
                   <Box textAlign="right">
-                    <Button onClick={() => setIsAddMaintenanceModalOpen(false)} color="primary" variant="outlined" style={{ marginRight: 10 }}>
-                      {t('modal.cancel')}
+                    <Button
+                      onClick={() => setIsAddMaintenanceModalOpen(false)}
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginRight: 10 }}
+                    >
+                      {t("modal.cancel")}
                     </Button>
-                    <Button onClick={handleAddMaintenanceTask} color="success" variant="outlined">
-                      {t('modal.addTask')}
+                    <Button
+                      onClick={handleAddMaintenanceTask}
+                      color="success"
+                      variant="outlined"
+                    >
+                      {t("modal.addTask")}
                     </Button>
                   </Box>
                 </Box>
@@ -895,7 +1068,10 @@ const CarDetailsPage = ({ params }) => {
         <div ref={tasksRef}>
           <CreateCarModal
             open={modalOpen}
-            handleClose={() => { confirm("Are you sure you want to close?"); setModalOpen(false) }}
+            handleClose={() => {
+              confirm("Are you sure you want to close?");
+              setModalOpen(false);
+            }}
             fetchCars={fetchCarDetails}
             initialCarData={car}
             isEditing={true}
@@ -917,7 +1093,6 @@ const CarDetailsPage = ({ params }) => {
       <DashboardCard>
         <InstallmentsList installments={installments} />
       </DashboardCard>
-
     </PageContainer>
   );
 };

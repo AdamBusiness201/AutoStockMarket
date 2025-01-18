@@ -55,6 +55,7 @@
     "react-to-print": "^2.15.1",
     "react-toastify": "^10.0.5",
     "react-world-flags": "^1.6.0",
+    "recharts": "^2.15.0",
     "sass": "^1.75.0",
     "styled-components": "^6.1.11",
     "typescript": "5.0.4",

@@ -896,7 +896,7 @@ const CarDetailsPage = ({ params }) => {
       {/* Owner Share */}
       <Grid item xs={12} md={12}>
         <Typography variant="body1" color="textPrimary">
-          <strong>{t("ownerShare")}:</strong>
+          <strong>{t("ownerShare")}: </strong>
           {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(
             carDetails.netProfit - partnersList.reduce((total, partner) => {
               return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
@@ -908,7 +908,7 @@ const CarDetailsPage = ({ params }) => {
       {/* Partners Share */}
       <Grid item xs={12} md={12}>
         <Typography variant="body1" color="textPrimary">
-          <strong>{t("partnersShare")}:</strong>
+          <strong>{t("partnersShare")}: </strong>
           {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(
             partnersList.reduce((total, partner) => {
               return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);

@@ -711,7 +711,6 @@ const CarDetailsPage = ({ params }) => {
                 open={isSellModalOpen}
                 onClose={() => {
                   setIsSellModalOpen(false);
-                  setCarDetails(initialCarDetails);
                 }}
                 aria-labelledby="sell-car-modal-title"
                 aria-describedby="sell-car-modal-description"

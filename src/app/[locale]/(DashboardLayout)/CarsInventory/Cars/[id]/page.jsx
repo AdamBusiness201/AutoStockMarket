@@ -937,7 +937,7 @@ const CarDetailsPage = ({ params }) => {
                     }).format(partnerShare)}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {partner.name} - {partner.partnershipPercentage}%
+                    {partner.name} ({partner.partnershipPercentage}%)
                   </Typography>
                 </>
               }

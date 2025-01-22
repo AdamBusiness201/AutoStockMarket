@@ -589,13 +589,13 @@ const CarDetailsPage = ({ params }) => {
                             style: "currency",
                             currency: "AED",
                           }).format(carDetails.value)}
-                          ({sumPercentages}% {t("partnership")},{" "}
+                          ({sumPercentages / partnersList.length()}% {t("partnership")},{" "}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "AED",
                           }).format(
                             carDetails.value -
-                              (sumPercentages / 100) * carDetails.value
+                              ((sumPercentages / partnersList.length()) / 100) * carDetails.value
                           )}{" "}
                           {t("forASM")}) ({t("paid")}{" "}
                           {new Intl.NumberFormat("en-US", {

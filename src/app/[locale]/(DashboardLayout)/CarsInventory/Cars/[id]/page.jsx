@@ -590,15 +590,18 @@ const CarDetailsPage = ({ params }) => {
                             style: "currency",
                             currency: "AED",
                           }).format(carDetails.value)}
-
+<br/>
                           {/* Mapping over the partners list with their names and percentages */}
                           {partnersList.map((partner, index) => (
+                            <>
                             <span key={index}>
                               <span style={{ color: 'blue' }}>
                                 {partner.name}: {partner.partnershipPercentage}%
                               </span>
                               {index < partnersList.length - 1 ? ", " : ""}
                             </span>
+                            <br/>
+                            </>
                           ))}
 
                           {/* Remaining Value after deduction */}

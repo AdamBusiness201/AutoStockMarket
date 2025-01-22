@@ -590,17 +590,20 @@ const CarDetailsPage = ({ params }) => {
                             style: "currency",
                             currency: "AED",
                           }).format(carDetails.value)}
-<br/>
+                          <br />
                           {/* Mapping over the partners list with their names and percentages */}
                           {partnersList.map((partner, index) => (
                             <>
-                            <span key={index}>
-                              <span style={{ color: 'blue' }}>
-                                {partner.name}: {partner.partnershipPercentage}% ({(partner.partnershipPercentage / 100) * carDetails.value})
+                              <span key={index}>
+                                <span style={{ color: 'blue' }}>
+                                  {partner.name}: {partner.partnershipPercentage}% ({new Intl.NumberFormat("en-US", {
+                                    style: "currency",
+                                    currency: "AED",
+                                  }).format((partner.partnershipPercentage / 100) * carDetails.value)})
+                                </span>
+                                {index < partnersList.length - 1 ? ", " : ""}
                               </span>
-                              {index < partnersList.length - 1 ? ", " : ""}
-                            </span>
-                            <br/>
+                              <br />
                             </>
                           ))}
 
@@ -616,7 +619,7 @@ const CarDetailsPage = ({ params }) => {
                           {/* Label for ASM (Assuming "forASM" is a translation key for context) */}
                           {" "}
                           {"AlSuraj"}
-                          <br/>
+                          <br />
                           {/* Total installments paid */}
                           ({t("paid")}{" "}
                           {new Intl.NumberFormat("en-US", {

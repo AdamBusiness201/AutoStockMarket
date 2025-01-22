@@ -596,7 +596,7 @@ const CarDetailsPage = ({ params }) => {
                             <>
                             <span key={index}>
                               <span style={{ color: 'blue' }}>
-                                {partner.name}: {partner.partnershipPercentage}%
+                                {partner.name}: {partner.partnershipPercentage}% ({(partner.partnershipPercentage / 100) * carDetails.value})
                               </span>
                               {index < partnersList.length - 1 ? ", " : ""}
                             </span>

@@ -585,21 +585,37 @@ const CarDetailsPage = ({ params }) => {
                       </TableCell>
                       <TableCell>
                         <strong>
+                          {/* Car Value in AED */}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "AED",
                           }).format(carDetails.value)}
+
+                          {/* Mapping over the partners list with their names and percentages */}
                           {partnersList.map((partner, index) => (
-                            `${partner.partnershipPercentage}% ${t("partnership")}${index < partnersList.length - 1 ? ", " : ""}`
-                          )).join(" ")}
+                            <span key={index}>
+                              <span style={{ color: 'blue' }}>
+                                {partner.name}: {partner.partnershipPercentage}%
+                              </span>
+                              {index < partnersList.length - 1 ? ", " : ""}
+                            </span>
+                          ))}
+
+                          {/* Remaining Value after deduction */}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "AED",
                           }).format(
                             carDetails.value -
-                            ((sumPercentages) / 100) * carDetails.value
-                          )}{" "}
-                          {t("forASM")}) ({t("paid")}{" "}
+                            (sumPercentages / 100) * carDetails.value
+                          )}
+
+                          {/* Label for ASM (Assuming "forASM" is a translation key for context) */}
+                          {" "}
+                          {t("forASM")}
+
+                          {/* Total installments paid */}
+                          ({t("paid")}{" "}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "AED",
@@ -607,6 +623,7 @@ const CarDetailsPage = ({ params }) => {
                           )
                         </strong>
                       </TableCell>
+
                     </TableRow>
                     <TableRow>
                       <TableCell>

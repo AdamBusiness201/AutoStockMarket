@@ -28,7 +28,9 @@ import {
   Grid,
   Card,
   CardContent,
-  List, ListItem, ListItemText
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import CreateTransactionModal from "../../../components/shared/CreateTransactionModal";
 import CreateInstallmentModal from "../../../components/shared/CreateInstallmentModal";
@@ -745,7 +747,11 @@ const CarDetailsPage = ({ params }) => {
                     {t("description", { carName: car?.name })}
                   </Typography>
 
-                  <Grid container spacing={2}>
+                  <Grid
+                    container
+                    spacing={2}
+                    sx={{ maxHeight: "58vh", overflow: "auto" }}
+                  >
                     <Grid item xs={4}>
                       <Autocomplete
                         options={customers}
@@ -886,77 +892,99 @@ const CarDetailsPage = ({ params }) => {
                       />
                     </Grid>
                     {partnersList && (
-  <Grid item xs={12}>
-    <Typography variant="h6" gutterBottom>
-      {t("netProfit")}
-    </Typography>
+                      <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>
+                          {t("netProfit")}
+                        </Typography>
 
-    <Grid container spacing={1} alignItems="center">
-      {/* Owner Share */}
-      <Grid item xs={12} md={12}>
-        <Typography variant="body1" color="textPrimary">
-          <strong>{t("ownerShare")}: </strong>
-          {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(carDetails.netProfit / 2)}
-        </Typography>
-      </Grid>
+                        <Grid container spacing={1} alignItems="center">
+                          {/* Owner Share */}
+                          <Grid item xs={12} md={12}>
+                            <Typography variant="body1" color="textPrimary">
+                              <strong>{t("ownerShare")}: </strong>
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "AED",
+                              }).format(carDetails.netProfit / 2)}
+                            </Typography>
+                          </Grid>
 
-      {/* Partners Share */}
-      <Grid item xs={12} md={12}>
-        <Typography variant="body1" color="textPrimary">
-          <strong>{t("partnersShare")}: </strong>
-          {new Intl.NumberFormat("en-US", { style: "currency", currency: "AED" }).format(
-            partnersList.reduce((total, partner) => {
-              return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
-            }, 0)
-          )}
-        </Typography>
-      </Grid>
-    </Grid>
+                          {/* Partners Share */}
+                          <Grid item xs={12} md={12}>
+                            <Typography variant="body1" color="textPrimary">
+                              <strong>{t("partnersShare")}: </strong>
+                              {new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "AED",
+                              }).format(
+                                partnersList.reduce((total, partner) => {
+                                  return (
+                                    total +
+                                    (carDetails.netProfit / 2) *
+                                      (partner.partnershipPercentage / 100)
+                                  );
+                                }, 0)
+                              )}
+                            </Typography>
+                          </Grid>
+                        </Grid>
 
-    {/* Display Individual Partner Shares */}
-    <List>
-      {partnersList.map((partner) => {
-        const partnerShare =
-          (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
+                        {/* Display Individual Partner Shares */}
+                        <List>
+                          {partnersList.map((partner) => {
+                            const partnerShare =
+                              (carDetails.netProfit / 2) *
+                              (partner.partnershipPercentage / 100);
 
-        return (
-          <ListItem key={partner._id}>
-            <ListItemText
-              primary={<strong>{partner.name}:</strong>}
-              secondary={
-                <>
-                  <Typography variant="body2" color="textSecondary">
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "AED",
-                    }).format(partnerShare)}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {partner.name} ({partner.partnershipPercentage}%)
-                  </Typography>
-                </>
-              }
-            />
-          </ListItem>
-        );
-      })}
-    </List>
+                            return (
+                              <ListItem key={partner._id}>
+                                <ListItemText
+                                  primary={<strong>{partner.name}:</strong>}
+                                  secondary={
+                                    <>
+                                      <Typography
+                                        variant="body2"
+                                        color="textSecondary"
+                                      >
+                                        {new Intl.NumberFormat("en-US", {
+                                          style: "currency",
+                                          currency: "AED",
+                                        }).format(partnerShare)}
+                                      </Typography>
+                                      <Typography
+                                        variant="body2"
+                                        color="textSecondary"
+                                      >
+                                        {partner.name} (
+                                        {partner.partnershipPercentage}%)
+                                      </Typography>
+                                    </>
+                                  }
+                                />
+                              </ListItem>
+                            );
+                          })}
+                        </List>
 
-    {/* Remaining profit for owner */}
-    <Typography variant="body1" style={{ marginTop: 20 }}>
-      <strong>{t("remainingProfitForOwner")}:</strong>{" "}
-      {new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "AED",
-      }).format(
-        carDetails.netProfit - partnersList.reduce((total, partner) => {
-          return total + (carDetails.netProfit / 2) * (partner.partnershipPercentage / 100);
-        }, 0)
-      )}
-    </Typography>
-  </Grid>
-)}
-
+                        {/* Remaining profit for owner */}
+                        <Typography variant="body1" style={{ marginTop: 20 }}>
+                          <strong>{t("remainingProfitForOwner")}:</strong>{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "AED",
+                          }).format(
+                            carDetails.netProfit -
+                              partnersList.reduce((total, partner) => {
+                                return (
+                                  total +
+                                  (carDetails.netProfit / 2) *
+                                    (partner.partnershipPercentage / 100)
+                                );
+                              }, 0)
+                          )}
+                        </Typography>
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Box textAlign="end">

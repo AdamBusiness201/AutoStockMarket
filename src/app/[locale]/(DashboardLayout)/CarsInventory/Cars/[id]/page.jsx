@@ -589,13 +589,15 @@ const CarDetailsPage = ({ params }) => {
                             style: "currency",
                             currency: "AED",
                           }).format(carDetails.value)}
-                          ({sumPercentages / partnersList.length}% {t("partnership")},{" "}
+                          {partnersList.map((partner, index) => (
+                            `${partner.partnershipPercentage}% ${t("partnership")}${index < partnerList.length - 1 ? ", " : ""}`
+                          )).join(" ")}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "AED",
                           }).format(
                             carDetails.value -
-                              ((sumPercentages / partnersList.length) / 100) * carDetails.value
+                            ((sumPercentages) / 100) * carDetails.value
                           )}{" "}
                           {t("forASM")}) ({t("paid")}{" "}
                           {new Intl.NumberFormat("en-US", {
@@ -921,7 +923,7 @@ const CarDetailsPage = ({ params }) => {
                                   return (
                                     total +
                                     (carDetails.netProfit / 2) *
-                                      (partner.partnershipPercentage / 100)
+                                    (partner.partnershipPercentage / 100)
                                   );
                                 }, 0)
                               )}
@@ -974,20 +976,20 @@ const CarDetailsPage = ({ params }) => {
                             currency: "AED",
                           }).format(
                             carDetails.netProfit -
-                              partnersList.reduce((total, partner) => {
-                                return (
-                                  total +
-                                  (carDetails.netProfit / 2) *
-                                    (partner.partnershipPercentage / 100)
-                                );
-                              }, 0)
+                            partnersList.reduce((total, partner) => {
+                              return (
+                                total +
+                                (carDetails.netProfit / 2) *
+                                (partner.partnershipPercentage / 100)
+                              );
+                            }, 0)
                           )}
                         </Typography>
                       </Grid>
                     )}
                   </Grid>
 
-                  <Box textAlign="end" sx={{paddingTop: "10px"}}>
+                  <Box textAlign="end" sx={{ paddingTop: "10px" }}>
                     <Button
                       onClick={() => {
                         setIsSellModalOpen(false);

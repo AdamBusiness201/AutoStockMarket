@@ -987,7 +987,7 @@ const CarDetailsPage = ({ params }) => {
                     )}
                   </Grid>
 
-                  <Box textAlign="end">
+                  <Box textAlign="end" sx={{paddingTop: "10px"}}>
                     <Button
                       onClick={() => {
                         setIsSellModalOpen(false);

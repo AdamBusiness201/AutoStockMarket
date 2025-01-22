@@ -590,7 +590,7 @@ const CarDetailsPage = ({ params }) => {
                             currency: "AED",
                           }).format(carDetails.value)}
                           {partnersList.map((partner, index) => (
-                            `${partner.partnershipPercentage}% ${t("partnership")}${index < partnerList.length - 1 ? ", " : ""}`
+                            `${partner.partnershipPercentage}% ${t("partnership")}${index < partnersList.length - 1 ? ", " : ""}`
                           )).join(" ")}
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",

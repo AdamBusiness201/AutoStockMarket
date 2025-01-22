@@ -615,8 +615,8 @@ const CarDetailsPage = ({ params }) => {
 
                           {/* Label for ASM (Assuming "forASM" is a translation key for context) */}
                           {" "}
-                          {t("forASM")}
-
+                          {"AlSuraj"}
+                          <br/>
                           {/* Total installments paid */}
                           ({t("paid")}{" "}
                           {new Intl.NumberFormat("en-US", {

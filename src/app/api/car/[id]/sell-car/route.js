@@ -63,6 +63,8 @@ export async function POST(req, { params }) {
       purchasePrice: updatedCarDetails.sellingPrice, // Set the purchasePrice to the selling price of the car
       salesMember: carDetailsData.salesMember,
       source: carDetailsData.source,
+      mediatorName: carDetailsData.mediatorName, // Added
+      mediatorMobileNumber: carDetailsData.mediatorMobileNumber, // Added
     });
     await soldCar.save();
 

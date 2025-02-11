@@ -15,6 +15,8 @@ const soldCarSchema = new mongoose.Schema(
     purchasePrice: Number,
     salesMember: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" }, // Reference to Employee model
     sourceOfSelling: String, // Source of selling (e.g., OLX)
+    mediatorName: String, // Added field
+    mediatorMobileNumber: String, // Added field
   },
   { timestamps: true }
 );

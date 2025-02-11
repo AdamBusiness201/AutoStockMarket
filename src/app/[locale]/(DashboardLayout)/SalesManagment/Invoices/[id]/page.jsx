@@ -25,6 +25,8 @@ import Loading from "../../../loading";
 
 const InvoicePage = ({ params }) => {
   const [invoice, setInvoice] = useState(null);
+
+  const [soldCar, setSoldCar] = useState({});
   const [editableTransactionAmount, setEditableTransactionAmount] =
     useState("");
   const [editableTotalAmount, setEditableTotalAmount] = useState("");
@@ -54,7 +56,9 @@ const InvoicePage = ({ params }) => {
           throw new Error("Failed to fetch invoice");
         }
         const data = await response.json();
+        console.log(data);
         setInvoice(data.invoice);
+        setSoldCar(data.sold_car[0]);
         setEditableTransactionAmount(
           data.invoice.transaction.amount?.toFixed(2)
         );
@@ -153,6 +157,7 @@ const InvoicePage = ({ params }) => {
 
               {displayMode === "invoice" ? (
                 <InvoiceDetails
+                soldCar={soldCar}
                   invoice={invoice}
                   editableTransactionAmount={editableTransactionAmount}
                   editableTotalAmount={editableTotalAmount}
@@ -172,6 +177,7 @@ const InvoicePage = ({ params }) => {
 
 // Full invoice details as a separate component
 const InvoiceDetails = ({
+  soldCar,
   invoice,
   editableTotalAmount,
   editableTransactionAmount,
@@ -210,6 +216,7 @@ const InvoiceDetails = ({
                 <strong>البريد الإلكتروني:</strong>
               </TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell>
                 <strong>P.O Box:</strong>
@@ -219,6 +226,7 @@ const InvoiceDetails = ({
                 <strong>صندوق البريد:</strong>
               </TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell>
                 <strong>Mobile:</strong>
@@ -228,6 +236,30 @@ const InvoiceDetails = ({
               </TableCell>
               <TableCell sx={{ direction: "rtl", textAlign: "start" }}>
                 <strong>الهاتف المحمول:</strong>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <strong>Mediator Name:</strong>
+              </TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                {soldCar?.mediatorName}
+              </TableCell>
+              <TableCell sx={{ direction: "rtl", textAlign: "start" }}>
+                <strong>اسم الوسيط:</strong>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <strong>Mediator Mobile:</strong>
+              </TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                {soldCar?.mediatorMobileNumber}
+              </TableCell>
+              <TableCell sx={{ direction: "rtl", textAlign: "start" }}>
+                <strong>رقم هاتف الوسيط:</strong>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -293,6 +325,17 @@ const InvoiceDetails = ({
               label2: "Currency",
               value2: invoice?.transaction?.currency,
               arabicLabel2: "العملة",
+            },
+            {
+              label1: "Amount in Words",
+              value1: invoice?.transaction?.amountInWords,
+              arabicLabel1: "المبلغ بالكلمات",
+              label2: "Customer Contact Details",
+              value2:
+                invoice?.customerType === "Partner"
+                  ? invoice?.customer?.contactDetails
+                  : invoice?.customer?.contactDetails?.phone,
+              arabicLabel2: "تفاصيل اتصال العميل",
             },
             {
               label1: "Amount in Words",

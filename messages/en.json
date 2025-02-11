@@ -129,7 +129,7 @@
       "totalTransactions": "Total Transactions",
       "totalReceived": "Total Received",
       "totalExpenses": "Total Expenses",
-      "totalCustomers": "Total Customers",
+      "totalCustomers": "Total Customers", 
       "totalMaintenanceCosts": "Total Maintenance Costs",
       "totalCustomersDebts": "Total Customers Debts",
       "totalCarsPrices": "Total Cars Prices",
@@ -505,7 +505,12 @@
         "taskDate": "Task Date",
         "taskCost": "Task Cost",
         "addTask": "Add Task"
+    
       },
+      "mediatorName":"Mediator Name",
+      "enterValidMediatorName":"Please enter a  mediator name.",
+      "mediatorMobileNumber": "Mediator Mobile Number",
+      "enterValidMediatorMobileNumber": "Please enter a mobile number."  ,
       "carAdditionModal": {
         "confirmAddition": "Confirm Addition",
         "carDetails": "Car Details",

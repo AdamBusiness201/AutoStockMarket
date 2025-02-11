@@ -307,7 +307,12 @@
         "taskDate": "تاريخ المهمة",
         "taskCost": "تكلفة المهمة",
         "addTask": "إضافة المهمة"
+      
       },
+      "mediatorName": "اسم الوسيط",
+      "enterValidMediatorName": "يرجى إدخال اسم وسيط .",
+      "mediatorMobileNumber": "رقم جوال الوسيط",
+      "enterValidMediatorMobileNumber": "يرجى إدخال رقم جوال .",
       "carAdditionModal": {
         "confirmAddition": "تأكيد الإضافة",
         "carDetails": "تفاصيل السيارة",

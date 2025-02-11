@@ -1,5 +1,6 @@
 import connectDB from "../../../../lib/db";
 import Invoice from "../../../../models/Invoice";
+import SoldCar from "../../../../models/SoldCars";
 import { Types as mongooseTypes } from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -19,23 +20,24 @@ export async function GET(req, { params }) {
     }
 
     // Fetch the invoice by ID
-    const invoice = await Invoice.findById(invoiceId)
+    let invoice = await Invoice.findById(invoiceId)
       .populate({
         path: "transaction",
         populate: {
           path: "car",
-          model: "Car"
-        }
+          model: "Car",
+        },
       }) // Populate transaction details and car data
       .populate("customer"); // Populate customer details
-
+      console.log(invoice)
+    const sold_car = await SoldCar.find({car: invoice?.transaction?.car?._id});
+    console.log(sold_car)
     // Check if the invoice exists
     if (!invoice) {
       return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
     }
-
     // Return the invoice data
-    return NextResponse.json({ invoice });
+    return NextResponse.json({ invoice, sold_car });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

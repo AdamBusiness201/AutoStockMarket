@@ -147,6 +147,8 @@ const CarDetailsPage = ({ params }) => {
       purchaser: selectedPurchaser,
       source: selectedSource,
       salesMember: selectedSalesMember,
+      mediatorName:mediatorName,
+      mediatorMobileNumber:mediatorMobileNumber
     };
 
     try {
@@ -319,6 +321,7 @@ const CarDetailsPage = ({ params }) => {
   const handleSourceChange = (value) => {
     setSelectedSource(value?._id);
   };
+  
   const sellingSources = [
     "OLX",
     "eBay",
@@ -326,6 +329,13 @@ const CarDetailsPage = ({ params }) => {
     "Craigslist",
     "Facebook Marketplace",
   ]; // Example array of selling sources
+
+
+  const [mediatorName, setMediatorName] = useState("");
+  const [mediatorMobileNumber, setMediatorMobileNumber] = useState("");
+
+
+
   const [customerModalOpen, setCustomerModalOpen] = useState(false);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const handleSave = () => {
@@ -774,8 +784,11 @@ const CarDetailsPage = ({ params }) => {
 
                   <Grid
                     container
-                    spacing={2}
-                    sx={{ maxHeight: "58vh", overflow: "auto" }}
+                    spacing={1}
+                    sx={{ 
+                      maxHeight: "58vh",
+                       overflow: "auto",
+                       }}
                   >
                     <Grid item xs={4}>
                       <Autocomplete
@@ -875,9 +888,42 @@ const CarDetailsPage = ({ params }) => {
                           "50% of this amount is shared with partners"
                         )}
                       />
-                    </Grid>
+                    </Grid> 
 
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
+  <TextField
+    label={t("mediatorName")}
+    name="userName" // Change to match your state field for username
+    value={mediatorName} // Update to use the relevant state property
+    onChange={(e) => setMediatorName(e.target.value)}
+    fullWidth
+    margin="normal"
+    helperText={t(
+      "enterValidMediatorName"
+    )} // Adjusted helper text for clarity
+  />
+</Grid>
+
+<Grid item xs={4}>
+  <TextField
+    label={t("mediatorMobileNumber", "Mediator Mobile Number")}
+    name="mediatorMobileNumber"
+    value={mediatorMobileNumber}
+    onChange={(e) => setMediatorMobileNumber(e.target.value)}
+    fullWidth
+    margin="normal"
+    helperText={t(
+      "enterValidMediatorMobileNumber"
+        )}
+  />
+</Grid>
+
+
+
+
+                   
+                    
+                    <Grid item xs={4}>
                       <Autocomplete
                         options={employees}
                         getOptionLabel={(option) =>
@@ -899,8 +945,7 @@ const CarDetailsPage = ({ params }) => {
                         }
                       />
                     </Grid>
-
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <Autocomplete
                         options={sellingSources}
                         getOptionLabel={(option) => option}
@@ -933,6 +978,7 @@ const CarDetailsPage = ({ params }) => {
                               }).format(carDetails.netProfit / 2)}
                             </Typography>
                           </Grid>
+                          
 
                           {/* Partners Share */}
                           <Grid item xs={12} md={12}>

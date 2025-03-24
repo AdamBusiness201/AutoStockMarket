@@ -33,7 +33,7 @@ import { currencies } from './currencies'
 import carNamesData from '../../../../../../messages/car_names_and_models.json'; // Adjust the path based on your project structure
 
 
-const steps = ["Car Details", "Ownership", "Partnership", "Finance", "Review"];
+const steps = ["Car Details", "Mediation", "Ownership", "Partnership", "Finance", "Review"];
 
 
 const modalStyle = {
@@ -182,7 +182,7 @@ const CarNameSelect = ({ t, carData, handleInputChange }) => {
   );
 };
 
-function getStepContent(t, step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
+function getStepContent(t,mediationType,handleMediationTypeChange, status, handleStatusChange, step, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange) {
 
   console.log(carData)
   switch (step) {
@@ -252,7 +252,88 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
         </Grid>
       );
 
-    case 1: // Ownership
+    case 1: // Mediation for Car Store
+      return (
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <ClearableTextField
+              fullWidth
+              label={t('Mediator')}
+              name="mediator"
+              value={carData?.mediator}
+              onChange={handleInputChange}
+              autoComplete="false"
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <ClearableTextField
+              fullWidth
+              label={t('Buyer')}
+              name="buyer"
+              value={carData?.buyer}
+              onChange={handleInputChange}
+              autoComplete="false"
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <ClearableTextField
+              fullWidth
+              label={t('Seller')}
+              name="seller"
+              value={carData?.seller}
+              onChange={handleInputChange}
+              autoComplete="false"
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id="mediation-type-label">{t('Mediation Type')}</InputLabel>
+              <Select
+                labelId="mediation-type-label"
+                id="mediation-type"
+                value={mediationType}
+                label={t('Mediation Type')}
+                onChange={handleMediationTypeChange}
+              >
+                <MenuItem value="price">{t('Price Negotiation')}</MenuItem>
+                <MenuItem value="warranty">{t('Warranty Issues')}</MenuItem>
+                <MenuItem value="ownership">{t('Ownership Transfer')}</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">{t('Status')}</InputLabel>
+              <Select
+                labelId="status-label"
+                id="status"
+                value={status}
+                label={t('Status')}
+                onChange={handleStatusChange}
+              >
+                <MenuItem value="pending">{t('Pending')}</MenuItem>
+                <MenuItem value="inProgress">{t('In Progress')}</MenuItem>
+                <MenuItem value="resolved">{t('Resolved')}</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <ClearableTextField
+              fullWidth
+              label={t('Additional Details')}
+              name="additionalDetails"
+              value={carData?.additionalDetails}
+              onChange={handleInputChange}
+            />
+          </Grid>
+        </Grid>
+      );
+    case 2: // Ownership
       return (
         <Grid container spacing={2}>
           <Grid item xs={4}>
@@ -338,7 +419,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
         </Grid>
       );
 
-    case 2: // Partnership
+    case 3: // Partnership
       return (
         <Grid container spacing={2}>
           {partners.length > 0 ? (partners.map((partner, index) => (
@@ -420,7 +501,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
         </Grid>
       );
 
-    case 3: // Finance
+    case 4: // Finance
       return (
         <Grid container spacing={2}>
           <Grid item xs={4}>
@@ -533,7 +614,7 @@ function getStepContent(t, step, carData, partners, handleInputChange, handlePar
         </Grid>
       );
 
-    case 4: // Finalize
+    case 5: // Finalize
       return (
         <>
           <TableContainer component={Paper}>
@@ -1072,7 +1153,12 @@ const CreateCarModal = ({
     e.preventDefault();
     e.returnValue = ""; // Chrome requires returnValue to be set
   }, []);
-
+  const [mediationType, setMediationType] = useState(carData?.mediationType || '');
+  const handleMediationTypeChange = (event) => {
+    setMediationType(event.target.value);
+    handleInputChange(event); // Ensure it updates mediationData as well
+  };
+  
   useEffect(() => {
     if (open) {
       window.addEventListener("beforeunload", preventClose);
@@ -1084,6 +1170,13 @@ const CreateCarModal = ({
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [open, preventClose]);
+  const [status, setStatus] = useState(carData?.status || '');
+
+const handleStatusChange = (event) => {
+  setStatus(event.target.value);
+  handleInputChange(event); // Ensuring it's updated in mediationData as well
+};
+
   return (
     <>
 
@@ -1121,57 +1214,57 @@ const CreateCarModal = ({
           </Stepper>
           <div style={{ paddingTop: 20, paddingBottom: 20 }}>
             <Box sx={{ maxHeight: '300px', overflowY: 'auto', paddingY: 3 }}>
-              {getStepContent(t, activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
+              {getStepContent(t,mediationType, handleMediationTypeChange, status, handleStatusChange, activeStep, carData, partners, handleInputChange, handlePartnerInputChange, removePartner, financeData, handleFinanceInputChange, idType, setIdType, handleIdTypeChange)}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-  <input
-    accept=".xlsx,.xls"
-    style={{ display: "none" }}
-    id="contained-button-file"
-    multiple={false}
-    type="file"
-    onChange={handleFileUpload}
-  />
-  <label htmlFor="contained-button-file">
-    <Button variant="contained" component="span">
-      {loading ? t('buttons.loading') : t('buttons.uploadExcel')}
-    </Button>
-  </label>
-  <Button variant="contained" color="primary" sx={{ marginX: 1 }} onClick={handleExportTemplate}>
-    {t('buttons.downloadTemplate')}
-  </Button>
-  <Button
-    color="inherit"
-    variant="outlined"
-    disabled={activeStep === 0}
-    onClick={handleBack}
-    sx={{ marginX: 1 }}
-  >
-    {t('buttons.back')}
-  </Button>
+              <input
+                accept=".xlsx,.xls"
+                style={{ display: "none" }}
+                id="contained-button-file"
+                multiple={false}
+                type="file"
+                onChange={handleFileUpload}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" component="span">
+                  {loading ? t('buttons.loading') : t('buttons.uploadExcel')}
+                </Button>
+              </label>
+              <Button variant="contained" color="primary" sx={{ marginX: 1 }} onClick={handleExportTemplate}>
+                {t('buttons.downloadTemplate')}
+              </Button>
+              <Button
+                color="inherit"
+                variant="outlined"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ marginX: 1 }}
+              >
+                {t('buttons.back')}
+              </Button>
 
-  <Box sx={{ flex: "1 1 auto" }} />
-  {activeStep === 2 && (
-    <Button variant="outlined" onClick={addPartner} sx={{ marginX: 2 }}>
-      {t('buttons.addPartner')}
-    </Button>
-  )}
-  <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
-    {activeStep === steps.length - 1 ? t('buttons.finish') : errorMessage ? `${t('buttons.next')} - ${errorMessage}` : t('buttons.next')}
-  </Button>
-  <Button
-    onClick={() => {
-      handleClose();
-      setCarData(initialCarData);
-      setFinanceData(initialFinanceData);
-      setPartners(initialPartnersData);
-    }}
-    variant="outlined"
-    sx={{ marginX: 1, fontWeight: "bold" }}
-  >
-    {t('buttons.cancel')}
-  </Button>
-</Box>
+              <Box sx={{ flex: "1 1 auto" }} />
+              {activeStep === 2 && (
+                <Button variant="outlined" onClick={addPartner} sx={{ marginX: 2 }}>
+                  {t('buttons.addPartner')}
+                </Button>
+              )}
+              <Button onClick={handleNext} disabled={isNextDisabled} variant="outlined" sx={{ fontWeight: "bold" }}>
+                {activeStep === steps.length - 1 ? t('buttons.finish') : errorMessage ? `${t('buttons.next')} - ${errorMessage}` : t('buttons.next')}
+              </Button>
+              <Button
+                onClick={() => {
+                  handleClose();
+                  setCarData(initialCarData);
+                  setFinanceData(initialFinanceData);
+                  setPartners(initialPartnersData);
+                }}
+                variant="outlined"
+                sx={{ marginX: 1, fontWeight: "bold" }}
+              >
+                {t('buttons.cancel')}
+              </Button>
+            </Box>
 
           </div>
         </Box>

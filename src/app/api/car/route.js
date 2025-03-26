@@ -36,6 +36,10 @@ export async function POST(req, res) {
       ownerID,
       ownerDrivingLicense,
       finance,
+      mediator,
+      buyer,
+      seller,
+      additionalDetails
     } = carData;
     console.log(carData);
     const carExists = await Car.findOne(
@@ -79,6 +83,10 @@ export async function POST(req, res) {
       entryDate,
       maintenance,
       currentLocation,
+      mediator,
+      buyer,
+      seller,
+      additionalDetails
     });
 
     await car.save({ session });

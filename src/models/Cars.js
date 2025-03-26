@@ -17,6 +17,11 @@ const carSchema = new mongoose.Schema(
     currentLocation: String,
     entryDate: { type: Date, default: Date.now }, // Add entryDate field
     services: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
+    finance: String,
+    mediator: String,
+    buyer: String,
+    seller: String,
+    additionalDetails: String
   },
   { timestamps: true }
 );

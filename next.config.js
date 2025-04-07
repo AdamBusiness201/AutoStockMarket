@@ -6,7 +6,7 @@ const nextConfig = withNextIntl({
     return config;
   },
   images: {
-    domains: ["*"], // Allow images from any hostname
+    domains: ["*"], // Allow images from any hostname 
   },
   async headers() {
     return [
